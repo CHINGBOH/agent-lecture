@@ -20,6 +20,7 @@ export default function SlideShow({ slides, chapters }: Props) {
   const [current, setCurrent] = useState(0)
   const [direction, setDirection] = useState<1 | -1>(1)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [showHint, setShowHint] = useState(true)
 
   const slide = slides[current]
   const theme = getTheme(slide.chapter)
@@ -43,6 +44,7 @@ export default function SlideShow({ slides, chapters }: Props) {
   // Keyboard navigation
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      setShowHint(false)
       if (menuOpen) {
         if (e.key === 'Escape' || e.key === 'm' || e.key === 'M') setMenuOpen(false)
         return
@@ -163,10 +165,27 @@ export default function SlideShow({ slides, chapters }: Props) {
         </div>
 
         {/* Navigation */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexShrink: 0 }}>
-          <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)' }}>
-            {posInChapter}/{slideInChapter.length}
-          </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
+          {/* Mini-dots for slides in current chapter */}
+          <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+            {slideInChapter.map((_, i) => (
+              <div
+                key={i}
+                style={{
+                  width: i === posInChapter - 1 ? '16px' : '6px',
+                  height: '6px',
+                  borderRadius: '3px',
+                  background: i === posInChapter - 1 ? theme.accent : 'rgba(255,255,255,0.2)',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer',
+                }}
+                onClick={() => {
+                  const chapterStart = slides.findIndex(s => s.chapter === slide.chapter)
+                  setCurrent(chapterStart + i)
+                }}
+              />
+            ))}
+          </div>
           <button onClick={() => go(-1)} disabled={current === 0} style={navBtnStyle}>←</button>
           <button onClick={() => go(1)} disabled={current === slides.length - 1} style={navBtnStyle}>→</button>
           <button onClick={() => setMenuOpen(v => !v)} title="章节菜单 (M)" style={navBtnStyle}>☰</button>
@@ -195,6 +214,44 @@ export default function SlideShow({ slides, chapters }: Props) {
             onSelect={jumpToChapter}
             onClose={() => setMenuOpen(false)}
           />
+        )}
+      </AnimatePresence>
+
+      {/* First-load keyboard hint */}
+      <AnimatePresence>
+        {showHint && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ delay: 1.5 }}
+            onClick={() => setShowHint(false)}
+            style={{
+              position: 'absolute', bottom: '88px', left: '50%',
+              transform: 'translateX(-50%)',
+              zIndex: 15,
+              background: 'rgba(0,0,0,0.75)',
+              backdropFilter: 'blur(12px)',
+              border: '1px solid rgba(255,255,255,0.12)',
+              borderRadius: '12px',
+              padding: '12px 20px',
+              display: 'flex', gap: '16px', alignItems: 'center',
+              fontSize: '12px', color: 'rgba(255,255,255,0.6)',
+              cursor: 'pointer', whiteSpace: 'nowrap',
+            }}
+          >
+            {[['→ / 空格', '下一张'], ['←', '上一张'], ['M', '章节菜单'], ['0-5', '跳章节']].map(([key, label]) => (
+              <span key={key}>
+                <kbd style={{
+                  background: 'rgba(255,255,255,0.12)', borderRadius: '4px',
+                  padding: '2px 6px', fontFamily: 'monospace', marginRight: '4px',
+                  fontSize: '11px', color: '#fff',
+                }}>{key}</kbd>
+                {label}
+              </span>
+            ))}
+            <span style={{ marginLeft: '8px', opacity: 0.4 }}>点击关闭</span>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

@@ -1,8 +1,11 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import type { Slide } from '../../data/types'
 import type { ChapterTheme } from '../../data/themes'
+import MermaidChart from '../MermaidChart'
 
 export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: ChapterTheme }) {
+  const [diagramExpanded, setDiagramExpanded] = useState(false)
   const bullets = slide.bullets ?? []
   const hasAnalogy = !!slide.analogy
   const hasDiagram = !!slide.diagram
@@ -92,15 +95,21 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4 }}
             style={{
-              background: 'rgba(255,255,255,0.04)',
+              background: 'rgba(255,255,255,0.03)',
               border: '1px solid rgba(255,255,255,0.1)',
               borderRadius: '16px',
-              padding: '20px',
-              display: 'flex', flexDirection: 'column', gap: '12px',
+              padding: '16px',
+              display: 'flex', flexDirection: 'column', gap: '8px',
               overflowY: 'auto',
+              cursor: 'pointer',
             }}
+            onClick={() => setDiagramExpanded(v => !v)}
+            title="点击切换全屏图表"
           >
-            <DiagramBlock chart={slide.diagram!} theme={theme} />
+            <div style={{ fontSize: '11px', color: theme.accent, fontWeight: 700, letterSpacing: '0.1em' }}>
+              📊 流程图 {diagramExpanded ? '(点击收起)' : '(点击展开)'}
+            </div>
+            <MermaidChart chart={slide.diagram!} id={slide.id} />
           </motion.div>
         )}
       </div>
@@ -108,24 +117,3 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
   )
 }
 
-// 内联简易图表：用文本形式展示 mermaid 图（后续可替换为真正渲染）
-function DiagramBlock({ chart, theme }: { chart: string; theme: ChapterTheme }) {
-  return (
-    <div style={{ overflowY: 'auto', height: '100%' }}>
-      <div style={{ fontSize: '11px', color: theme.accent, fontWeight: 700, marginBottom: '8px', letterSpacing: '0.1em' }}>
-        📊 流程图
-      </div>
-      <pre style={{
-        fontSize: '12px',
-        color: `${theme.textSecondary}CC`,
-        lineHeight: 1.8,
-        margin: 0,
-        whiteSpace: 'pre-wrap',
-        wordBreak: 'break-word',
-        fontFamily: 'monospace',
-      }}>
-        {chart.replace(/\s{2,}/g, '\n  ')}
-      </pre>
-    </div>
-  )
-}

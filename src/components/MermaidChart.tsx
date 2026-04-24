@@ -3,33 +3,21 @@ import mermaid from 'mermaid';
 
 mermaid.initialize({
   startOnLoad: false,
-  theme: 'base',
+  theme: 'dark',
   themeVariables: {
-    primaryColor: '#e8f5e9',
-    primaryTextColor: '#1a1a1a',
-    primaryBorderColor: '#2d5a3d',
-    lineColor: '#4a8c5f',
-    secondaryColor: '#fff8e1',
-    tertiaryColor: '#f5f0e6',
-    fontFamily: "'Noto Serif SC', serif",
-    fontSize: '14px',
+    primaryColor: '#1e3a5f',
+    primaryTextColor: '#e3f2fd',
+    primaryBorderColor: '#4FC3F7',
+    lineColor: '#80DEEA',
+    secondaryColor: '#2d1b4e',
+    tertiaryColor: '#1a2a1a',
+    fontFamily: '-apple-system, "PingFang SC", sans-serif',
+    fontSize: '13px',
+    background: 'transparent',
   },
-  flowchart: {
-    curve: 'basis',
-    padding: 16,
-  },
-  sequence: {
-    actorMargin: 60,
-    boxMargin: 12,
-    boxTextMargin: 6,
-    noteMargin: 12,
-    messageMargin: 40,
-  },
+  flowchart: { curve: 'basis', padding: 20 },
+  sequence: { actorMargin: 60, messageMargin: 35 },
   securityLevel: 'loose',
-  // 禁止自动错误处理
-  errorCallback: function(err, hash) {
-    console.warn('Mermaid error:', err);
-  }
 });
 
 interface MermaidChartProps {
@@ -52,10 +40,11 @@ export default function MermaidChart({ chart, id }: MermaidChartProps) {
           throw new Error('图表内容为空');
         }
         
-        // 检查图表类型
-        const chartType = chart.trim().split('\n')[0].trim();
-        if (!['flowchart', 'sequenceDiagram', 'stateDiagram', 'stateDiagram-v2', 'classDiagram', 'graph'].includes(chartType)) {
-          throw new Error('不支持的图表类型');
+        // 检查图表类型（用 startsWith 兼容 "flowchart LR" 等带参数的声明）
+        const firstLine = chart.trim().split('\n')[0].trim()
+        const supported = ['flowchart', 'sequenceDiagram', 'stateDiagram', 'classDiagram', 'graph', 'gitGraph', 'erDiagram', 'journey', 'gantt', 'pie']
+        if (!supported.some(t => firstLine.startsWith(t))) {
+          throw new Error(`不支持的图表类型: ${firstLine}`)
         }
         
         mermaid.render(`mermaid-${id}`, chart)
@@ -102,12 +91,12 @@ export default function MermaidChart({ chart, id }: MermaidChartProps) {
     <div
       ref={ref}
       style={{
-        background: '#fff',
+        background: 'rgba(0,0,0,0.3)',
         borderRadius: '12px',
         padding: '20px',
-        border: '1px solid #e8e8e8',
+        border: '1px solid rgba(255,255,255,0.1)',
         overflow: 'auto',
-        margin: '16px 0',
+        minHeight: '80px',
       }}
     />
   );
