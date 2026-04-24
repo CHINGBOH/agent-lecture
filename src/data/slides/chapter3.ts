@@ -26,6 +26,7 @@ export const chapter3Slides: Slide[] = [
     chapter: 3,
     title: '强化学习：在试错中学会一切',
     subtitle: '不靠标注数据，靠与环境的互动',
+    image: '/diagrams/ch3_rl_loop.png',
     bullets: [
       { icon: '🤖', text: 'Agent（智能体）', sub: '学习者，在环境中做决策' },
       { icon: '🌍', text: 'Environment（环境）', sub: '棋盘、游戏、现实世界——Agent 的行动在这里产生影响' },

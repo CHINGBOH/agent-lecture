@@ -51,7 +51,8 @@ export interface Slide {
   // 内容
   bullets?: Bullet[]
   analogy?: Analogy
-  diagram?: string
+  diagram?: string        // Mermaid 图表字符串
+  image?: string          // PNG 图片路径（如 /diagrams/xxx.png）
   timeline?: TimelineItem[]
 
   // comparison 专用

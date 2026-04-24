@@ -7,6 +7,7 @@ import GlowCard from '../common/GlowCard'
 export default function TimelineSlide({ slide, theme }: { slide: Slide; theme: ChapterTheme }) {
   const [active, setActive] = useState<number | null>(null)
   const items = slide.timeline ?? []
+  const hasImage = !!slide.image
 
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', padding: '40px 48px' }}>
@@ -21,7 +22,8 @@ export default function TimelineSlide({ slide, theme }: { slide: Slide; theme: C
         <p style={{ color: theme.textSecondary, marginBottom: '28px', fontSize: '17px' }}>{slide.subtitle}</p>
       )}
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '12px', overflowY: 'auto' }}>
+      <div style={{ flex: 1, display: 'grid', gridTemplateColumns: hasImage ? '1fr 1fr' : '1fr', gap: '24px', overflow: 'hidden' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', overflowY: 'auto' }}>
         {items.map((item, i) => (
           <motion.div
             key={i}
@@ -84,6 +86,24 @@ export default function TimelineSlide({ slide, theme }: { slide: Slide; theme: C
             </div>
           </motion.div>
         ))}
+        </div>
+
+        {hasImage && (
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3 }}
+            style={{
+              background: 'rgba(0,0,0,0.3)',
+              border: `1px solid ${theme.accent}30`,
+              borderRadius: '16px',
+              overflow: 'hidden',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}
+          >
+            <img src={slide.image} alt={slide.title} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+          </motion.div>
+        )}
       </div>
     </div>
   )

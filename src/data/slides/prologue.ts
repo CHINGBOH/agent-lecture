@@ -27,6 +27,7 @@ export const prologueSlides: Slide[] = [
     chapter: 0,
     title: 'AI 江湖的兴衰史',
     subtitle: '两起两落，跌宕七十年',
+    image: '/diagrams/ch0_timeline.png',
     timeline: [
       { year: '1950', event: '图灵提问', detail: '艾伦·图灵发表《计算机器与智能》，提出图灵测试，人类第一次严肃地问：机器能思考吗？', icon: '🤔', highlight: false },
       { year: '1956', event: '达特茅斯会议', detail: '"人工智能"这个词正式诞生。一群科学家相信，20年内就能造出像人一样的机器。', icon: '🎯', highlight: false },

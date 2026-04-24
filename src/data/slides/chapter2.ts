@@ -26,6 +26,7 @@ export const chapter2Slides: Slide[] = [
     chapter: 2,
     title: 'Attention 机制：解决 RNN 的健忘症',
     subtitle: '2014年的一个小想法，引发了一场革命',
+    image: '/diagrams/ch2_attention.png',
     bullets: [
       { icon: '❓', text: '问题：这句话里「它」指什么？', sub: '「小明打了小红，因为它太烦了」——「它」指小红。RNN 到这里可能已经忘了「小红」' },
       { icon: '👁️', text: 'Attention 的想法', sub: '预测每个词时，给句子中所有其他词分配「注意力权重」，越相关权重越高' },
@@ -44,6 +45,7 @@ export const chapter2Slides: Slide[] = [
     chapter: 2,
     title: 'Transformer：Attention Is All You Need',
     subtitle: '2017 年 Google 的一篇论文，改写了 AI 历史',
+    image: '/diagrams/ch2_transformer.png',
     bullets: [
       { icon: '📖', text: '论文标题即宣言', sub: '「注意力就是你所需要的一切」——抛弃 RNN，纯注意力机制构建模型' },
       { icon: '🔄', text: 'Multi-Head Attention', sub: '同时用多个「注意力头」看不同维度的关系：语法/语义/指代/位置……' },

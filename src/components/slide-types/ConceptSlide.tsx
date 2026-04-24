@@ -8,7 +8,8 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
   const [diagramExpanded, setDiagramExpanded] = useState(false)
   const bullets = slide.bullets ?? []
   const hasAnalogy = !!slide.analogy
-  const hasDiagram = !!slide.diagram
+  const hasImage = !!slide.image
+  const hasDiagram = !!slide.diagram && !hasImage
 
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', padding: '36px 48px' }}>
@@ -21,7 +22,7 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
         )}
       </motion.div>
 
-      <div style={{ flex: 1, display: 'grid', gridTemplateColumns: hasAnalogy || hasDiagram ? '1fr 1fr' : '1fr', gap: '24px', overflow: 'hidden' }}>
+      <div style={{ flex: 1, display: 'grid', gridTemplateColumns: hasAnalogy || hasDiagram || hasImage ? '1fr 1fr' : '1fr', gap: '24px', overflow: 'hidden' }}>
         {/* 左：要点 */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', overflowY: 'auto' }}>
           {bullets.map((b, i) => (
@@ -110,6 +111,27 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
               📊 流程图 {diagramExpanded ? '(点击收起)' : '(点击展开)'}
             </div>
             <MermaidChart chart={slide.diagram!} id={slide.id} />
+          </motion.div>
+        )}
+
+        {hasImage && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.4 }}
+            style={{
+              background: 'rgba(0,0,0,0.3)',
+              border: `1px solid ${theme.accent}30`,
+              borderRadius: '16px',
+              overflow: 'hidden',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}
+          >
+            <img
+              src={slide.image}
+              alt={slide.title}
+              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+            />
           </motion.div>
         )}
       </div>

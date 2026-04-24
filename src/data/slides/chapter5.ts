@@ -62,6 +62,7 @@ export const chapter5Slides: Slide[] = [
     chapter: 5,
     title: '多 Agent 系统：武林帮派分工',
     subtitle: '一个 AI 不够，组建团队来',
+    image: '/diagrams/ch5_multi_agent.png',
     bullets: [
       { icon: '👑', text: 'Orchestrator（总指挥）', sub: '接受任务，分解子任务，分配给专门 Agent，汇总结果' },
       { icon: '🔍', text: 'Researcher Agent', sub: '专门负责搜索和信息收集' },

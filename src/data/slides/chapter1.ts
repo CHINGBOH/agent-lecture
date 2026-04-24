@@ -103,6 +103,7 @@ export const chapter1Slides: Slide[] = [
     chapter: 1,
     title: 'CNN vs RNN：眼功与耳力',
     subtitle: '两种不同的「感知内力」',
+    image: '/diagrams/ch1_neural_network.png',
     bullets: [
       { icon: '👁️', text: 'CNN（卷积神经网络）= 眼功', sub: '扫描图片的局部区域，识别空间特征：边缘、纹理、形状' },
       { icon: '👂', text: 'RNN（循环神经网络）= 耳力', sub: '按顺序处理序列，有「记忆」，适合语言、时序数据' },

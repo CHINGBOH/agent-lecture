@@ -62,6 +62,7 @@ export const chapter4Slides: Slide[] = [
     chapter: 4,
     title: 'ReAct：侠客的行事方式',
     subtitle: '想→做→看结果→再想——LLM Agent 的核心循环',
+    image: '/diagrams/ch4_agent_loop.png',
     bullets: [
       { icon: '💭', text: 'Thought（思考）', sub: '「我需要知道今天深圳的天气，应该调用天气 API」' },
       { icon: '⚡', text: 'Action（行动）', sub: '调用工具：weather_api("深圳")' },
