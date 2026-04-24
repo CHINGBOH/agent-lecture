@@ -1,5 +1,5 @@
 import {
-  Swords, Brain, Cpu, Building2, Globe, Wrench
+  Swords, Brain, Cpu, Building2, Globe, Wrench, Network
 } from 'lucide-react';
 
 interface LayerSelectorProps {
@@ -14,6 +14,7 @@ const layers = [
   { id: 3, label: 'Layer 3', title: 'Agent 操作系统', subtitle: '调度层', icon: Building2, color: '#b8860b' },
   { id: 4, label: 'Layer 4', title: '多 Agent 编排', subtitle: '分布式层', icon: Globe, color: '#6a1b9a' },
   { id: 5, label: 'Layer 5', title: '实战工具箱', subtitle: 'Playground', icon: Wrench, color: '#e65100' },
+  { id: 6, label: '知识图谱', title: '技术关联网络', subtitle: 'Knowledge Graph', icon: Network, color: '#4a7ab8' },
 ];
 
 export default function LayerSelector({ activeLayer, onChange }: LayerSelectorProps) {

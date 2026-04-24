@@ -1,12 +1,305 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { MapPin, User, BookOpen, ArrowRightLeft } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MapPin, User, BookOpen, Swords } from 'lucide-react';
 import { useCharacters, useScenes, useMappings } from '../../hooks/useDb';
-import MermaidChart from '../MermaidChart';
+import { 
+  storyLines, 
+  shediaoMappings, 
+  yitianMappings, 
+  xiaooMappings, 
+  restaurantMappings, 
+  companyMappings 
+} from '../../data/multiStoryData';
 import FadeIn from '../animations/FadeIn';
 
 // ============================================================
-// Section 1: Scene Selector
+// Section 1: Story Line Selector
+// ============================================================
+function StoryLineSelector({ 
+  activeLine, 
+  onSelect 
+}: { 
+  activeLine: string; 
+  onSelect: (id: string) => void;
+}) {
+  const wuxiaLines = storyLines.filter(s => s.category === 'wuxia');
+  const lifeLines = storyLines.filter(s => s.category === 'life');
+
+  return (
+    <section className="card" style={{ marginBottom: '32px' }}>
+      <FadeIn>
+        <h2 style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--crimson)', marginBottom: '16px' }}>
+          <Swords size={28} />
+          选择你的学习故事线
+        </h2>
+        <p style={{ color: 'var(--ink-mid)', marginBottom: '20px' }}>
+          不同的故事，相同的技术内核。选择你喜欢的比喻方式，理解 Agent 全栈。
+        </p>
+      </FadeIn>
+
+      <div style={{ marginBottom: '24px' }}>
+        <h3 style={{ fontSize: '14px', color: 'var(--crimson-light)', marginBottom: '12px', fontWeight: 700 }}>
+          🗡️ 金庸武侠系列
+        </h3>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '12px' }}>
+          {wuxiaLines.map((line, idx) => {
+            const isActive = activeLine === line.id;
+            return (
+              <motion.button
+                key={line.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1 }}
+                onClick={() => onSelect(line.id)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                style={{
+                  padding: '20px',
+                  borderRadius: '12px',
+                  border: `2px solid ${isActive ? 'var(--crimson)' : '#e0e0e0'}`,
+                  background: isActive ? '#ffebee' : '#fff',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                }}
+              >
+                <div style={{ fontSize: '32px', marginBottom: '8px' }}>{line.emoji}</div>
+                <div style={{ fontSize: '18px', fontWeight: 700, marginBottom: '4px' }}>{line.name}</div>
+                <div style={{ fontSize: '13px', color: 'var(--ink-mid)', lineHeight: 1.6 }}>{line.description}</div>
+              </motion.button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div>
+        <h3 style={{ fontSize: '14px', color: 'var(--jade)', marginBottom: '12px', fontWeight: 700 }}>
+          🏠 生活场景类比
+        </h3>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '12px' }}>
+          {lifeLines.map((line, idx) => {
+            const isActive = activeLine === line.id;
+            return (
+              <motion.button
+                key={line.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: (idx + wuxiaLines.length) * 0.1 }}
+                onClick={() => onSelect(line.id)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                style={{
+                  padding: '20px',
+                  borderRadius: '12px',
+                  border: `2px solid ${isActive ? 'var(--jade)' : '#e0e0e0'}`,
+                  background: isActive ? '#e8f5e9' : '#fff',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                }}
+              >
+                <div style={{ fontSize: '32px', marginBottom: '8px' }}>{line.emoji}</div>
+                <div style={{ fontSize: '18px', fontWeight: 700, marginBottom: '4px' }}>{line.name}</div>
+                <div style={{ fontSize: '13px', color: 'var(--ink-mid)', lineHeight: 1.6 }}>{line.description}</div>
+              </motion.button>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ============================================================
+// Section 2: Story Content Display
+// ============================================================
+function StoryContent({ storyId }: { storyId: string }) {
+  const renderShediao = () => (
+    <div>
+      <h3 style={{ fontSize: '20px', color: 'var(--crimson)', marginBottom: '16px' }}>
+        🏹 射雕英雄传：郭靖的成长史
+      </h3>
+      <p style={{ color: 'var(--ink-mid)', marginBottom: '24px', lineHeight: 1.8 }}>
+        郭靖从一个懵懂的草原少年，成长为一代大侠。这个过程就像 LLM 从数据到模型的完整训练流程。
+      </p>
+      
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        {shediaoMappings.map((m, i) => (
+          <div key={i} style={{
+            padding: '16px',
+            background: i % 2 === 0 ? '#f8f8f8' : '#fff',
+            borderRadius: '10px',
+            borderLeft: `4px solid ${m.layer === 1 ? 'var(--crimson)' : m.layer === 2 ? 'var(--jade)' : 'var(--gold)'}`,
+          }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div>
+                <div style={{ fontSize: '11px', color: '#888', marginBottom: '4px' }}>⚙️ 技术概念</div>
+                <div style={{ fontWeight: 600, color: 'var(--ink)' }}>{m.techConcept}</div>
+              </div>
+              <div>
+                <div style={{ fontSize: '11px', color: '#888', marginBottom: '4px' }}>🎭 武侠比喻</div>
+                <div style={{ fontWeight: 600, color: 'var(--crimson)' }}>{m.wuxiaRole}</div>
+                <div style={{ fontSize: '12px', color: 'var(--ink-mid)', marginTop: '4px' }}>{m.why}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderYitian = () => (
+    <div>
+      <h3 style={{ fontSize: '20px', color: 'var(--jade)', marginBottom: '16px' }}>
+        ⚔️ 倚天屠龙记：张无忌学九阳神功
+      </h3>
+      <p style={{ color: 'var(--ink-mid)', marginBottom: '24px', lineHeight: 1.8 }}>
+        九阳神功是内功根基，练好后学什么都快。就像 Transformer 架构是所有 LLM 的基础。
+      </p>
+      
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        {yitianMappings.map((m, i) => (
+          <div key={i} style={{
+            padding: '16px',
+            background: i % 2 === 0 ? '#f8f8f8' : '#fff',
+            borderRadius: '10px',
+            borderLeft: `4px solid ${m.layer === 1 ? 'var(--jade)' : m.layer === 2 ? 'var(--gold)' : 'var(--crimson)'}`,
+          }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div>
+                <div style={{ fontSize: '11px', color: '#888', marginBottom: '4px' }}>⚙️ 技术概念</div>
+                <div style={{ fontWeight: 600, color: 'var(--ink)' }}>{m.techConcept}</div>
+              </div>
+              <div>
+                <div style={{ fontSize: '11px', color: '#888', marginBottom: '4px' }}>🎭 武侠比喻</div>
+                <div style={{ fontWeight: 600, color: 'var(--jade)' }}>{m.wuxiaRole}</div>
+                <div style={{ fontSize: '12px', color: 'var(--ink-mid)', marginTop: '4px' }}>{m.why}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderXiaoo = () => (
+    <div>
+      <h3 style={{ fontSize: '20px', color: 'var(--gold)', marginBottom: '16px' }}>
+        🎸 笑傲江湖：令狐冲学独孤九剑
+      </h3>
+      <p style={{ color: 'var(--ink-mid)', marginBottom: '24px', lineHeight: 1.8 }}>
+        独孤九剑每招都是独立的 skill，按需调用。就像 Agent 的 Skill 系统和 Auto-Routing。
+      </p>
+      
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        {xiaooMappings.map((m, i) => (
+          <div key={i} style={{
+            padding: '16px',
+            background: i % 2 === 0 ? '#f8f8f8' : '#fff',
+            borderRadius: '10px',
+            borderLeft: `4px solid ${m.layer === 3 ? 'var(--gold)' : m.layer === 4 ? 'var(--crimson)' : 'var(--jade)'}`,
+          }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div>
+                <div style={{ fontSize: '11px', color: '#888', marginBottom: '4px' }}>⚙️ 技术概念</div>
+                <div style={{ fontWeight: 600, color: 'var(--ink)' }}>{m.techConcept}</div>
+              </div>
+              <div>
+                <div style={{ fontSize: '11px', color: '#888', marginBottom: '4px' }}>🎭 武侠比喻</div>
+                <div style={{ fontWeight: 600, color: 'var(--gold)' }}>{m.wuxiaRole}</div>
+                <div style={{ fontSize: '12px', color: 'var(--ink-mid)', marginTop: '4px' }}>{m.why}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderRestaurant = () => (
+    <div>
+      <h3 style={{ fontSize: '20px', color: 'var(--jade)', marginBottom: '16px' }}>
+        🍽️ 餐厅运营：从点单到上菜
+      </h3>
+      <p style={{ color: 'var(--ink-mid)', marginBottom: '24px', lineHeight: 1.8 }}>
+        餐厅的日常运营就是一个完整的 Agent 系统：领班路由请求、厨师专精不同菜系、菜谱按需加载。
+      </p>
+      
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        {restaurantMappings.map((m, i) => (
+          <div key={i} style={{
+            padding: '16px',
+            background: i % 2 === 0 ? '#f8f8f8' : '#fff',
+            borderRadius: '10px',
+            borderLeft: `4px solid ${m.layer === 2 ? 'var(--jade)' : 'var(--gold)'}`,
+          }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div>
+                <div style={{ fontSize: '11px', color: '#888', marginBottom: '4px' }}>⚙️ 技术概念</div>
+                <div style={{ fontWeight: 600, color: 'var(--ink)' }}>{m.techConcept}</div>
+              </div>
+              <div>
+                <div style={{ fontSize: '11px', color: '#888', marginBottom: '4px' }}>🍽️ 餐厅比喻</div>
+                <div style={{ fontWeight: 600, color: 'var(--jade)' }}>{m.restaurantRole}</div>
+                <div style={{ fontSize: '12px', color: 'var(--ink-mid)', marginTop: '4px' }}>{m.why}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderCompany = () => (
+    <div>
+      <h3 style={{ fontSize: '20px', color: 'var(--gold)', marginBottom: '16px' }}>
+        🏢 公司运营：从CEO到员工
+      </h3>
+      <p style={{ color: 'var(--ink-mid)', marginBottom: '24px', lineHeight: 1.8 }}>
+        公司的组织架构就是 Multi-Agent 系统：CEO调度、部门经理独立工作、员工具体执行。
+      </p>
+      
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        {companyMappings.map((m, i) => (
+          <div key={i} style={{
+            padding: '16px',
+            background: i % 2 === 0 ? '#f8f8f8' : '#fff',
+            borderRadius: '10px',
+            borderLeft: `4px solid ${m.layer === 3 ? 'var(--gold)' : m.layer === 4 ? 'var(--crimson)' : 'var(--jade)'}`,
+          }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div>
+                <div style={{ fontSize: '11px', color: '#888', marginBottom: '4px' }}>⚙️ 技术概念</div>
+                <div style={{ fontWeight: 600, color: 'var(--ink)' }}>{m.techConcept}</div>
+              </div>
+              <div>
+                <div style={{ fontSize: '11px', color: '#888', marginBottom: '4px' }}>🏢 公司比喻</div>
+                <div style={{ fontWeight: 600, color: 'var(--gold)' }}>{m.companyRole}</div>
+                <div style={{ fontSize: '12px', color: 'var(--ink-mid)', marginTop: '4px' }}>{m.why}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  switch (storyId) {
+    case 'shediao':
+      return renderShediao();
+    case 'yitian':
+      return renderYitian();
+    case 'xiaoo':
+      return renderXiaoo();
+    case 'restaurant':
+      return renderRestaurant();
+    case 'company':
+      return renderCompany();
+    default:
+      return null;
+  }
+}
+
+// ============================================================
+// Section 3: Original Scene Section (保留原有功能)
 // ============================================================
 function SceneSection({ onNavigate }: { onNavigate?: (layer: number, section: string) => void }) {
   const scenes = useScenes();
@@ -17,7 +310,7 @@ function SceneSection({ onNavigate }: { onNavigate?: (layer: number, section: st
       <FadeIn>
         <h2 style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--crimson)', marginBottom: '16px' }}>
           <MapPin size={28} />
-          牛家村场景选择
+          牛家村场景选择（经典版）
         </h2>
         <p style={{ color: 'var(--ink-mid)', marginBottom: '20px' }}>
           每个场景对应 Agent 系统的一个侧面。点击场景进入剧情，点击 🎯 跳转技术实现。
@@ -84,7 +377,7 @@ function SceneSection({ onNavigate }: { onNavigate?: (layer: number, section: st
 }
 
 // ============================================================
-// Section 2: Character Cards
+// Section 4: Original Character Section (保留原有功能)
 // ============================================================
 function CharacterSection({ onNavigate }: { onNavigate?: (layer: number, section: string) => void }) {
   const characters = useCharacters();
@@ -95,7 +388,7 @@ function CharacterSection({ onNavigate }: { onNavigate?: (layer: number, section
       <FadeIn>
         <h2 style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--crimson)', marginBottom: '16px' }}>
           <User size={28} />
-          江湖人物志（点击看技术对应）
+          江湖人物志（经典版）
         </h2>
       </FadeIn>
 
@@ -169,172 +462,49 @@ function CharacterSection({ onNavigate }: { onNavigate?: (layer: number, section
 }
 
 // ============================================================
-// Section 3: Story Workflow
-// ============================================================
-function StorySection() {
-  const steps = [
-    { jianghu: '洪七公召开军事会议，制定攻城计划', tech: 'PLAN: project-planner 输出 PLAN-{slug}.md', phase: 'PLAN', agent: 'project-planner', color: '#4a7ab8' },
-    { jianghu: '欧阳锋潜入敌营探路，绘制地图', tech: 'RECON: browser-subagent 扫描', phase: 'RECON', agent: 'browser-subagent', color: '#6a1b9a' },
-    { jianghu: '黄蓉布下奇门遁甲阵（前端界面）', tech: 'DO: frontend-specialist 实现 React 组件', phase: 'DO', agent: 'frontend-specialist', color: '#4a8c5f' },
-    { jianghu: '郭靖率大军正面攻城（后端逻辑）', tech: 'DO: backend-specialist 实现 API + DB', phase: 'DO', agent: 'backend-specialist', color: '#4a8c5f' },
-    { jianghu: '丘处机验收战果，检查有无叛徒', tech: 'CHECK: quality-inspector 跑测试 + 审查', phase: 'CHECK', agent: 'quality-inspector', color: '#b8860b' },
-    { jianghu: '洪七公总结调整，准备下一战', tech: 'ACT: orchestrator 优化 / 批准上线', phase: 'ACT', agent: 'orchestrator', color: '#8b2500' },
-  ];
-
-  return (
-    <section className="card" style={{ marginBottom: '32px' }}>
-      <FadeIn>
-        <h2 style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--crimson)', marginBottom: '16px' }}>
-          <BookOpen size={28} />
-          剧情回放：/create = 蒙古军营攻略
-        </h2>
-        <p style={{ color: 'var(--ink-mid)', marginBottom: '20px' }}>
-          把 Agent 的 <code>/create</code> workflow 映射为一场完整的江湖战役。
-        </p>
-      </FadeIn>
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
-        {steps.map((step, i) => (
-          <div key={i} style={{
-            display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px',
-            padding: '14px 16px', borderRadius: '10px',
-            background: i % 2 === 0 ? '#f8f8f8' : '#fff',
-            borderLeft: `4px solid ${step.color}`,
-          }}>
-            <div>
-              <div style={{ fontSize: '11px', color: '#888', marginBottom: '2px' }}>🎭 江湖剧情</div>
-              <div style={{ color: 'var(--ink-mid)', fontSize: '14px' }}>{step.jianghu}</div>
-            </div>
-            <div>
-              <div style={{ fontSize: '11px', color: '#888', marginBottom: '2px' }}>⚙️ 技术实现</div>
-              <div style={{ color: 'var(--ink-mid)', fontSize: '14px' }}>{step.tech}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <MermaidChart
-        id="create-story"
-        chart={`
-flowchart LR
-    subgraph story[🎭 江湖剧情]
-        A1[洪七公定计] --> A2[欧阳锋探路]
-        A2 --> A3[黄蓉布阵]
-        A3 --> A4[郭靖攻城]
-        A4 --> A5[丘处机验功]
-        A5 --> A6[洪七公总结]
-    end
-    subgraph tech[⚙️ 技术实现]
-        B1[/plan] --> B2[browser-subagent]
-        B2 --> B3[frontend-specialist]
-        B3 --> B4[backend-specialist]
-        B4 --> B5[quality-inspector]
-        B5 --> B6[orchestrator]
-    end
-    A1 -.-> B1
-    A2 -.-> B2
-    A3 -.-> B3
-    A4 -.-> B4
-    A5 -.-> B5
-    A6 -.-> B6
-        `}
-      />
-    </section>
-  );
-}
-
-// ============================================================
-// Section 4: Full Mapping Table
-// ============================================================
-function MappingTable() {
-  const [filter, setFilter] = useState<'all' | 1 | 2 | 3>('all');
-  const allMappings = useMappings();
-
-  const filtered = filter === 'all' ? allMappings : allMappings.filter((m) => m.layer === filter);
-
-  return (
-    <section className="card" style={{ marginBottom: '32px' }}>
-      <FadeIn>
-        <h2 style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--crimson)', marginBottom: '16px' }}>
-          <ArrowRightLeft size={28} />
-          技术 ↔ 江湖 完整映射表
-        </h2>
-      </FadeIn>
-
-      <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', flexWrap: 'wrap' }}>
-        {(['all', 1, 2, 3] as const).map((f) => (
-          <button
-            key={String(f)}
-            onClick={() => setFilter(f)}
-            style={{
-              padding: '8px 16px',
-              borderRadius: '6px',
-              border: filter === f ? 'none' : '1px solid #ddd',
-              background: filter === f ? 'var(--jade)' : '#fff',
-              color: filter === f ? '#fff' : 'var(--ink-mid)',
-              cursor: 'pointer',
-              fontSize: '13px',
-            }}
-          >
-            {f === 'all' ? '全部' : f === 1 ? 'Layer 1 LLM' : f === 2 ? 'Layer 2 内核' : 'Layer 3 Agent'}
-          </button>
-        ))}
-      </div>
-
-      <div style={{ overflowX: 'auto' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', minWidth: '600px' }}>
-          <thead>
-            <tr style={{ background: '#f5f0e6' }}>
-              <th style={{ padding: '10px', textAlign: 'left', borderBottom: '2px solid #ddd' }}>技术概念</th>
-              <th style={{ padding: '10px', textAlign: 'left', borderBottom: '2px solid #ddd' }}>江湖映射</th>
-              <th style={{ padding: '10px', textAlign: 'left', borderBottom: '2px solid #ddd' }}>为什么这样比喻</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((m, i) => (
-              <tr key={i} style={{ borderBottom: '1px solid #eee', background: i % 2 === 0 ? '#fff' : '#fafafa' }}>
-                <td style={{ padding: '10px', fontWeight: 600, color: m.layer === 2 ? 'var(--jade)' : m.layer === 3 ? 'var(--gold)' : 'var(--crimson)' }}>
-                  {m.tech_concept}
-                </td>
-                <td style={{ padding: '10px' }}>{m.jianghu_role}</td>
-                <td style={{ padding: '10px', color: 'var(--ink-mid)', fontSize: '12px' }}>{m.explanation}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </section>
-  );
-}
-
-// ============================================================
 // Layer 0 Main
 // ============================================================
 export default function Layer0({ onNavigate }: { onNavigate?: (layer: number, section: string) => void }) {
+  const [activeStory, setActiveStory] = useState<string>('shediao');
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
       <FadeIn>
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <h1 style={{ fontSize: '32px', color: 'var(--crimson)', marginBottom: '8px' }}>
-            Layer 0：🐂 牛家村江湖
+            Layer 0：🎭 多故事线入口
           </h1>
           <p style={{ color: 'var(--ink-mid)', fontSize: '16px' }}>
-            用《射雕英雄传》的故事理解 Agent 全栈 —— 每个比喻都能点回技术实现
+            用不同的故事理解 Agent 全栈 —— 金庸武侠、生活场景，总有一种适合你
           </p>
           <div style={{
             marginTop: '12px', display: 'inline-flex', alignItems: 'center', gap: '8px',
             padding: '10px 20px', background: 'rgba(139, 37, 0, 0.1)', borderRadius: '24px',
             color: 'var(--crimson)', fontSize: '14px',
           }}>
-            🎯 推荐：从这层开始 → 理解故事 → 跳转技术层
+            🎯 推荐：选择喜欢的故事线 → 理解比喻 → 跳转技术层
           </div>
         </div>
       </FadeIn>
 
+      <StoryLineSelector activeLine={activeStory} onSelect={setActiveStory} />
+      
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeStory}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.3 }}
+        >
+          <section className="card" style={{ marginBottom: '32px' }}>
+            <StoryContent storyId={activeStory} />
+          </section>
+        </motion.div>
+      </AnimatePresence>
+
       <SceneSection onNavigate={onNavigate} />
       <CharacterSection onNavigate={onNavigate} />
-      <StorySection />
-      <MappingTable />
     </motion.div>
   );
 }

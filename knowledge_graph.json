@@ -1,0 +1,3804 @@
+{
+  "entities": [
+    {
+      "entity_id": "concept:installation",
+      "entity_type": "concept",
+      "name": "Installation",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/de/installation.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/de/installation.md"
+      }
+    },
+    {
+      "entity_id": "concept:installation_mit_pip",
+      "entity_type": "concept",
+      "name": "Installation mit pip",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/de/installation.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/de/installation.md"
+      }
+    },
+    {
+      "entity_id": "concept:installation_aus_dem_code",
+      "entity_type": "concept",
+      "name": "Installation aus dem Code",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/de/installation.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/de/installation.md"
+      }
+    },
+    {
+      "entity_id": "concept:editierbare_installation",
+      "entity_type": "concept",
+      "name": "Editierbare Installation",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/de/installation.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/de/installation.md"
+      }
+    },
+    {
+      "entity_id": "concept:installation_mit_conda",
+      "entity_type": "concept",
+      "name": "Installation mit conda",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/de/installation.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/de/installation.md"
+      }
+    },
+    {
+      "entity_id": "concept:cache_einrichtung",
+      "entity_type": "concept",
+      "name": "Cache Einrichtung",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/de/installation.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/de/installation.md"
+      }
+    },
+    {
+      "entity_id": "concept:offline_modus",
+      "entity_type": "concept",
+      "name": "Offline Modus",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/de/installation.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/de/installation.md"
+      }
+    },
+    {
+      "entity_id": "concept:abrufen_von_modellen_und_tokenizern_zur_offline-verwendung",
+      "entity_type": "concept",
+      "name": "Abrufen von Modellen und Tokenizern zur Offline-Verwendung",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/de/installation.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/de/installation.md"
+      }
+    },
+    {
+      "entity_id": "concept:transformer",
+      "entity_type": "concept",
+      "name": "transformer",
+      "description": "在文档 awesome_highstar/transformers/docs/source/de/installation.md 中被提及",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/de/installation.md"
+      }
+    },
+    {
+      "entity_id": "concept:rag",
+      "entity_type": "concept",
+      "name": "RAG",
+      "description": "在文档 awesome_highstar/transformers/docs/source/de/installation.md 中被提及",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/de/installation.md"
+      }
+    },
+    {
+      "entity_id": "concept:pp-chart2table",
+      "entity_type": "concept",
+      "name": "PP-Chart2Table",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md"
+      }
+    },
+    {
+      "entity_id": "concept:overview",
+      "entity_type": "concept",
+      "name": "Overview",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md"
+      }
+    },
+    {
+      "entity_id": "concept:model_architecture",
+      "entity_type": "concept",
+      "name": "Model Architecture",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md"
+      }
+    },
+    {
+      "entity_id": "concept:usage",
+      "entity_type": "concept",
+      "name": "Usage",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md"
+      }
+    },
+    {
+      "entity_id": "concept:single_input_inference",
+      "entity_type": "concept",
+      "name": "Single input inference",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md"
+      }
+    },
+    {
+      "entity_id": "concept:ppchart2tableprocessor_uses_hardcoded_\"chart_to_table\"_instruction_internally_via_chat_template",
+      "entity_type": "concept",
+      "name": "PPChart2TableProcessor uses hardcoded \"Chart to table\" instruction internally via chat template",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md"
+      }
+    },
+    {
+      "entity_id": "concept:batched_inference",
+      "entity_type": "concept",
+      "name": "Batched inference",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md"
+      }
+    },
+    {
+      "entity_id": "concept:ppchart2tableconfig",
+      "entity_type": "concept",
+      "name": "PPChart2TableConfig",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md"
+      }
+    },
+    {
+      "entity_id": "concept:ppchart2tableimageprocessor",
+      "entity_type": "concept",
+      "name": "PPChart2TableImageProcessor",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md"
+      }
+    },
+    {
+      "entity_id": "concept:ppchart2tableimageprocessorpil",
+      "entity_type": "concept",
+      "name": "PPChart2TableImageProcessorPil",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md"
+      }
+    },
+    {
+      "entity_id": "concept:ppchart2tableprocessor",
+      "entity_type": "concept",
+      "name": "PPChart2TableProcessor",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md"
+      }
+    },
+    {
+      "entity_id": "concept:tokenization",
+      "entity_type": "concept",
+      "name": "tokenization",
+      "description": "在文档 awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md 中被提及",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md"
+      }
+    },
+    {
+      "entity_id": "concept:llm",
+      "entity_type": "concept",
+      "name": "LLM",
+      "description": "在文档 awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md 中被提及",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/pp_chart2table.md"
+      }
+    },
+    {
+      "entity_id": "concept:tfsa-2021-099_invalid_validation_in_`quantizeanddequantizev2`",
+      "entity_type": "concept",
+      "name": "TFSA-2021-099: Invalid validation in `QuantizeAndDequantizeV2`",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2021-099.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2021-099.md"
+      }
+    },
+    {
+      "entity_id": "concept:cve_number",
+      "entity_type": "concept",
+      "name": "CVE Number",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2021-099.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2021-099.md"
+      }
+    },
+    {
+      "entity_id": "concept:impact",
+      "entity_type": "concept",
+      "name": "Impact",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2021-099.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2021-099.md"
+      }
+    },
+    {
+      "entity_id": "concept:patches",
+      "entity_type": "concept",
+      "name": "Patches",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2021-099.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2021-099.md"
+      }
+    },
+    {
+      "entity_id": "concept:for_more_information",
+      "entity_type": "concept",
+      "name": "For more information",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2021-099.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2021-099.md"
+      }
+    },
+    {
+      "entity_id": "concept:attribution",
+      "entity_type": "concept",
+      "name": "Attribution",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2021-099.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2021-099.md"
+      }
+    },
+    {
+      "entity_id": "concept:tvp_[[tvp]]",
+      "entity_type": "concept",
+      "name": "TVP [[tvp]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/model_doc/tvp.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/model_doc/tvp.md"
+      }
+    },
+    {
+      "entity_id": "concept:개요_[[overview]]",
+      "entity_type": "concept",
+      "name": "개요 [[overview]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/model_doc/tvp.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/model_doc/tvp.md"
+      }
+    },
+    {
+      "entity_id": "concept:사용_팁_및_예시_[[usage-tips-and-examples]]",
+      "entity_type": "concept",
+      "name": "사용 팁 및 예시 [[usage-tips-and-examples]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/model_doc/tvp.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/model_doc/tvp.md"
+      }
+    },
+    {
+      "entity_id": "concept:tvpconfig_[[transformers.tvpconfig]]",
+      "entity_type": "concept",
+      "name": "TvpConfig [[transformers.TvpConfig]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/model_doc/tvp.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/model_doc/tvp.md"
+      }
+    },
+    {
+      "entity_id": "concept:tvpimageprocessor_[[transformers.tvpimageprocessor]]",
+      "entity_type": "concept",
+      "name": "TvpImageProcessor [[transformers.TvpImageProcessor]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/model_doc/tvp.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/model_doc/tvp.md"
+      }
+    },
+    {
+      "entity_id": "concept:tvpprocessor_[[transformers.tvpprocessor]]",
+      "entity_type": "concept",
+      "name": "TvpProcessor [[transformers.TvpProcessor]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/model_doc/tvp.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/model_doc/tvp.md"
+      }
+    },
+    {
+      "entity_id": "concept:tvpmodel_[[transformers.tvpmodel]]",
+      "entity_type": "concept",
+      "name": "TvpModel [[transformers.TvpModel]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/model_doc/tvp.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/model_doc/tvp.md"
+      }
+    },
+    {
+      "entity_id": "concept:tvpforvideogrounding_[[transformers.tvpforvideogrounding]]",
+      "entity_type": "concept",
+      "name": "TvpForVideoGrounding [[transformers.TvpForVideoGrounding]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/model_doc/tvp.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/model_doc/tvp.md"
+      }
+    },
+    {
+      "entity_id": "concept:module_tflite_support.metadata_writers.bert_nl_classifier",
+      "entity_type": "concept",
+      "name": "Module: tflite_support.metadata_writers.bert_nl_classifier",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_support/metadata_writers/bert_nl_classifier.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_support/metadata_writers/bert_nl_classifier.md"
+      }
+    },
+    {
+      "entity_id": "concept:modules",
+      "entity_type": "concept",
+      "name": "Modules",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_support/metadata_writers/bert_nl_classifier.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_support/metadata_writers/bert_nl_classifier.md"
+      }
+    },
+    {
+      "entity_id": "concept:classes",
+      "entity_type": "concept",
+      "name": "Classes",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_support/metadata_writers/bert_nl_classifier.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_support/metadata_writers/bert_nl_classifier.md"
+      }
+    },
+    {
+      "entity_id": "concept:version_5_migration_guide",
+      "entity_type": "concept",
+      "name": "Version 5 Migration guide",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:library-wide_changes_with_widespread_impact",
+      "entity_type": "concept",
+      "name": "Library-wide changes with widespread impact",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:removal_of_tensorflow_and_jax",
+      "entity_type": "concept",
+      "name": "Removal of TensorFlow and Jax",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:dynamic_weight_loading",
+      "entity_type": "concept",
+      "name": "Dynamic weight loading",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:backend_architecture_changes_moving_away_from_the_slow/fast_tokenizer_separation",
+      "entity_type": "concept",
+      "name": "Backend Architecture Changes: moving away from the slow/fast tokenizer separation",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:defining_a_tokenizers_outside_of_the_existing_backends",
+      "entity_type": "concept",
+      "name": "Defining a tokenizers outside of the existing backends",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:api_changes",
+      "entity_type": "concept",
+      "name": "API Changes",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:1._direct_tokenizer_initialization_with_vocab_and_merges",
+      "entity_type": "concept",
+      "name": "1. Direct tokenizer initialization with vocab and merges",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:2._simplified_decoding_api",
+      "entity_type": "concept",
+      "name": "2. Simplified decoding API",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:3._unified_encoding_api",
+      "entity_type": "concept",
+      "name": "3. Unified encoding API",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:4._`apply_chat_template`_returns_`batchencoding`",
+      "entity_type": "concept",
+      "name": "4. `apply_chat_template` returns `BatchEncoding`",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:now_returns_batchencoding_with_input_ids,_attention_mask,_etc.",
+      "entity_type": "concept",
+      "name": "Now returns BatchEncoding with input_ids, attention_mask, etc.",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:5._removed_legacy_configuration_file_saving",
+      "entity_type": "concept",
+      "name": "5. Removed legacy configuration file saving:",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:6._model-specific_changes",
+      "entity_type": "concept",
+      "name": "6. Model-Specific Changes",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:testing_changes",
+      "entity_type": "concept",
+      "name": "Testing Changes",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:7._deprecated_/_modified_features",
+      "entity_type": "concept",
+      "name": "7. Deprecated / Modified Features",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:disclaimers_for_the_rc0",
+      "entity_type": "concept",
+      "name": "Disclaimers for the RC0",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:peft_+_moe",
+      "entity_type": "concept",
+      "name": "PEFT + MoE:",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:tensor_parallel_and_expert_parallel_+_moe",
+      "entity_type": "concept",
+      "name": "Tensor parallel and Expert parallel + MoE",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:remote_code_incompatibility",
+      "entity_type": "concept",
+      "name": "Remote code incompatibility",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:custom_pretrained_models",
+      "entity_type": "concept",
+      "name": "Custom pretrained models:",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:library-wide_changes_with_lesser_impact",
+      "entity_type": "concept",
+      "name": "Library-wide changes with lesser impact",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:drop_support_for_`safe_serialization=false`",
+      "entity_type": "concept",
+      "name": "Drop support for `safe_serialization=False`",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:50gb_default_shard_size",
+      "entity_type": "concept",
+      "name": "50GB default shard size",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:`use_auth_token`",
+      "entity_type": "concept",
+      "name": "`use_auth_token`",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:attention-related_features",
+      "entity_type": "concept",
+      "name": "Attention-related features",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:updates_to_supported_torch_apis",
+      "entity_type": "concept",
+      "name": "Updates to supported torch APIs",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:feature_extraction_helpers_`get_*_features`",
+      "entity_type": "concept",
+      "name": "Feature extraction helpers: `get_*_features`",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:quantization_changes",
+      "entity_type": "concept",
+      "name": "Quantization changes",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:auto-classes",
+      "entity_type": "concept",
+      "name": "Auto-classes",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:configuration",
+      "entity_type": "concept",
+      "name": "Configuration",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:processing",
+      "entity_type": "concept",
+      "name": "Processing",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:processing_classes",
+      "entity_type": "concept",
+      "name": "Processing classes",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:modeling",
+      "entity_type": "concept",
+      "name": "Modeling",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:generate",
+      "entity_type": "concept",
+      "name": "Generate",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:trainer",
+      "entity_type": "concept",
+      "name": "Trainer",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:removing_arguments_without_deprecation_cycle_in_`trainingarguments`_due_to_low_usage",
+      "entity_type": "concept",
+      "name": "Removing arguments without deprecation cycle in `TrainingArguments` due to low usage",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:removing_deprecated_arguments_in_`trainingarguments`",
+      "entity_type": "concept",
+      "name": "Removing deprecated arguments in `TrainingArguments`",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:removing_deprecated_arguments_in_`trainer`",
+      "entity_type": "concept",
+      "name": "Removing deprecated arguments in `Trainer`",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:removed_features_for_`trainer`",
+      "entity_type": "concept",
+      "name": "Removed features for `Trainer`",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:new_defaults_for_`trainer`",
+      "entity_type": "concept",
+      "name": "New defaults for `Trainer`",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:pipelines",
+      "entity_type": "concept",
+      "name": "Pipelines",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:text_pipelines_that_should_just_be_llms",
+      "entity_type": "concept",
+      "name": "Text pipelines that should just be LLMs",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:any_other_chat_model_will_also_work_-_if_you're_low_on_memory_you_can_use_a_smaller_one",
+      "entity_type": "concept",
+      "name": "Any other chat model will also work - if you're low on memory you can use a smaller one",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:vision_pipelines_that_should_just_be_vlms",
+      "entity_type": "concept",
+      "name": "Vision pipelines that should just be VLMs",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:any_other_vlm_will_also_work_-_if_you're_low_on_memory_you_can_use_a_smaller_one",
+      "entity_type": "concept",
+      "name": "Any other VLM will also work - if you're low on memory you can use a smaller one",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:other_removed_pipelines",
+      "entity_type": "concept",
+      "name": "Other removed pipelines",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:other_changes",
+      "entity_type": "concept",
+      "name": "Other changes",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:pushtohubmixin",
+      "entity_type": "concept",
+      "name": "PushToHubMixin",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:removal_of_the_`run`_method",
+      "entity_type": "concept",
+      "name": "Removal of the `run` method",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:environment_variables",
+      "entity_type": "concept",
+      "name": "Environment variables",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:requirements_update",
+      "entity_type": "concept",
+      "name": "Requirements update",
+      "description": "来自文档: awesome_highstar/transformers/MIGRATION_GUIDE_V5.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:attention",
+      "entity_type": "concept",
+      "name": "attention",
+      "description": "在文档 awesome_highstar/transformers/MIGRATION_GUIDE_V5.md 中被提及",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:state",
+      "entity_type": "concept",
+      "name": "State",
+      "description": "在文档 awesome_highstar/transformers/MIGRATION_GUIDE_V5.md 中被提及",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:tool",
+      "entity_type": "concept",
+      "name": "Tool",
+      "description": "在文档 awesome_highstar/transformers/MIGRATION_GUIDE_V5.md 中被提及",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/MIGRATION_GUIDE_V5.md"
+      }
+    },
+    {
+      "entity_id": "concept:module_tflite_support.metadata_writers.nl_classifier",
+      "entity_type": "concept",
+      "name": "Module: tflite_support.metadata_writers.nl_classifier",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_support/metadata_writers/nl_classifier.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_support/metadata_writers/nl_classifier.md"
+      }
+    },
+    {
+      "entity_id": "concept:tfsa-2021-193_missing_validation_during_checkpoint_loading",
+      "entity_type": "concept",
+      "name": "TFSA-2021-193: Missing validation during checkpoint loading",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2021-193.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2021-193.md"
+      }
+    },
+    {
+      "entity_id": "concept:tfsa-2021-062_division_by_0_in_`maxpoolgradwithargmax`",
+      "entity_type": "concept",
+      "name": "TFSA-2021-062: Division by 0 in `MaxPoolGradWithArgmax`",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2021-062.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2021-062.md"
+      }
+    },
+    {
+      "entity_id": "concept:tfsa-2021-083_division_by_zero_in_tflite's_implementation_of_`embeddinglookup`",
+      "entity_type": "concept",
+      "name": "TFSA-2021-083: Division by zero in TFLite's implementation of `EmbeddingLookup`",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2021-083.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2021-083.md"
+      }
+    },
+    {
+      "entity_id": "concept:decision_transformer",
+      "entity_type": "concept",
+      "name": "Decision Transformer",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/model_doc/decision_transformer.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/model_doc/decision_transformer.md"
+      }
+    },
+    {
+      "entity_id": "concept:decisiontransformerconfig",
+      "entity_type": "concept",
+      "name": "DecisionTransformerConfig",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/model_doc/decision_transformer.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/model_doc/decision_transformer.md"
+      }
+    },
+    {
+      "entity_id": "concept:decisiontransformergpt2model",
+      "entity_type": "concept",
+      "name": "DecisionTransformerGPT2Model",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/model_doc/decision_transformer.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/model_doc/decision_transformer.md"
+      }
+    },
+    {
+      "entity_id": "concept:decisiontransformermodel",
+      "entity_type": "concept",
+      "name": "DecisionTransformerModel",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/model_doc/decision_transformer.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/model_doc/decision_transformer.md"
+      }
+    },
+    {
+      "entity_id": "concept:chinese-clip",
+      "entity_type": "concept",
+      "name": "Chinese-CLIP",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/chinese_clip.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/chinese_clip.md"
+      }
+    },
+    {
+      "entity_id": "concept:usage_example",
+      "entity_type": "concept",
+      "name": "Usage example",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/chinese_clip.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/chinese_clip.md"
+      }
+    },
+    {
+      "entity_id": "concept:chineseclipconfig",
+      "entity_type": "concept",
+      "name": "ChineseCLIPConfig",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/chinese_clip.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/chinese_clip.md"
+      }
+    },
+    {
+      "entity_id": "concept:chinesecliptextconfig",
+      "entity_type": "concept",
+      "name": "ChineseCLIPTextConfig",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/chinese_clip.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/chinese_clip.md"
+      }
+    },
+    {
+      "entity_id": "concept:chineseclipvisionconfig",
+      "entity_type": "concept",
+      "name": "ChineseCLIPVisionConfig",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/chinese_clip.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/chinese_clip.md"
+      }
+    },
+    {
+      "entity_id": "concept:chineseclipimageprocessor",
+      "entity_type": "concept",
+      "name": "ChineseCLIPImageProcessor",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/chinese_clip.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/chinese_clip.md"
+      }
+    },
+    {
+      "entity_id": "concept:chineseclipimageprocessorpil",
+      "entity_type": "concept",
+      "name": "ChineseCLIPImageProcessorPil",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/chinese_clip.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/chinese_clip.md"
+      }
+    },
+    {
+      "entity_id": "concept:chineseclipprocessor",
+      "entity_type": "concept",
+      "name": "ChineseCLIPProcessor",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/chinese_clip.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/chinese_clip.md"
+      }
+    },
+    {
+      "entity_id": "concept:chineseclipmodel",
+      "entity_type": "concept",
+      "name": "ChineseCLIPModel",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/chinese_clip.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/chinese_clip.md"
+      }
+    },
+    {
+      "entity_id": "concept:chinesecliptextmodel",
+      "entity_type": "concept",
+      "name": "ChineseCLIPTextModel",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/chinese_clip.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/chinese_clip.md"
+      }
+    },
+    {
+      "entity_id": "concept:chineseclipvisionmodel",
+      "entity_type": "concept",
+      "name": "ChineseCLIPVisionModel",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/chinese_clip.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/chinese_clip.md"
+      }
+    },
+    {
+      "entity_id": "concept:trainer_[[trainer]]",
+      "entity_type": "concept",
+      "name": "Trainer [[trainer]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/trainer.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/trainer.md"
+      }
+    },
+    {
+      "entity_id": "concept:업그레이드",
+      "entity_type": "concept",
+      "name": "업그레이드",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/trainer.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/trainer.md"
+      }
+    },
+    {
+      "entity_id": "concept:기본_사용법_[[basic-usage]]",
+      "entity_type": "concept",
+      "name": "기본 사용법 [[basic-usage]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/trainer.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/trainer.md"
+      }
+    },
+    {
+      "entity_id": "concept:체크포인트_[[checkpoints]]",
+      "entity_type": "concept",
+      "name": "체크포인트 [[checkpoints]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/trainer.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/trainer.md"
+      }
+    },
+    {
+      "entity_id": "concept:최신_체크포인트에서_재개",
+      "entity_type": "concept",
+      "name": "최신 체크포인트에서 재개",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/trainer.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/trainer.md"
+      }
+    },
+    {
+      "entity_id": "concept:출력_디렉토리에_저장된_특정_체크포인트에서_재개",
+      "entity_type": "concept",
+      "name": "출력 디렉토리에 저장된 특정 체크포인트에서 재개",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/trainer.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/trainer.md"
+      }
+    },
+    {
+      "entity_id": "concept:trainer_맞춤_설정_[[customize-the-trainer]]",
+      "entity_type": "concept",
+      "name": "Trainer 맞춤 설정 [[customize-the-trainer]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/trainer.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/trainer.md"
+      }
+    },
+    {
+      "entity_id": "concept:콜백_[[callbacks]]",
+      "entity_type": "concept",
+      "name": "콜백 [[callbacks]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/trainer.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/trainer.md"
+      }
+    },
+    {
+      "entity_id": "concept:로깅_[[logging]]",
+      "entity_type": "concept",
+      "name": "로깅 [[logging]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/trainer.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/trainer.md"
+      }
+    },
+    {
+      "entity_id": "concept:오류만_보고하도록_설정",
+      "entity_type": "concept",
+      "name": "오류만 보고하도록 설정",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/trainer.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/trainer.md"
+      }
+    },
+    {
+      "entity_id": "concept:neftune_[[neftune]]",
+      "entity_type": "concept",
+      "name": "NEFTune [[neftune]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/trainer.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/trainer.md"
+      }
+    },
+    {
+      "entity_id": "concept:galore_[[galore]]",
+      "entity_type": "concept",
+      "name": "GaLore [[galore]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/trainer.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/trainer.md"
+      }
+    },
+    {
+      "entity_id": "concept:lomo_옵티마이저_[[lomo-optimizer]]",
+      "entity_type": "concept",
+      "name": "LOMO 옵티마이저 [[lomo-optimizer]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/trainer.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/trainer.md"
+      }
+    },
+    {
+      "entity_id": "concept:accelerate와_trainer_[[accelerate-and-trainer]]",
+      "entity_type": "concept",
+      "name": "Accelerate와 Trainer [[accelerate-and-trainer]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/trainer.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/trainer.md"
+      }
+    },
+    {
+      "entity_id": "concept:sft",
+      "entity_type": "concept",
+      "name": "SFT",
+      "description": "在文档 awesome_highstar/transformers/docs/source/ko/trainer.md 中被提及",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/trainer.md"
+      }
+    },
+    {
+      "entity_id": "concept:sew-d",
+      "entity_type": "concept",
+      "name": "SEW-D",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/sew-d.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/sew-d.md"
+      }
+    },
+    {
+      "entity_id": "concept:usage_tips",
+      "entity_type": "concept",
+      "name": "Usage tips",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/sew-d.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/sew-d.md"
+      }
+    },
+    {
+      "entity_id": "concept:resources",
+      "entity_type": "concept",
+      "name": "Resources",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/sew-d.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/sew-d.md"
+      }
+    },
+    {
+      "entity_id": "concept:sewdconfig",
+      "entity_type": "concept",
+      "name": "SEWDConfig",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/sew-d.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/sew-d.md"
+      }
+    },
+    {
+      "entity_id": "concept:sewdmodel",
+      "entity_type": "concept",
+      "name": "SEWDModel",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/sew-d.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/sew-d.md"
+      }
+    },
+    {
+      "entity_id": "concept:sewdforctc",
+      "entity_type": "concept",
+      "name": "SEWDForCTC",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/sew-d.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/sew-d.md"
+      }
+    },
+    {
+      "entity_id": "concept:sewdforsequenceclassification",
+      "entity_type": "concept",
+      "name": "SEWDForSequenceClassification",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/sew-d.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/sew-d.md"
+      }
+    },
+    {
+      "entity_id": "concept:pre_training",
+      "entity_type": "concept",
+      "name": "pre-training",
+      "description": "在文档 awesome_highstar/transformers/docs/source/en/model_doc/sew-d.md 中被提及",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/sew-d.md"
+      }
+    },
+    {
+      "entity_id": "concept:xla_developer_guide",
+      "entity_type": "concept",
+      "name": "XLA developer guide",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/developer_guide.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/developer_guide.md"
+      }
+    },
+    {
+      "entity_id": "concept:get_the_code",
+      "entity_type": "concept",
+      "name": "Get the code",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/developer_guide.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/developer_guide.md"
+      }
+    },
+    {
+      "entity_id": "concept:set_up_an_environment",
+      "entity_type": "concept",
+      "name": "Set up an environment",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/developer_guide.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/developer_guide.md"
+      }
+    },
+    {
+      "entity_id": "concept:build",
+      "entity_type": "concept",
+      "name": "Build",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/developer_guide.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/developer_guide.md"
+      }
+    },
+    {
+      "entity_id": "concept:automatically_detects_compute_capabilities_(requires_gpus)",
+      "entity_type": "concept",
+      "name": "Automatically detects compute capabilities (requires GPUs)",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/developer_guide.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/developer_guide.md"
+      }
+    },
+    {
+      "entity_id": "concept:manually_specify_compute_capabilities_(for_builds_without_gpus)",
+      "entity_type": "concept",
+      "name": "Manually specify compute capabilities (for builds without GPUs)",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/developer_guide.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/developer_guide.md"
+      }
+    },
+    {
+      "entity_id": "concept:create_a_pull_request",
+      "entity_type": "concept",
+      "name": "Create a pull request",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/developer_guide.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/developer_guide.md"
+      }
+    },
+    {
+      "entity_id": "concept:static_analysis_(clang-tidy)",
+      "entity_type": "concept",
+      "name": "Static Analysis (Clang-Tidy)",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/developer_guide.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/developer_guide.md"
+      }
+    },
+    {
+      "entity_id": "concept:how_to_run",
+      "entity_type": "concept",
+      "name": "How to Run",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/developer_guide.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/developer_guide.md"
+      }
+    },
+    {
+      "entity_id": "concept:tensorflow_lite_converter",
+      "entity_type": "concept",
+      "name": "TensorFlow Lite Converter",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/toco/README.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/toco/README.md"
+      }
+    },
+    {
+      "entity_id": "concept:usage_documentation",
+      "entity_type": "concept",
+      "name": "Usage documentation",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/toco/README.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/toco/README.md"
+      }
+    },
+    {
+      "entity_id": "concept:where_the_converter_fits_in_the_tensorflow_landscape",
+      "entity_type": "concept",
+      "name": "Where the converter fits in the TensorFlow landscape",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/toco/README.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/toco/README.md"
+      }
+    },
+    {
+      "entity_id": "concept:시계열_유틸리티_[[time-series-utilities]]",
+      "entity_type": "concept",
+      "name": "시계열 유틸리티 [[time-series-utilities]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/internal/time_series_utils.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/internal/time_series_utils.md"
+      }
+    },
+    {
+      "entity_id": "concept:분포_출력_(distributional_output)_[[transformers.time_series_utils.normaloutput]]",
+      "entity_type": "concept",
+      "name": "분포 출력 (Distributional Output) [[transformers.time_series_utils.NormalOutput]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/internal/time_series_utils.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/internal/time_series_utils.md"
+      }
+    },
+    {
+      "entity_id": "concept:tflite_model_maker.text_classifier.create",
+      "entity_type": "concept",
+      "name": "tflite_model_maker.text_classifier.create",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_model_maker/text_classifier/create.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_model_maker/text_classifier/create.md"
+      }
+    },
+    {
+      "entity_id": "concept:select_tensorflow_operators",
+      "entity_type": "concept",
+      "name": "Select TensorFlow operators",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md"
+      }
+    },
+    {
+      "entity_id": "concept:convert_a_model",
+      "entity_type": "concept",
+      "name": "Convert a model",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md"
+      }
+    },
+    {
+      "entity_id": "concept:run_inference",
+      "entity_type": "concept",
+      "name": "Run Inference",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md"
+      }
+    },
+    {
+      "entity_id": "concept:android_aar",
+      "entity_type": "concept",
+      "name": "Android AAR",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md"
+      }
+    },
+    {
+      "entity_id": "concept:building_the_android_aar",
+      "entity_type": "concept",
+      "name": "Building the Android AAR",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md"
+      }
+    },
+    {
+      "entity_id": "concept:using_cocoapods",
+      "entity_type": "concept",
+      "name": "Using CocoaPods",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md"
+      }
+    },
+    {
+      "entity_id": "concept:in_your_podfile_target",
+      "entity_type": "concept",
+      "name": "In your Podfile target:",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md"
+      }
+    },
+    {
+      "entity_id": "concept:using_bazel_+_xcode",
+      "entity_type": "concept",
+      "name": "Using Bazel + Xcode",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md"
+      }
+    },
+    {
+      "entity_id": "concept:c/c++",
+      "entity_type": "concept",
+      "name": "C/C++",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md"
+      }
+    },
+    {
+      "entity_id": "concept:python",
+      "entity_type": "concept",
+      "name": "Python",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md"
+      }
+    },
+    {
+      "entity_id": "concept:metrics",
+      "entity_type": "concept",
+      "name": "Metrics",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md"
+      }
+    },
+    {
+      "entity_id": "concept:performance",
+      "entity_type": "concept",
+      "name": "Performance",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md"
+      }
+    },
+    {
+      "entity_id": "concept:binary_size",
+      "entity_type": "concept",
+      "name": "Binary size",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md"
+      }
+    },
+    {
+      "entity_id": "concept:known_limitations",
+      "entity_type": "concept",
+      "name": "Known limitations",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md"
+      }
+    },
+    {
+      "entity_id": "concept:updates",
+      "entity_type": "concept",
+      "name": "Updates",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md"
+      }
+    },
+    {
+      "entity_id": "concept:runtime",
+      "entity_type": "concept",
+      "name": "Runtime",
+      "description": "在文档 awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md 中被提及",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/guide/ops_select.md"
+      }
+    },
+    {
+      "entity_id": "concept:module_tflite_support.task",
+      "entity_type": "concept",
+      "name": "Module: tflite_support.task",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_support/task.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_support/task.md"
+      }
+    },
+    {
+      "entity_id": "concept:🤗_accelerate를_활용한_분산_학습[[distributed-training-with-accelerate]]",
+      "entity_type": "concept",
+      "name": "🤗 Accelerate를 활용한 분산 학습[[distributed-training-with-accelerate]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/accelerate.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/accelerate.md"
+      }
+    },
+    {
+      "entity_id": "concept:설정[[setup]]",
+      "entity_type": "concept",
+      "name": "설정[[setup]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/accelerate.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/accelerate.md"
+      }
+    },
+    {
+      "entity_id": "concept:가속화를_위한_준비[[prepare-to-accelerate]]",
+      "entity_type": "concept",
+      "name": "가속화를 위한 준비[[prepare-to-accelerate]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/accelerate.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/accelerate.md"
+      }
+    },
+    {
+      "entity_id": "concept:백워드(backward)[[backward]]",
+      "entity_type": "concept",
+      "name": "백워드(Backward)[[backward]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/accelerate.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/accelerate.md"
+      }
+    },
+    {
+      "entity_id": "concept:학습[[train]]",
+      "entity_type": "concept",
+      "name": "학습[[train]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/accelerate.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/accelerate.md"
+      }
+    },
+    {
+      "entity_id": "concept:스크립트로_학습하기[[train-with-a-script]]",
+      "entity_type": "concept",
+      "name": "스크립트로 학습하기[[train-with-a-script]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/accelerate.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/accelerate.md"
+      }
+    },
+    {
+      "entity_id": "concept:노트북으로_학습하기[[train-with-a-notebook]]",
+      "entity_type": "concept",
+      "name": "노트북으로 학습하기[[train-with-a-notebook]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/accelerate.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/accelerate.md"
+      }
+    },
+    {
+      "entity_id": "concept:subtítulos_de_imágenes",
+      "entity_type": "concept",
+      "name": "Subtítulos de Imágenes",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/es/tasks/image_captioning.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/es/tasks/image_captioning.md"
+      }
+    },
+    {
+      "entity_id": "concept:cargar_el_conjunto_de_datos_de_subtítulos_blip_de_pokémon",
+      "entity_type": "concept",
+      "name": "Cargar el conjunto de datos de subtítulos BLIP de Pokémon",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/es/tasks/image_captioning.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/es/tasks/image_captioning.md"
+      }
+    },
+    {
+      "entity_id": "concept:preprocesar_el_conjunto_de_datos",
+      "entity_type": "concept",
+      "name": "Preprocesar el conjunto de datos",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/es/tasks/image_captioning.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/es/tasks/image_captioning.md"
+      }
+    },
+    {
+      "entity_id": "concept:cargar_un_modelo_base",
+      "entity_type": "concept",
+      "name": "Cargar un modelo base",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/es/tasks/image_captioning.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/es/tasks/image_captioning.md"
+      }
+    },
+    {
+      "entity_id": "concept:evaluar",
+      "entity_type": "concept",
+      "name": "Evaluar",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/es/tasks/image_captioning.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/es/tasks/image_captioning.md"
+      }
+    },
+    {
+      "entity_id": "concept:¡entrenar!",
+      "entity_type": "concept",
+      "name": "¡Entrenar!",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/es/tasks/image_captioning.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/es/tasks/image_captioning.md"
+      }
+    },
+    {
+      "entity_id": "concept:inferencia",
+      "entity_type": "concept",
+      "name": "Inferencia",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/es/tasks/image_captioning.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/es/tasks/image_captioning.md"
+      }
+    },
+    {
+      "entity_id": "concept:roberta",
+      "entity_type": "concept",
+      "name": "RoBERTa",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/roberta.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/roberta.md"
+      }
+    },
+    {
+      "entity_id": "concept:notes",
+      "entity_type": "concept",
+      "name": "Notes",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/roberta.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/roberta.md"
+      }
+    },
+    {
+      "entity_id": "concept:robertaconfig",
+      "entity_type": "concept",
+      "name": "RobertaConfig",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/roberta.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/roberta.md"
+      }
+    },
+    {
+      "entity_id": "concept:robertatokenizer",
+      "entity_type": "concept",
+      "name": "RobertaTokenizer",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/roberta.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/roberta.md"
+      }
+    },
+    {
+      "entity_id": "concept:robertatokenizerfast",
+      "entity_type": "concept",
+      "name": "RobertaTokenizerFast",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/roberta.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/roberta.md"
+      }
+    },
+    {
+      "entity_id": "concept:robertamodel",
+      "entity_type": "concept",
+      "name": "RobertaModel",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/roberta.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/roberta.md"
+      }
+    },
+    {
+      "entity_id": "concept:robertaforcausallm",
+      "entity_type": "concept",
+      "name": "RobertaForCausalLM",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/roberta.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/roberta.md"
+      }
+    },
+    {
+      "entity_id": "concept:robertaformaskedlm",
+      "entity_type": "concept",
+      "name": "RobertaForMaskedLM",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/roberta.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/roberta.md"
+      }
+    },
+    {
+      "entity_id": "concept:robertaforsequenceclassification",
+      "entity_type": "concept",
+      "name": "RobertaForSequenceClassification",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/roberta.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/roberta.md"
+      }
+    },
+    {
+      "entity_id": "concept:robertaformultiplechoice",
+      "entity_type": "concept",
+      "name": "RobertaForMultipleChoice",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/roberta.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/roberta.md"
+      }
+    },
+    {
+      "entity_id": "concept:robertafortokenclassification",
+      "entity_type": "concept",
+      "name": "RobertaForTokenClassification",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/roberta.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/roberta.md"
+      }
+    },
+    {
+      "entity_id": "concept:robertaforquestionanswering",
+      "entity_type": "concept",
+      "name": "RobertaForQuestionAnswering",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/en/model_doc/roberta.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/en/model_doc/roberta.md"
+      }
+    },
+    {
+      "entity_id": "concept:tflite_support.task.audio.audioclassifieroptions",
+      "entity_type": "concept",
+      "name": "tflite_support.task.audio.AudioClassifierOptions",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_support/task/audio/AudioClassifierOptions.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_support/task/audio/AudioClassifierOptions.md"
+      }
+    },
+    {
+      "entity_id": "concept:methods",
+      "entity_type": "concept",
+      "name": "Methods",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_support/task/audio/AudioClassifierOptions.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_support/task/audio/AudioClassifierOptions.md"
+      }
+    },
+    {
+      "entity_id": "concept:tfsa-2021-187_fpe_in_convolutions_with_zero_size_filters",
+      "entity_type": "concept",
+      "name": "TFSA-2021-187: FPE in convolutions with zero size filters",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2021-187.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2021-187.md"
+      }
+    },
+    {
+      "entity_id": "concept:tfsa-2022-014_division_by_zero_in_`fractionalmaxpool`",
+      "entity_type": "concept",
+      "name": "TFSA-2022-014: Division by zero in `FractionalMaxPool`",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2022-014.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2022-014.md"
+      }
+    },
+    {
+      "entity_id": "concept:[patches_are_all_you_need?](https//nn.labml.ai/conv_mixer/index.html)",
+      "entity_type": "concept",
+      "name": "[Patches Are All You Need?](https://nn.labml.ai/conv_mixer/index.html)",
+      "description": "来自文档: awesome_highstar/annotated_deep_learning_paper_implementations/labml_nn/conv_mixer/readme.md",
+      "properties": {
+        "source_file": "awesome_highstar/annotated_deep_learning_paper_implementations/labml_nn/conv_mixer/readme.md"
+      }
+    },
+    {
+      "entity_id": "concept:channel",
+      "entity_type": "concept",
+      "name": "Channel",
+      "description": "在文档 awesome_highstar/annotated_deep_learning_paper_implementations/labml_nn/conv_mixer/readme.md 中被提及",
+      "properties": {
+        "source_file": "awesome_highstar/annotated_deep_learning_paper_implementations/labml_nn/conv_mixer/readme.md"
+      }
+    },
+    {
+      "entity_id": "concept:tensorflow_passes",
+      "entity_type": "concept",
+      "name": "TensorFlow passes",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/compiler/mlir/g3doc/tf_passes.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/compiler/mlir/g3doc/tf_passes.md"
+      }
+    },
+    {
+      "entity_id": "concept:tf_dialect_passes",
+      "entity_type": "concept",
+      "name": "TF dialect passes",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/compiler/mlir/g3doc/tf_passes.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/compiler/mlir/g3doc/tf_passes.md"
+      }
+    },
+    {
+      "entity_id": "concept:tensorflow_lite_inference_with_metadata",
+      "entity_type": "concept",
+      "name": "TensorFlow Lite inference with metadata",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/inference_with_metadata/overview.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/inference_with_metadata/overview.md"
+      }
+    },
+    {
+      "entity_id": "concept:tools_and_libraries",
+      "entity_type": "concept",
+      "name": "Tools and libraries",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/inference_with_metadata/overview.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/inference_with_metadata/overview.md"
+      }
+    },
+    {
+      "entity_id": "concept:generate_model_interface_with_android_code_generators",
+      "entity_type": "concept",
+      "name": "Generate model interface with Android code generators",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/inference_with_metadata/overview.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/inference_with_metadata/overview.md"
+      }
+    },
+    {
+      "entity_id": "concept:leverage_out-of-box_apis_with_the_tensorflow_lite_task_library",
+      "entity_type": "concept",
+      "name": "Leverage out-of-box APIs with the TensorFlow Lite Task Library",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/inference_with_metadata/overview.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/inference_with_metadata/overview.md"
+      }
+    },
+    {
+      "entity_id": "concept:build_custom_inference_pipelines_with_the_tensorflow_lite_support_library",
+      "entity_type": "concept",
+      "name": "Build custom inference pipelines with the TensorFlow Lite Support Library",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/inference_with_metadata/overview.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/inference_with_metadata/overview.md"
+      }
+    },
+    {
+      "entity_id": "concept:explore_pretrained_models_with_metadata",
+      "entity_type": "concept",
+      "name": "Explore pretrained models with metadata",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/inference_with_metadata/overview.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/inference_with_metadata/overview.md"
+      }
+    },
+    {
+      "entity_id": "concept:tensorflow_lite_support_github_repo",
+      "entity_type": "concept",
+      "name": "TensorFlow Lite Support GitHub repo",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/inference_with_metadata/overview.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/inference_with_metadata/overview.md"
+      }
+    },
+    {
+      "entity_id": "concept:tflite_support.task.text.nlclassifier",
+      "entity_type": "concept",
+      "name": "tflite_support.task.text.NLClassifier",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_support/task/text/NLClassifier.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_support/task/text/NLClassifier.md"
+      }
+    },
+    {
+      "entity_id": "concept:tfsa-2022-010_more_incomplete_validation_in_boosted_trees_code",
+      "entity_type": "concept",
+      "name": "TFSA-2022-010: More incomplete validation in boosted trees code",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2022-010.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2022-010.md"
+      }
+    },
+    {
+      "entity_id": "concept:tflite_support.metadata_schema_py_generated.subgraphmetadatastartinputprocessunitsvector",
+      "entity_type": "concept",
+      "name": "tflite_support.metadata_schema_py_generated.SubGraphMetadataStartInputProcessUnitsVector",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_support/metadata_schema_py_generated/SubGraphMetadataStartInputProcessUnitsVector.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_support/metadata_schema_py_generated/SubGraphMetadataStartInputProcessUnitsVector.md"
+      }
+    },
+    {
+      "entity_id": "concept:a_deep_dive_into_sparsecore_for_large_embedding_models_(lem)",
+      "entity_type": "concept",
+      "name": "A deep dive into SparseCore for Large Embedding Models (LEM)",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:1._introduction_to_sparsecore",
+      "entity_type": "concept",
+      "name": "1. Introduction to SparseCore",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:specifications_at_a_glance",
+      "entity_type": "concept",
+      "name": "Specifications at a glance:",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:2._sparsecore_host_preprocessing",
+      "entity_type": "concept",
+      "name": "2. SparseCore host preprocessing",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:understanding_table_stacking",
+      "entity_type": "concept",
+      "name": "Understanding table stacking:",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:3._conversion_to_coo_tensors",
+      "entity_type": "concept",
+      "name": "3. Conversion to COO tensors",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:illustrative_example",
+      "entity_type": "concept",
+      "name": "Illustrative example:",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:4._sparsecoreconfig_the_high-level_api",
+      "entity_type": "concept",
+      "name": "4. SparsecoreConfig: The high-level API",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:framework_specific_embedding_apis",
+      "entity_type": "concept",
+      "name": "Framework specific embedding APIs:",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:5._pipelining_for_performance",
+      "entity_type": "concept",
+      "name": "5. Pipelining for performance",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:conceptual_pipelining_flow",
+      "entity_type": "concept",
+      "name": "Conceptual pipelining flow:",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:6._the_role_of_xla",
+      "entity_type": "concept",
+      "name": "6. The role of XLA",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:key_functions_in_the_sparsecore_context",
+      "entity_type": "concept",
+      "name": "Key functions in the SparseCore context:",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:open_source_status",
+      "entity_type": "concept",
+      "name": "Open source status:",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:error_reporting_and_diagnostics",
+      "entity_type": "concept",
+      "name": "Error reporting and diagnostics:",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:7._how_limits_translate_to_tables_on_sparsecore",
+      "entity_type": "concept",
+      "name": "7. How limits translate to tables on SparseCore",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:translation_to_physical_table_layout_and_processing",
+      "entity_type": "concept",
+      "name": "Translation to physical table layout and processing:",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:8._how_each_sparsecore_communicates",
+      "entity_type": "concept",
+      "name": "8. How each SparseCore communicates",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:9._sparsecore_memory_management",
+      "entity_type": "concept",
+      "name": "9. SparseCore memory management",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:overall_memory_management_strategy",
+      "entity_type": "concept",
+      "name": "Overall memory management strategy:",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:10._performance_&_memory_bottlenecks",
+      "entity_type": "concept",
+      "name": "10. Performance & memory bottlenecks",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:common_performance_bottlenecks",
+      "entity_type": "concept",
+      "name": "Common performance bottlenecks:",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:common_memory_bottlenecks",
+      "entity_type": "concept",
+      "name": "Common memory bottlenecks:",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:general_factors_impacting_performance_and_memory",
+      "entity_type": "concept",
+      "name": "General factors impacting performance and memory:",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:11._analyzing_a_sparsecore_profile",
+      "entity_type": "concept",
+      "name": "11. Analyzing a SparseCore profile",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:12._general_debugging_flags",
+      "entity_type": "concept",
+      "name": "12. General debugging flags",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:13._quantization_support",
+      "entity_type": "concept",
+      "name": "13. Quantization support",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:simulated_quantization",
+      "entity_type": "concept",
+      "name": "Simulated Quantization:",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:configuration_attributes_for_`sparsedensematmulop`_(for_quantization)",
+      "entity_type": "concept",
+      "name": "Configuration attributes for `SparseDenseMatmulOp` (for quantization):",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:numerics_and_pipelining_interaction",
+      "entity_type": "concept",
+      "name": "Numerics and pipelining interaction:",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:14._upcoming_features_and_recent_improvements",
+      "entity_type": "concept",
+      "name": "14. Upcoming features and recent improvements",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:roadmap",
+      "entity_type": "concept",
+      "name": "Roadmap:",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:recent_improvements",
+      "entity_type": "concept",
+      "name": "Recent improvements:",
+      "description": "来自文档: awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:fine_tuning",
+      "entity_type": "concept",
+      "name": "fine-tuning",
+      "description": "在文档 awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md 中被提及",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/third_party/xla/docs/sparsecore.md"
+      }
+    },
+    {
+      "entity_id": "concept:transformers",
+      "entity_type": "concept",
+      "name": "Transformers",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/tr/index.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/tr/index.md"
+      }
+    },
+    {
+      "entity_id": "concept:özellikler",
+      "entity_type": "concept",
+      "name": "Özellikler",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/tr/index.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/tr/index.md"
+      }
+    },
+    {
+      "entity_id": "concept:tasarım",
+      "entity_type": "concept",
+      "name": "Tasarım",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/tr/index.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/tr/index.md"
+      }
+    },
+    {
+      "entity_id": "concept:öğren",
+      "entity_type": "concept",
+      "name": "Öğren",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/tr/index.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/tr/index.md"
+      }
+    },
+    {
+      "entity_id": "concept:load_adapters_with_🤗_peft",
+      "entity_type": "concept",
+      "name": "Load adapters with 🤗 PEFT",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/peft.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/peft.md"
+      }
+    },
+    {
+      "entity_id": "concept:setup",
+      "entity_type": "concept",
+      "name": "Setup",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/peft.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/peft.md"
+      }
+    },
+    {
+      "entity_id": "concept:supported_peft_models",
+      "entity_type": "concept",
+      "name": "Supported PEFT models",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/peft.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/peft.md"
+      }
+    },
+    {
+      "entity_id": "concept:load_a_peft_adapter",
+      "entity_type": "concept",
+      "name": "Load a PEFT adapter",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/peft.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/peft.md"
+      }
+    },
+    {
+      "entity_id": "concept:load_in_8bit_or_4bit",
+      "entity_type": "concept",
+      "name": "Load in 8bit or 4bit",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/peft.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/peft.md"
+      }
+    },
+    {
+      "entity_id": "concept:add_a_new_adapter",
+      "entity_type": "concept",
+      "name": "Add a new adapter",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/peft.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/peft.md"
+      }
+    },
+    {
+      "entity_id": "concept:attach_new_adapter_with_same_config",
+      "entity_type": "concept",
+      "name": "attach new adapter with same config",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/peft.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/peft.md"
+      }
+    },
+    {
+      "entity_id": "concept:use_adapter_1",
+      "entity_type": "concept",
+      "name": "use adapter_1",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/peft.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/peft.md"
+      }
+    },
+    {
+      "entity_id": "concept:use_adapter_2",
+      "entity_type": "concept",
+      "name": "use adapter_2",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/peft.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/peft.md"
+      }
+    },
+    {
+      "entity_id": "concept:enable_and_disable_adapters",
+      "entity_type": "concept",
+      "name": "Enable and disable adapters",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/peft.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/peft.md"
+      }
+    },
+    {
+      "entity_id": "concept:to_initiate_with_random_weights",
+      "entity_type": "concept",
+      "name": "to initiate with random weights",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/peft.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/peft.md"
+      }
+    },
+    {
+      "entity_id": "concept:train_a_peft_adapter",
+      "entity_type": "concept",
+      "name": "Train a PEFT adapter",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/peft.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/peft.md"
+      }
+    },
+    {
+      "entity_id": "concept:web_tools",
+      "entity_type": "concept",
+      "name": "Web Tools",
+      "description": "来自文档: awesome-libs/rllm/docs/api/tools/web_tools.md",
+      "properties": {
+        "source_file": "awesome-libs/rllm/docs/api/tools/web_tools.md"
+      }
+    },
+    {
+      "entity_id": "concept:tflite_model_maker.object_detector.efficientdetlite4spec",
+      "entity_type": "concept",
+      "name": "tflite_model_maker.object_detector.EfficientDetLite4Spec",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_model_maker/object_detector/EfficientDetLite4Spec.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_model_maker/object_detector/EfficientDetLite4Spec.md"
+      }
+    },
+    {
+      "entity_id": "concept:tfsa-2022-073_segfault_due_to_missing_support_for_quantized_types",
+      "entity_type": "concept",
+      "name": "TFSA-2022-073: Segfault due to missing support for quantized types",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2022-073.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2022-073.md"
+      }
+    },
+    {
+      "entity_id": "concept:development_guide",
+      "entity_type": "concept",
+      "name": "Development Guide",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:🚀_quick_start",
+      "entity_type": "concept",
+      "name": "🚀 Quick Start",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:prerequisites",
+      "entity_type": "concept",
+      "name": "Prerequisites",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:setup_development_environment",
+      "entity_type": "concept",
+      "name": "Setup Development Environment",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:clone_the_repository",
+      "entity_type": "concept",
+      "name": "Clone the repository",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:run_the_setup_script",
+      "entity_type": "concept",
+      "name": "Run the setup script",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:or_manually",
+      "entity_type": "concept",
+      "name": "Or manually:",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:🛠️_development_tools",
+      "entity_type": "concept",
+      "name": "🛠️ Development Tools",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:📝_common_tasks",
+      "entity_type": "concept",
+      "name": "📝 Common Tasks",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:running_tests",
+      "entity_type": "concept",
+      "name": "Running Tests",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:run_all_tests",
+      "entity_type": "concept",
+      "name": "Run all tests",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:run_with_coverage",
+      "entity_type": "concept",
+      "name": "Run with coverage",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:run_only_unit_tests",
+      "entity_type": "concept",
+      "name": "Run only unit tests",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:run_only_integration_tests",
+      "entity_type": "concept",
+      "name": "Run only integration tests",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:run_specific_test_file",
+      "entity_type": "concept",
+      "name": "Run specific test file",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:run_specific_test",
+      "entity_type": "concept",
+      "name": "Run specific test",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:code_quality",
+      "entity_type": "concept",
+      "name": "Code Quality",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:lint_code",
+      "entity_type": "concept",
+      "name": "Lint code",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:format_code",
+      "entity_type": "concept",
+      "name": "Format code",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:type_check",
+      "entity_type": "concept",
+      "name": "Type check",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:run_all_checks",
+      "entity_type": "concept",
+      "name": "Run all checks",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:run_pre-commit_hooks",
+      "entity_type": "concept",
+      "name": "Run pre-commit hooks",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:using_hatch",
+      "entity_type": "concept",
+      "name": "Using Hatch",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:run_tests",
+      "entity_type": "concept",
+      "name": "Run tests",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:run_tests_with_coverage",
+      "entity_type": "concept",
+      "name": "Run tests with coverage",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:build_package",
+      "entity_type": "concept",
+      "name": "Build package",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:show_version",
+      "entity_type": "concept",
+      "name": "Show version",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:bump_version",
+      "entity_type": "concept",
+      "name": "Bump version",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:building_and_publishing",
+      "entity_type": "concept",
+      "name": "Building and Publishing",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:build_distribution",
+      "entity_type": "concept",
+      "name": "Build distribution",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:publish_to_test_pypi",
+      "entity_type": "concept",
+      "name": "Publish to Test PyPI",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:publish_to_pypi",
+      "entity_type": "concept",
+      "name": "Publish to PyPI",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:📂_project_structure",
+      "entity_type": "concept",
+      "name": "📂 Project Structure",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:🧪_writing_tests",
+      "entity_type": "concept",
+      "name": "🧪 Writing Tests",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:test_structure",
+      "entity_type": "concept",
+      "name": "Test Structure",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:test_categories",
+      "entity_type": "concept",
+      "name": "Test Categories",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:run_all_except_slow_tests",
+      "entity_type": "concept",
+      "name": "Run all except slow tests",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:🎨_code_style",
+      "entity_type": "concept",
+      "name": "🎨 Code Style",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:type_hints",
+      "entity_type": "concept",
+      "name": "Type Hints",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:docstrings",
+      "entity_type": "concept",
+      "name": "Docstrings",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:import_order",
+      "entity_type": "concept",
+      "name": "Import Order",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:🔧_configuration_files",
+      "entity_type": "concept",
+      "name": "🔧 Configuration Files",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:pyproject.toml",
+      "entity_type": "concept",
+      "name": "pyproject.toml",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:.pre-commit-config.yaml",
+      "entity_type": "concept",
+      "name": ".pre-commit-config.yaml",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:makefile",
+      "entity_type": "concept",
+      "name": "Makefile",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:🐛_debugging",
+      "entity_type": "concept",
+      "name": "🐛 Debugging",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:using_ipython",
+      "entity_type": "concept",
+      "name": "Using IPython",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:start_ipython_with_package_loaded",
+      "entity_type": "concept",
+      "name": "Start IPython with package loaded",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:using_jupyter",
+      "entity_type": "concept",
+      "name": "Using Jupyter",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:start_jupyter_notebook",
+      "entity_type": "concept",
+      "name": "Start Jupyter notebook",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:debugging_tests",
+      "entity_type": "concept",
+      "name": "Debugging Tests",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:run_tests_with_verbose_output",
+      "entity_type": "concept",
+      "name": "Run tests with verbose output",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:show_print_statements",
+      "entity_type": "concept",
+      "name": "Show print statements",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:drop_into_debugger_on_failure",
+      "entity_type": "concept",
+      "name": "Drop into debugger on failure",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:run_specific_test_with_debugging",
+      "entity_type": "concept",
+      "name": "Run specific test with debugging",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:📊_coverage_reports",
+      "entity_type": "concept",
+      "name": "📊 Coverage Reports",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:generate_coverage_report",
+      "entity_type": "concept",
+      "name": "Generate coverage report",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:view_html_report",
+      "entity_type": "concept",
+      "name": "View HTML report",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:🔄_git_workflow",
+      "entity_type": "concept",
+      "name": "🔄 Git Workflow",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:commit_messages",
+      "entity_type": "concept",
+      "name": "Commit Messages",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:pre-commit_hooks",
+      "entity_type": "concept",
+      "name": "Pre-commit Hooks",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:🚢_release_process",
+      "entity_type": "concept",
+      "name": "🚢 Release Process",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:test_installation",
+      "entity_type": "concept",
+      "name": "Test installation",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:📚_additional_resources",
+      "entity_type": "concept",
+      "name": "📚 Additional Resources",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:💡_tips",
+      "entity_type": "concept",
+      "name": "💡 Tips",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:❓_getting_help",
+      "entity_type": "concept",
+      "name": "❓ Getting Help",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:🤝_contributing",
+      "entity_type": "concept",
+      "name": "🤝 Contributing",
+      "description": "来自文档: awesome-libs/awesome-llm/DEVELOPMENT.md",
+      "properties": {
+        "source_file": "awesome-libs/awesome-llm/DEVELOPMENT.md"
+      }
+    },
+    {
+      "entity_id": "concept:tflite_support.metadata_schema_py_generated.normalizationoptionsstart",
+      "entity_type": "concept",
+      "name": "tflite_support.metadata_schema_py_generated.NormalizationOptionsStart",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_support/metadata_schema_py_generated/NormalizationOptionsStart.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_support/metadata_schema_py_generated/NormalizationOptionsStart.md"
+      }
+    },
+    {
+      "entity_id": "concept:맘바2[[mamba-2]]",
+      "entity_type": "concept",
+      "name": "맘바2[[mamba-2]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/model_doc/mamba2.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/model_doc/mamba2.md"
+      }
+    },
+    {
+      "entity_id": "concept:개요[[overview]]",
+      "entity_type": "concept",
+      "name": "개요[[overview]]",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/model_doc/mamba2.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/model_doc/mamba2.md"
+      }
+    },
+    {
+      "entity_id": "concept:간단한_생성_예",
+      "entity_type": "concept",
+      "name": "간단한 생성 예:",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/model_doc/mamba2.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/model_doc/mamba2.md"
+      }
+    },
+    {
+      "entity_id": "concept:mamba2config",
+      "entity_type": "concept",
+      "name": "Mamba2Config",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/model_doc/mamba2.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/model_doc/mamba2.md"
+      }
+    },
+    {
+      "entity_id": "concept:mamba2model",
+      "entity_type": "concept",
+      "name": "Mamba2Model",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/model_doc/mamba2.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/model_doc/mamba2.md"
+      }
+    },
+    {
+      "entity_id": "concept:mamba2lmheadmodel",
+      "entity_type": "concept",
+      "name": "Mamba2LMHeadModel",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ko/model_doc/mamba2.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ko/model_doc/mamba2.md"
+      }
+    },
+    {
+      "entity_id": "concept:tflite_support.metadata_schema_py_generated.scorethresholdingoptionst",
+      "entity_type": "concept",
+      "name": "tflite_support.metadata_schema_py_generated.ScoreThresholdingOptionsT",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_support/metadata_schema_py_generated/ScoreThresholdingOptionsT.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/lite/g3doc/api_docs/python/tflite_support/metadata_schema_py_generated/ScoreThresholdingOptionsT.md"
+      }
+    },
+    {
+      "entity_id": "concept:tfsa-2021-110_floating_point_exception_in_`sparsedensecwisediv`",
+      "entity_type": "concept",
+      "name": "TFSA-2021-110: Floating point exception in `SparseDenseCwiseDiv`",
+      "description": "来自文档: awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2021-110.md",
+      "properties": {
+        "source_file": "awesome_highstar/tensorflow/tensorflow/security/advisory/tfsa-2021-110.md"
+      }
+    },
+    {
+      "entity_id": "concept:bigbird",
+      "entity_type": "concept",
+      "name": "BigBird",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md"
+      }
+    },
+    {
+      "entity_id": "concept:ドキュメント_リソース",
+      "entity_type": "concept",
+      "name": "ドキュメント リソース",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md"
+      }
+    },
+    {
+      "entity_id": "concept:bigbirdconfig",
+      "entity_type": "concept",
+      "name": "BigBirdConfig",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md"
+      }
+    },
+    {
+      "entity_id": "concept:bigbirdtokenizer",
+      "entity_type": "concept",
+      "name": "BigBirdTokenizer",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md"
+      }
+    },
+    {
+      "entity_id": "concept:bigbirdtokenizerfast",
+      "entity_type": "concept",
+      "name": "BigBirdTokenizerFast",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md"
+      }
+    },
+    {
+      "entity_id": "concept:bigbird_specific_outputs",
+      "entity_type": "concept",
+      "name": "BigBird specific outputs",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md"
+      }
+    },
+    {
+      "entity_id": "concept:bigbirdmodel",
+      "entity_type": "concept",
+      "name": "BigBirdModel",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md"
+      }
+    },
+    {
+      "entity_id": "concept:bigbirdforpretraining",
+      "entity_type": "concept",
+      "name": "BigBirdForPreTraining",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md"
+      }
+    },
+    {
+      "entity_id": "concept:bigbirdforcausallm",
+      "entity_type": "concept",
+      "name": "BigBirdForCausalLM",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md"
+      }
+    },
+    {
+      "entity_id": "concept:bigbirdformaskedlm",
+      "entity_type": "concept",
+      "name": "BigBirdForMaskedLM",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md"
+      }
+    },
+    {
+      "entity_id": "concept:bigbirdforsequenceclassification",
+      "entity_type": "concept",
+      "name": "BigBirdForSequenceClassification",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md"
+      }
+    },
+    {
+      "entity_id": "concept:bigbirdformultiplechoice",
+      "entity_type": "concept",
+      "name": "BigBirdForMultipleChoice",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md"
+      }
+    },
+    {
+      "entity_id": "concept:bigbirdfortokenclassification",
+      "entity_type": "concept",
+      "name": "BigBirdForTokenClassification",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md"
+      }
+    },
+    {
+      "entity_id": "concept:bigbirdforquestionanswering",
+      "entity_type": "concept",
+      "name": "BigBirdForQuestionAnswering",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/model_doc/big_bird.md"
+      }
+    },
+    {
+      "entity_id": "concept:inferenza_efficiente_su_gpu_multiple",
+      "entity_type": "concept",
+      "name": "Inferenza Efficiente su GPU Multiple",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/it/perf_infer_gpu_many.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/it/perf_infer_gpu_many.md"
+      }
+    },
+    {
+      "entity_id": "concept:cpmtokenizer",
+      "entity_type": "concept",
+      "name": "CpmTokenizer",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/model_doc/cpm.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/model_doc/cpm.md"
+      }
+    },
+    {
+      "entity_id": "concept:cpmtokenizerfast",
+      "entity_type": "concept",
+      "name": "CpmTokenizerFast",
+      "description": "来自文档: awesome_highstar/transformers/docs/source/ja/model_doc/cpm.md",
+      "properties": {
+        "source_file": "awesome_highstar/transformers/docs/source/ja/model_doc/cpm.md"
+      }
+    },
+    {
+      "entity_id": "layer:0",
+      "entity_type": "layer",
+      "name": "Layer 0: 多故事线入口",
+      "description": "故事比喻层，用金庸武侠和生活场景理解技术概念"
+    },
+    {
+      "entity_id": "layer:1",
+      "entity_type": "layer",
+      "name": "Layer 1: LLM训练",
+      "description": "从数据到模型的完整训练流程"
+    },
+    {
+      "entity_id": "layer:2",
+      "entity_type": "layer",
+      "name": "Layer 2: Runtime内核",
+      "description": "操作系统内核级别的运行机制"
+    },
+    {
+      "entity_id": "layer:3",
+      "entity_type": "layer",
+      "name": "Layer 3: Agent操作系统",
+      "description": "Agent的核心架构和组件"
+    },
+    {
+      "entity_id": "layer:4",
+      "entity_type": "layer",
+      "name": "Layer 4: 多Agent编排",
+      "description": "多Agent协同和分布式系统"
+    },
+    {
+      "entity_id": "layer:5",
+      "entity_type": "layer",
+      "name": "Layer 5: 实战工具",
+      "description": "实际工具和应用"
+    },
+    {
+      "entity_id": "concept:pretraining",
+      "entity_type": "concept",
+      "name": "Pre-training",
+      "description": "在大规模语料上训练基础模型"
+    },
+    {
+      "entity_id": "concept:rlhf",
+      "entity_type": "concept",
+      "name": "RLHF",
+      "description": "基于人类反馈的强化学习"
+    },
+    {
+      "entity_id": "concept:runtime_tick",
+      "entity_type": "concept",
+      "name": "Runtime Tick",
+      "description": "Agent的主循环机制"
+    },
+    {
+      "entity_id": "concept:jmp",
+      "entity_type": "concept",
+      "name": "JMP状态跳转",
+      "description": "基于程序计数器的状态跳转"
+    },
+    {
+      "entity_id": "concept:state_snapshot",
+      "entity_type": "concept",
+      "name": "State Snapshot",
+      "description": "Agent状态的序列化快照"
+    },
+    {
+      "entity_id": "concept:orchestrator",
+      "entity_type": "concept",
+      "name": "Orchestrator",
+      "description": "Agent调度器"
+    },
+    {
+      "entity_id": "concept:skill_system",
+      "entity_type": "concept",
+      "name": "Skill系统",
+      "description": "按需加载的技能模块"
+    },
+    {
+      "entity_id": "concept:tool_use",
+      "entity_type": "concept",
+      "name": "Tool Use",
+      "description": "Agent使用外部工具"
+    },
+    {
+      "entity_id": "concept:multi_agent",
+      "entity_type": "concept",
+      "name": "Multi-Agent",
+      "description": "多Agent协同"
+    },
+    {
+      "entity_id": "metaphor:guojing",
+      "entity_type": "metaphor",
+      "name": "郭靖学武",
+      "description": "射雕英雄传中郭靖的成长过程",
+      "properties": {
+        "source": "射雕英雄传",
+        "layer": "0-1"
+      }
+    },
+    {
+      "entity_id": "metaphor:zhangwuji",
+      "entity_type": "metaphor",
+      "name": "张无忌学九阳",
+      "description": "倚天屠龙记中张无忌学九阳神功",
+      "properties": {
+        "source": "倚天屠龙记",
+        "layer": "1-2"
+      }
+    },
+    {
+      "entity_id": "metaphor:linghuchong",
+      "entity_type": "metaphor",
+      "name": "令狐冲学独孤九剑",
+      "description": "笑傲江湖中令狐冲学独孤九剑",
+      "properties": {
+        "source": "笑傲江湖",
+        "layer": "2-3"
+      }
+    },
+    {
+      "entity_id": "metaphor:restaurant",
+      "entity_type": "metaphor",
+      "name": "餐厅运营",
+      "description": "餐厅的领班、厨师、菜谱类比Agent系统",
+      "properties": {
+        "source": "生活场景",
+        "layer": "2-3"
+      }
+    },
+    {
+      "entity_id": "metaphor:company",
+      "entity_type": "metaphor",
+      "name": "公司运营",
+      "description": "公司组织架构类比Multi-Agent系统",
+      "properties": {
+        "source": "生活场景",
+        "layer": "3-4"
+      }
+    },
+    {
+      "entity_id": "library:transformers",
+      "entity_type": "library",
+      "name": "HuggingFace Transformers",
+      "description": "最流行的Transformer模型库",
+      "properties": {
+        "stars": 139000,
+        "language": "Python"
+      }
+    },
+    {
+      "entity_id": "library:tensorflow",
+      "entity_type": "library",
+      "name": "TensorFlow",
+      "description": "Google开源的机器学习框架",
+      "properties": {
+        "stars": 184000,
+        "language": "C++"
+      }
+    },
+    {
+      "entity_id": "library:langchain",
+      "entity_type": "library",
+      "name": "LangChain",
+      "description": "LLM应用开发框架",
+      "properties": {
+        "stars": 93000,
+        "language": "Python"
+      }
+    },
+    {
+      "entity_id": "library:ollama",
+      "entity_type": "library",
+      "name": "Ollama",
+      "description": "本地LLM运行工具",
+      "properties": {
+        "stars": 169000,
+        "language": "Go"
+      }
+    },
+    {
+      "entity_id": "library:autogpt",
+      "entity_type": "library",
+      "name": "AutoGPT",
+      "description": "自主AI Agent",
+      "properties": {
+        "stars": 183000,
+        "language": "Python"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "source": "concept:MIGRATION_GUIDE_V5.md",
+      "target": "concept:making_assumptions_about_shapes_or_semantics.",
+      "type": "prerequisite"
+    },
+    {
+      "source": "concept:tfsa-2021-062.md",
+      "target": "concept:dividing_by_this_quantity.",
+      "type": "prerequisite"
+    },
+    {
+      "source": "concept:developer_guide.md",
+      "target": "concept:you_begin,_complete_the_following_prerequisites:",
+      "type": "prerequisite"
+    },
+    {
+      "source": "concept:create.md",
+      "target": "concept:declaring_one_epoch_finished_and_starting_the_next",
+      "type": "prerequisite"
+    },
+    {
+      "source": "concept:sparsecore.md",
+      "target": "concept:data_can_be_processed_by_sparsecore,_it's_commonly_converted_into_a",
+      "type": "prerequisite"
+    },
+    {
+      "source": "concept:sparsecore.md",
+      "target": "concept:more_granular",
+      "type": "prerequisite"
+    },
+    {
+      "source": "concept:sparsecore.md",
+      "target": "concept:being_subsequently_transferred_to_the",
+      "type": "prerequisite"
+    },
+    {
+      "source": "concept:sparsecore.md",
+      "target": "concept:summing_statistics_from_all_constituent_tables._this_helps_in_balancing_the_load_across_chips.",
+      "type": "prerequisite"
+    },
+    {
+      "source": "concept:sparsecore.md",
+      "target": "concept:feeding_activations_into_a_tensorcore_layer_that_expects_input_corresponding_to_all_original_sample_positions)._this_is_vital_for_reconstructing_the_complete_set_of_activations_if_the_original_input_batch_was_distributed_for_parallel_processing.",
+      "type": "prerequisite"
+    },
+    {
+      "source": "concept:sparsecore.md",
+      "target": "concept:further_processing_by_the_tensorcores.",
+      "type": "prerequisite"
+    },
+    {
+      "source": "concept:sparsecore.md",
+      "target": "concept:they_are_used_in_subsequent_computations._this_technique_allows_models_to_be_trained_while_accounting_for_the_effects_of_quantization_noise._training_with_simulated_quantization_can_improve_the_accuracy_of_the_final_model_when_it_is_fully_quantized_for_inference.",
+      "type": "prerequisite"
+    },
+    {
+      "source": "concept:DEVELOPMENT.md",
+      "target": "concept:each_commit:",
+      "type": "prerequisite"
+    },
+    {
+      "source": "concept:DEVELOPMENT.md",
+      "target": "concept:commits._to_skip_(not_recommended):",
+      "type": "prerequisite"
+    },
+    {
+      "source": "concept:DEVELOPMENT.md",
+      "target": "concept:pushing_to_catch_issues_early",
+      "type": "prerequisite"
+    },
+    {
+      "source": "layer:1",
+      "target": "layer:0",
+      "type": "prerequisite",
+      "weight": 1.0
+    },
+    {
+      "source": "layer:2",
+      "target": "layer:1",
+      "type": "prerequisite",
+      "weight": 1.0
+    },
+    {
+      "source": "layer:3",
+      "target": "layer:2",
+      "type": "prerequisite",
+      "weight": 1.0
+    },
+    {
+      "source": "layer:4",
+      "target": "layer:3",
+      "type": "prerequisite",
+      "weight": 1.0
+    },
+    {
+      "source": "layer:5",
+      "target": "layer:4",
+      "type": "prerequisite",
+      "weight": 1.0
+    },
+    {
+      "source": "concept:attention",
+      "target": "concept:transformer",
+      "type": "includes",
+      "weight": 0.9
+    },
+    {
+      "source": "concept:transformer",
+      "target": "concept:tokenization",
+      "type": "uses",
+      "weight": 0.8
+    },
+    {
+      "source": "concept:pretraining",
+      "target": "concept:transformer",
+      "type": "uses",
+      "weight": 0.9
+    },
+    {
+      "source": "concept:sft",
+      "target": "concept:pretraining",
+      "type": "prerequisite",
+      "weight": 1.0
+    },
+    {
+      "source": "concept:rlhf",
+      "target": "concept:sft",
+      "type": "prerequisite",
+      "weight": 1.0
+    },
+    {
+      "source": "concept:runtime_tick",
+      "target": "concept:jmp",
+      "type": "includes",
+      "weight": 0.9
+    },
+    {
+      "source": "concept:runtime_tick",
+      "target": "concept:state_snapshot",
+      "type": "uses",
+      "weight": 0.8
+    },
+    {
+      "source": "concept:runtime_tick",
+      "target": "concept:channel",
+      "type": "uses",
+      "weight": 0.7
+    },
+    {
+      "source": "concept:orchestrator",
+      "target": "concept:skill_system",
+      "type": "uses",
+      "weight": 0.8
+    },
+    {
+      "source": "concept:orchestrator",
+      "target": "concept:tool_use",
+      "type": "uses",
+      "weight": 0.7
+    },
+    {
+      "source": "concept:multi_agent",
+      "target": "concept:orchestrator",
+      "type": "includes",
+      "weight": 0.9
+    },
+    {
+      "source": "layer:1",
+      "target": "concept:attention",
+      "type": "includes",
+      "weight": 1.0
+    },
+    {
+      "source": "layer:1",
+      "target": "concept:transformer",
+      "type": "includes",
+      "weight": 1.0
+    },
+    {
+      "source": "layer:1",
+      "target": "concept:tokenization",
+      "type": "includes",
+      "weight": 1.0
+    },
+    {
+      "source": "layer:1",
+      "target": "concept:pretraining",
+      "type": "includes",
+      "weight": 1.0
+    },
+    {
+      "source": "layer:1",
+      "target": "concept:sft",
+      "type": "includes",
+      "weight": 1.0
+    },
+    {
+      "source": "layer:1",
+      "target": "concept:rlhf",
+      "type": "includes",
+      "weight": 1.0
+    },
+    {
+      "source": "layer:2",
+      "target": "concept:runtime_tick",
+      "type": "includes",
+      "weight": 1.0
+    },
+    {
+      "source": "layer:2",
+      "target": "concept:jmp",
+      "type": "includes",
+      "weight": 1.0
+    },
+    {
+      "source": "layer:2",
+      "target": "concept:state_snapshot",
+      "type": "includes",
+      "weight": 1.0
+    },
+    {
+      "source": "layer:2",
+      "target": "concept:channel",
+      "type": "includes",
+      "weight": 1.0
+    },
+    {
+      "source": "layer:3",
+      "target": "concept:orchestrator",
+      "type": "includes",
+      "weight": 1.0
+    },
+    {
+      "source": "layer:3",
+      "target": "concept:skill_system",
+      "type": "includes",
+      "weight": 1.0
+    },
+    {
+      "source": "layer:3",
+      "target": "concept:tool_use",
+      "type": "includes",
+      "weight": 1.0
+    },
+    {
+      "source": "layer:4",
+      "target": "concept:multi_agent",
+      "type": "includes",
+      "weight": 1.0
+    },
+    {
+      "source": "metaphor:guojing",
+      "target": "layer:0",
+      "type": "analogy_to",
+      "weight": 1.0
+    },
+    {
+      "source": "metaphor:guojing",
+      "target": "layer:1",
+      "type": "analogy_to",
+      "weight": 0.9
+    },
+    {
+      "source": "metaphor:zhangwuji",
+      "target": "layer:1",
+      "type": "analogy_to",
+      "weight": 1.0
+    },
+    {
+      "source": "metaphor:zhangwuji",
+      "target": "layer:2",
+      "type": "analogy_to",
+      "weight": 0.9
+    },
+    {
+      "source": "metaphor:linghuchong",
+      "target": "layer:2",
+      "type": "analogy_to",
+      "weight": 1.0
+    },
+    {
+      "source": "metaphor:linghuchong",
+      "target": "layer:3",
+      "type": "analogy_to",
+      "weight": 0.9
+    },
+    {
+      "source": "metaphor:restaurant",
+      "target": "layer:2",
+      "type": "analogy_to",
+      "weight": 1.0
+    },
+    {
+      "source": "metaphor:restaurant",
+      "target": "layer:3",
+      "type": "analogy_to",
+      "weight": 0.9
+    },
+    {
+      "source": "metaphor:company",
+      "target": "layer:3",
+      "type": "analogy_to",
+      "weight": 1.0
+    },
+    {
+      "source": "metaphor:company",
+      "target": "layer:4",
+      "type": "analogy_to",
+      "weight": 0.9
+    },
+    {
+      "source": "library:transformers",
+      "target": "concept:transformer",
+      "type": "implements",
+      "weight": 1.0
+    },
+    {
+      "source": "library:transformers",
+      "target": "concept:attention",
+      "type": "implements",
+      "weight": 1.0
+    },
+    {
+      "source": "library:tensorflow",
+      "target": "concept:pretraining",
+      "type": "implements",
+      "weight": 0.9
+    },
+    {
+      "source": "library:langchain",
+      "target": "concept:orchestrator",
+      "type": "implements",
+      "weight": 0.9
+    },
+    {
+      "source": "library:langchain",
+      "target": "concept:tool_use",
+      "type": "implements",
+      "weight": 0.8
+    },
+    {
+      "source": "library:ollama",
+      "target": "concept:transformer",
+      "type": "uses",
+      "weight": 0.9
+    },
+    {
+      "source": "library:autogpt",
+      "target": "concept:multi_agent",
+      "type": "implements",
+      "weight": 0.9
+    },
+    {
+      "source": "library:autogpt",
+      "target": "concept:tool_use",
+      "type": "implements",
+      "weight": 0.8
+    }
+  ],
+  "mermaid_diagrams": [],
+  "statistics": {
+    "total_entities": 384,
+    "total_relations": 62,
+    "total_diagrams": 0,
+    "entity_types": {
+      "concept": 368,
+      "layer": 6,
+      "metaphor": 5,
+      "library": 5
+    },
+    "relation_types": {
+      "prerequisite": 21,
+      "includes": 17,
+      "uses": 7,
+      "analogy_to": 10,
+      "implements": 7
+    }
+  }
+}

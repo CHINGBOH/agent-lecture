@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BookOpen, ArrowRight, Keyboard, MonitorPlay, Database, Loader2 } from 'lucide-react';
+import { BookOpen, ArrowRight, Keyboard, MonitorPlay, Database, Loader2, Network } from 'lucide-react';
 import LayerSelector from './components/LayerSelector';
 import Layer0 from './components/layers/Layer0';
 import Layer1 from './components/layers/Layer1';
@@ -8,6 +8,7 @@ import Layer2 from './components/layers/Layer2';
 import Layer3 from './components/layers/Layer3';
 import Layer4 from './components/layers/Layer4';
 import Layer5 from './components/layers/Layer5';
+import KnowledgeGraphPage from './components/KnowledgeGraphPage';
 import GlobalSearch from './components/GlobalSearch';
 import ProgressBar from './components/ProgressBar';
 import PPTMode from './components/PPTMode';
@@ -176,6 +177,7 @@ export default function App() {
             {activeLayer === 3 && <Layer3 onNavigate={handleNavigate} />}
             {activeLayer === 4 && <Layer4 onNavigate={handleNavigate} />}
             {activeLayer === 5 && <Layer5 onNavigate={handleNavigate} />}
+            {activeLayer === 6 && <KnowledgeGraphPage />}
           </motion.div>
         </AnimatePresence>
       </main>
