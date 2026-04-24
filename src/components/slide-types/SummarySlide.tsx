@@ -23,7 +23,7 @@ export default function SummarySlide({ slide, theme }: { slide: Slide; theme: Ch
       <motion.h2
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        style={{ color: theme.accent, fontSize: 'clamp(20px,3vw,32px)', fontWeight: 800, margin: '0 0 6px', textAlign: 'center' }}
+        style={{ color: theme.accent, fontSize: 'clamp(22px,3.5vw,36px)', fontWeight: 800, margin: '0 0 6px', textAlign: 'center' }}
       >
         {slide.title}
       </motion.h2>
@@ -32,7 +32,7 @@ export default function SummarySlide({ slide, theme }: { slide: Slide; theme: Ch
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          style={{ color: theme.textSecondary, marginBottom: '32px', fontSize: '15px', textAlign: 'center' }}
+          style={{ color: theme.textSecondary, marginBottom: '32px', fontSize: '17px', textAlign: 'center' }}
         >
           {slide.subtitle}
         </motion.p>
@@ -63,7 +63,7 @@ export default function SummarySlide({ slide, theme }: { slide: Slide; theme: Ch
             </span>
             <span style={{
               color: i === items.length - 1 ? theme.accent : theme.textPrimary,
-              fontSize: '15px', lineHeight: 1.6,
+              fontSize: '17px', lineHeight: 1.6,
               fontWeight: i === items.length - 1 ? 700 : 400,
             }}>
               {item}

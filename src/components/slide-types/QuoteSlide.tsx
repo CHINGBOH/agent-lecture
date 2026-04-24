@@ -26,7 +26,7 @@ export default function QuoteSlide({ slide, theme }: { slide: Slide; theme: Chap
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
         style={{
-          fontSize: '48px', color: `${theme.accent}60`,
+          fontSize: 'clamp(32px, 4.5vw, 60px)', color: `${theme.accent}60`,
           lineHeight: 1, marginBottom: '16px',
           fontFamily: 'Georgia, serif',
         }}
@@ -41,7 +41,7 @@ export default function QuoteSlide({ slide, theme }: { slide: Slide; theme: Chap
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 + i * 0.2 }}
           style={{
-            fontSize: 'clamp(20px, 3vw, 36px)',
+            fontSize: 'clamp(24px, 3.5vw, 44px)',
             color: theme.textPrimary,
             fontWeight: 700,
             lineHeight: 1.5,

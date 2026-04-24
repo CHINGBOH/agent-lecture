@@ -13,12 +13,12 @@ export default function TimelineSlide({ slide, theme }: { slide: Slide; theme: C
       <motion.h2
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        style={{ color: theme.accent, fontSize: 'clamp(20px,3vw,32px)', fontWeight: 800, marginBottom: '8px' }}
+        style={{ color: theme.accent, fontSize: 'clamp(22px,3.5vw,36px)', fontWeight: 800, marginBottom: '8px' }}
       >
         {slide.title}
       </motion.h2>
       {slide.subtitle && (
-        <p style={{ color: theme.textSecondary, marginBottom: '28px', fontSize: '15px' }}>{slide.subtitle}</p>
+        <p style={{ color: theme.textSecondary, marginBottom: '28px', fontSize: '17px' }}>{slide.subtitle}</p>
       )}
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '12px', overflowY: 'auto' }}>
@@ -49,7 +49,7 @@ export default function TimelineSlide({ slide, theme }: { slide: Slide; theme: C
             <div style={{ fontSize: '22px', paddingTop: '1px' }}>{item.icon}</div>
             <div style={{ flex: 1 }}>
               <div style={{
-                fontWeight: 700, fontSize: '15px',
+                fontWeight: 700, fontSize: '17px',
                 color: item.highlight ? theme.textPrimary : theme.textSecondary,
                 marginBottom: '4px',
               }}>
@@ -77,7 +77,7 @@ export default function TimelineSlide({ slide, theme }: { slide: Slide; theme: C
                 )}
               </AnimatePresence>
               {active !== i && (
-                <div style={{ fontSize: '13px', color: `${theme.textSecondary}80`, overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
+                <div style={{ fontSize: '15px', color: `${theme.textSecondary}80`, overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
                   {item.detail}
                 </div>
               )}

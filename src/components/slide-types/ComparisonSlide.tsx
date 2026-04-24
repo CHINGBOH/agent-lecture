@@ -44,10 +44,10 @@ export default function ComparisonSlide({ slide, theme }: { slide: Slide; theme:
               <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
                 {item.icon && <span style={{ fontSize: '20px', flexShrink: 0 }}>{item.icon}</span>}
                 <div>
-                  <div style={{ fontWeight: 700, fontSize: '13px', color: '#ff9e9e', marginBottom: '4px' }}>
+                  <div style={{ fontWeight: 700, fontSize: '15px', color: '#ff9e9e', marginBottom: '4px' }}>
                     {item.label}
                   </div>
-                  <div style={{ fontSize: '13px', color: `${theme.textSecondary}CC`, lineHeight: 1.6 }}>
+                  <div style={{ fontSize: '15px', color: `${theme.textSecondary}CC`, lineHeight: 1.7 }}>
                     {item.value}
                   </div>
                 </div>
@@ -84,10 +84,10 @@ export default function ComparisonSlide({ slide, theme }: { slide: Slide; theme:
               <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
                 {item.icon && <span style={{ fontSize: '20px', flexShrink: 0 }}>{item.icon}</span>}
                 <div>
-                  <div style={{ fontWeight: 700, fontSize: '13px', color: theme.accent, marginBottom: '4px' }}>
+                  <div style={{ fontWeight: 700, fontSize: '15px', color: theme.accent, marginBottom: '4px' }}>
                     {item.label}
                   </div>
-                  <div style={{ fontSize: '13px', color: `${theme.textSecondary}CC`, lineHeight: 1.6 }}>
+                  <div style={{ fontSize: '15px', color: `${theme.textSecondary}CC`, lineHeight: 1.7 }}>
                     {item.value}
                   </div>
                 </div>

@@ -13,11 +13,11 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', padding: '36px 48px' }}>
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-        <h2 style={{ color: theme.accent, fontSize: 'clamp(18px,3vw,30px)', fontWeight: 800, margin: '0 0 6px' }}>
+        <h2 style={{ color: theme.accent, fontSize: 'clamp(22px,3.5vw,36px)', fontWeight: 800, margin: '0 0 6px' }}>
           {slide.title}
         </h2>
         {slide.subtitle && (
-          <p style={{ color: theme.textSecondary, margin: '0 0 24px', fontSize: '14px' }}>{slide.subtitle}</p>
+          <p style={{ color: theme.textSecondary, margin: '0 0 24px', fontSize: '17px' }}>{slide.subtitle}</p>
         )}
       </motion.div>
 
@@ -34,16 +34,16 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
                 display: 'flex', gap: '14px', alignItems: 'flex-start',
                 background: 'rgba(255,255,255,0.04)',
                 border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: '12px', padding: '14px 16px',
+                borderRadius: '12px', padding: '16px 20px',
               }}
             >
-              <span style={{ fontSize: '22px', flexShrink: 0 }}>{b.icon}</span>
+              <span style={{ fontSize: '26px', flexShrink: 0 }}>{b.icon}</span>
               <div>
-                <div style={{ color: theme.textPrimary, fontWeight: 600, fontSize: '15px', marginBottom: b.sub ? '4px' : 0 }}>
+                <div style={{ color: theme.textPrimary, fontWeight: 600, fontSize: '17px', marginBottom: b.sub ? '6px' : 0 }}>
                   {b.text}
                 </div>
                 {b.sub && (
-                  <div style={{ color: `${theme.textSecondary}CC`, fontSize: '13px', lineHeight: 1.6 }}>
+                  <div style={{ color: `${theme.textSecondary}CC`, fontSize: '15px', lineHeight: 1.7 }}>
                     {b.sub}
                   </div>
                 )}
@@ -70,19 +70,19 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
             <div style={{ fontSize: '13px', color: theme.accent, fontWeight: 700, letterSpacing: '0.1em' }}>
               🎭 类比
             </div>
-            <div style={{ fontWeight: 700, color: theme.textPrimary, fontSize: '16px' }}>
+            <div style={{ fontWeight: 700, color: theme.textPrimary, fontSize: '18px' }}>
               {slide.analogy!.character}
             </div>
-            <div style={{ color: `${theme.textSecondary}DD`, fontSize: '14px', lineHeight: 1.8 }}>
+            <div style={{ color: `${theme.textSecondary}DD`, fontSize: '16px', lineHeight: 1.8 }}>
               {slide.analogy!.scene}
             </div>
             <div style={{
               borderTop: `1px solid ${theme.accent}30`,
               paddingTop: '14px',
               color: theme.accent,
-              fontSize: '14px',
+              fontSize: '16px',
               lineHeight: 1.7,
-              fontWeight: 500,
+              fontWeight: 600,
             }}>
               💡 {slide.analogy!.insight}
             </div>
