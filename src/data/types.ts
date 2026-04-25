@@ -38,6 +38,42 @@ export interface ComparisonItem {
   icon?: string
 }
 
+// ── Native flow diagram types ─────────────────────────────────────────────────
+
+export type FlowNodeShape = 'rect' | 'rounded' | 'diamond' | 'circle'
+
+export interface FlowNode {
+  id: string
+  label: string            // supports \n for line breaks
+  shape?: FlowNodeShape    // default: 'rounded'
+  accent?: boolean         // highlight with theme.accent background
+  dim?: boolean            // de-emphasize node
+}
+
+export interface FlowEdge {
+  from: string
+  to: string
+  label?: string
+  dashed?: boolean
+}
+
+/** Subgraph / cluster for grouping nodes (e.g. RLHF steps, RAG pipeline) */
+export interface FlowGroup {
+  id: string
+  label: string
+  nodeIds: string[]        // nodes that belong to this group
+  direction?: 'LR' | 'TD' // override direction inside the group
+}
+
+export interface FlowGraph {
+  direction: 'LR' | 'TD'
+  nodes: FlowNode[]
+  edges: FlowEdge[]
+  groups?: FlowGroup[]
+}
+
+// ── Slide ────────────────────────────────────────────────────────────────────
+
 export interface Slide {
   id: string
   type: SlideType
@@ -51,7 +87,8 @@ export interface Slide {
   // 内容
   bullets?: Bullet[]
   analogy?: Analogy
-  diagram?: string        // Mermaid 图表字符串
+  graph?: FlowGraph       // native React diagram (preferred)
+  diagram?: string        // legacy Mermaid string (fallback)
   image?: string          // PNG 图片路径（如 /diagrams/xxx.png）
   chart?: string          // Plotly 图表 ID（如 'c1-timeline'），优先于 image
   timeline?: TimelineItem[]

@@ -1,4 +1,4 @@
-import type { Slide } from '../types'
+import type { Slide, FlowGraph } from '../types'
 
 // 第三章：修炼之道 —— 强化学习的秘密（RL & RLHF）
 // 悬念：AlphaGo 从没见过李世石，怎么能赢他？
@@ -32,11 +32,19 @@ export const chapter3Slides: Slide[] = [
       { icon: '🎁', text: 'Reward（奖励）', sub: '赢了得 +1，输了得 -1，其他时候为 0。学习目标：最大化累积奖励' },
       { icon: '🔄', text: '核心循环', sub: '观察状态 → 选择行动 → 获得奖励 → 更新策略 → 重复' },
     ],
-    diagram: `flowchart LR
-    A[Agent<br/>学习者] -->|行动| B[Environment<br/>环境]
-    B -->|新状态| A
-    B -->|奖励信号| A
-    A -->|更新策略| A`,
+    graph: {
+      direction: 'LR',
+      nodes: [
+        { id: 'AGENT', label: '🤖 Agent\n学习者', accent: true },
+        { id: 'ENV', label: '🌍 Environment\n环境' },
+        { id: 'UPDATE', label: '📈 更新策略\n最大化奖励' },
+      ],
+      edges: [
+        { from: 'AGENT', to: 'ENV', label: '行动' },
+        { from: 'ENV', to: 'UPDATE', label: '奖励+新状态' },
+        { from: 'UPDATE', to: 'AGENT', dashed: true },
+      ],
+    } satisfies FlowGraph,
     analogy: {
       character: '打擂台学武功',
       scene: '令狐冲学剑，不是背招式手册，而是不断上擂台：出一招，看对手怎么反应，赢了记住这招管用，输了避免这招。打了几千场，自然领悟出独孤九剑。',
@@ -55,13 +63,26 @@ export const chapter3Slides: Slide[] = [
       { icon: '🔭', text: '蒙特卡洛树搜索', sub: '不是穷举，而是「有方向地」探索：先走几步看看，再回来做决定' },
       { icon: '🪞', text: '自我对弈（Self-play）', sub: '用上述网络的早期版本对战自己，生成无限棋局数据，不断自我进化' },
     ],
-    diagram: `flowchart TD
-    BOARD[🎯 棋盘状态 19x19] --> PN[策略网络<br/>Policy Network<br/>下哪里？]
-    BOARD --> VN[价值网络<br/>Value Network<br/>谁更可能赢？]
-    PN & VN --> MCTS[🌲 蒙特卡洛树搜索<br/>MCTS 模拟+剪枝]
-    MCTS --> MOVE[✅ 最终落子]
-    MOVE -->|自我对弈 Self-play| BOARD
-    MOVE -->|胜/负 反馈| PN & VN`,
+    graph: {
+      direction: 'TD',
+      nodes: [
+        { id: 'BOARD', label: '🎯 棋盘状态\n19×19', accent: true },
+        { id: 'PN', label: '策略网络\nPolicy Network\n下哪里？' },
+        { id: 'VN', label: '价值网络\nValue Network\n谁更可能赢？' },
+        { id: 'MCTS', label: '🌲 蒙特卡洛树搜索\nMCTS 模拟+剪枝' },
+        { id: 'MOVE', label: '✅ 最终落子', accent: true },
+      ],
+      edges: [
+        { from: 'BOARD', to: 'PN' },
+        { from: 'BOARD', to: 'VN' },
+        { from: 'PN', to: 'MCTS' },
+        { from: 'VN', to: 'MCTS' },
+        { from: 'MCTS', to: 'MOVE' },
+        { from: 'MOVE', to: 'BOARD', label: '自我对弈', dashed: true },
+        { from: 'MOVE', to: 'PN', label: '胜/负反馈', dashed: true },
+        { from: 'MOVE', to: 'VN', dashed: true },
+      ],
+    } satisfies FlowGraph,
     analogy: {
       character: '闭关自创武功',
       scene: 'AlphaGo Zero（进化版）更极端：完全不看人类棋谱，从空白开始，自己和自己下棋，三天后超过学习过人类棋谱的 AlphaGo，40天后成为人类历史上最强棋手。',
@@ -115,19 +136,30 @@ export const chapter3Slides: Slide[] = [
       { icon: '📊', text: '数据格式', sub: '只需要 (prompt, 好回答, 坏回答) 三元组，直接优化让模型更喜欢好回答' },
       { icon: '🚀', text: '效果', sub: '更简单、更稳定、效果相当甚至更好。现在很多开源模型用 DPO 对齐' },
     ],
-    diagram: `flowchart LR
-    subgraph RLHF[传统 RLHF 4步流程]
-        direction TB
-        R1[① SFT<br/>基础微调] --> R2[② 奖励模型<br/>学习打分]
-        R2 --> R3[③ PPO<br/>RL 强化训练]
-        R3 --> R4[④ 对齐模型]
-    end
-    subgraph DPO[DPO 直接偏好优化 1步]
-        direction TB
-        D1[好回答 vs 坏回答<br/>人类偏好对] --> D2[🎯 直接优化<br/>无需奖励模型]
-        D2 --> D3[✨ 对齐模型]
-    end
-    RLHF -.->|DPO 简化为| DPO`,
+    graph: {
+      direction: 'LR',
+      nodes: [
+        { id: 'R1', label: '① SFT\n基础微调' },
+        { id: 'R2', label: '② 奖励模型\n学习打分' },
+        { id: 'R3', label: '③ PPO\nRL 强化训练' },
+        { id: 'R4', label: '④ 对齐模型', accent: true },
+        { id: 'D1', label: '偏好对\n好回答 vs 坏' },
+        { id: 'D2', label: '🎯 直接优化\n无需奖励模型', accent: true },
+        { id: 'D3', label: '✨ 对齐模型', accent: true },
+      ],
+      edges: [
+        { from: 'R1', to: 'R2' },
+        { from: 'R2', to: 'R3' },
+        { from: 'R3', to: 'R4' },
+        { from: 'D1', to: 'D2' },
+        { from: 'D2', to: 'D3' },
+        { from: 'R4', to: 'D1', label: 'DPO 简化为', dashed: true },
+      ],
+      groups: [
+        { id: 'RLHF_G', label: '传统 RLHF 4步流程', nodeIds: ['R1', 'R2', 'R3', 'R4'] },
+        { id: 'DPO_G', label: 'DPO 直接偏好优化', nodeIds: ['D1', 'D2', 'D3'] },
+      ],
+    } satisfies FlowGraph,
     analogy: {
       character: '比武评判简化版',
       scene: '不需要5位评委坐在那里逐一打分（奖励模型），只需要两人对打，直接记录「这场谁赢了」。够了。',

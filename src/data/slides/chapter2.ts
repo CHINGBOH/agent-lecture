@@ -1,4 +1,4 @@
-import type { Slide } from '../types'
+import type { Slide, FlowGraph } from '../types'
 
 // 第二章：绝世秘籍 —— Transformer 与大语言模型（2017-2023）
 // 悬念：GPT-2 写的文章已经像人了，为什么 GPT-3 突然「开窍」了？
@@ -51,11 +51,22 @@ export const chapter2Slides: Slide[] = [
       { icon: '🏗️', text: 'Encoder-Decoder', sub: 'Encoder 理解输入，Decoder 生成输出，两者通过 Attention 交互' },
       { icon: '📏', text: 'Position Encoding', sub: '纯 Attention 没有顺序感，加入位置编码，让模型知道「谁在哪个位置」' },
     ],
-    diagram: `flowchart LR
-    IN[📝 输入文本<br/>Tokenize] --> EMB[🔢 Embedding<br/>向量 + 位置编码]
-    EMB --> ATT[🧠 Multi-Head<br/>Attention × 12]
-    ATT --> FFN[⚡ 前馈网络<br/>FFN × 12]
-    FFN --> OUT[📤 输出<br/>预测下一个词]`,
+    graph: {
+      direction: 'LR',
+      nodes: [
+        { id: 'IN', label: '📝 输入文本\nTokenize' },
+        { id: 'EMB', label: '🔢 Embedding\n向量+位置编码' },
+        { id: 'ATT', label: '🧠 Multi-Head\nAttention × 12', accent: true },
+        { id: 'FFN', label: '⚡ 前馈网络\nFFN × 12' },
+        { id: 'OUT', label: '📤 输出\n预测下一个词' },
+      ],
+      edges: [
+        { from: 'IN', to: 'EMB' },
+        { from: 'EMB', to: 'ATT' },
+        { from: 'ATT', to: 'FFN' },
+        { from: 'FFN', to: 'OUT' },
+      ],
+    } satisfies FlowGraph,
     analogy: {
       character: '郭靖练降龙十八掌',
       scene: '以前的武功（RNN）要一招一招按顺序打，打第18招时早忘了第1招发力的感觉。Transformer像开了「天眼」——同时看到所有招式，随时调用最关键那一招的内力。',

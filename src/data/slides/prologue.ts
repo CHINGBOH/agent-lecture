@@ -1,4 +1,4 @@
-import type { Slide } from '../types'
+import type { Slide, FlowGraph } from '../types'
 
 // 序章：远古武林 —— AI 的史前文明（1950-2010）
 // 叙事弧：Deep Blue 赢了国际象棋，为什么还是「蠢」的？
@@ -70,11 +70,21 @@ export const prologueSlides: Slide[] = [
       { icon: '💀', text: 'XOR 困境（1969）', sub: 'Minsky 证明感知机无法解决 XOR 问题，研究资金被切断' },
       { icon: '🌱', text: '种子已埋下', sub: '多层感知机的想法存在，但没有高效训练方法' },
     ],
-    diagram: `flowchart LR
-    IN[📥 输入层<br/>x₁, x₂, x₃] -->|权重 w| H1[⚙️ 隐藏层 1<br/>ReLU 激活]
-    H1 -->|权重 w| H2[⚙️ 隐藏层 2<br/>特征提取]
-    H2 -->|权重 w| OUT[📤 输出层<br/>预测 ŷ]
-    OUT -.->|误差反向传播 更新权重| IN`,
+    graph: {
+      direction: 'LR',
+      nodes: [
+        { id: 'IN', label: '📥 输入层\nx₁, x₂, x₃' },
+        { id: 'H1', label: '⚙️ 隐藏层 1\nReLU 激活' },
+        { id: 'H2', label: '⚙️ 隐藏层 2\n特征提取' },
+        { id: 'OUT', label: '📤 输出层\n预测 ŷ', accent: true },
+      ],
+      edges: [
+        { from: 'IN', to: 'H1', label: '权重 w' },
+        { from: 'H1', to: 'H2', label: '权重 w' },
+        { from: 'H2', to: 'OUT', label: '权重 w' },
+        { from: 'OUT', to: 'IN', label: '误差反向传播', dashed: true },
+      ],
+    } satisfies FlowGraph,
     analogy: {
       character: '天赋异禀的少年',
       scene: '有个少年，天生就有习武的潜质，大家都说他将来必成大器。结果被人说"你连这个简单动作都做不到"，整个武林就放弃他了。',

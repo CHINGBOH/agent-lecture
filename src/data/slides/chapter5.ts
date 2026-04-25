@@ -1,4 +1,4 @@
-import type { Slide } from '../types'
+import type { Slide, FlowGraph } from '../types'
 
 // 第五章：天下大势 —— 当下应用与未来
 // 悬念：现在的 AI Agent 到底能做什么？边界在哪？
@@ -32,11 +32,22 @@ export const chapter5Slides: Slide[] = [
       { icon: '🤖', text: 'Devin / Claude Code', sub: '自主 Agent：给一个任务，它自己搜索、写代码、运行测试、Debug、提 PR' },
       { icon: '📊', text: '现实数据', sub: 'SWE-bench（真实 GitHub Issue 修复）：2023 年解决率 1%；2025 年超过 50%' },
     ],
-    diagram: `flowchart LR
-    COP[✍️ Copilot<br/>代码补全<br/>你写它猜] -->|进化| CUR[💬 Cursor<br/>对话式编程<br/>你说它写]
-    CUR -->|进化| DEV[🤖 Devin<br/>自主 Agent<br/>任务到代码到PR]
-    DEV --> LOOP[🔄 自动循环<br/>写代码 运行 Debug<br/>提交]
-    DEV --> BENCH[📊 SWE-bench<br/>2023年: 1%<br/>2025年: 50%+]`,
+    graph: {
+      direction: 'LR',
+      nodes: [
+        { id: 'COP', label: '✍️ Copilot\n代码补全\n你写它猜' },
+        { id: 'CUR', label: '💬 Cursor\n对话式编程\n你说它写' },
+        { id: 'DEV', label: '🤖 Devin\n自主 Agent\n任务→代码→PR', accent: true },
+        { id: 'LOOP', label: '🔄 自动循环\n写代码 运行 Debug' },
+        { id: 'BENCH', label: '📊 SWE-bench\n2023: 1%\n2025: 50%+', accent: true },
+      ],
+      edges: [
+        { from: 'COP', to: 'CUR', label: '进化' },
+        { from: 'CUR', to: 'DEV', label: '进化' },
+        { from: 'DEV', to: 'LOOP' },
+        { from: 'DEV', to: 'BENCH' },
+      ],
+    } satisfies FlowGraph,
     analogy: {
       character: '铁匠铺里的学徒',
       scene: '以前铁匠铺来了个神奇学徒（Copilot）：打铁时他帮你递锤子，猜你下一步要干嘛。现在学徒（Devin）进化成了：给他一张图纸，他自己把整把剑打出来，打完还自己检查有没有缺口。',
@@ -55,21 +66,34 @@ export const chapter5Slides: Slide[] = [
       { icon: '📊', text: '数据分析', sub: '自然语言查询数据库、自动生成报表、异常检测——分析师效率倍增' },
       { icon: '⚖️', text: '法律/医疗', sub: 'AI 辅助诊断（FDA 已批准多项）、合同审查、案例检索——专业辅助工具' },
     ],
-    diagram: `flowchart LR
-    subgraph IDX[📚 离线索引]
-        direction TB
-        DOC[文档库] --> CHK[切分 Chunking]
-        CHK --> EMB[向量化 Embedding]
-        EMB --> VDB[(向量数据库)]
-    end
-    subgraph QRY[🔍 在线问答]
-        direction TB
-        Q[❓ 用户问题] --> QEMB[问题向量化]
-        QEMB --> RET[语义检索<br/>找最相关片段]
-        VDB --> RET
-        RET --> PROMPT[拼接 Prompt]
-        PROMPT --> ANS[🧠 LLM 生成答案]
-    end`,
+    graph: {
+      direction: 'LR',
+      nodes: [
+        { id: 'DOC', label: '📚 文档库' },
+        { id: 'CHK', label: '切分\nChunking' },
+        { id: 'EMB', label: '向量化\nEmbedding' },
+        { id: 'VDB', label: '🗄️ 向量\n数据库', accent: true },
+        { id: 'Q', label: '❓ 用户问题' },
+        { id: 'QEMB', label: '问题\n向量化' },
+        { id: 'RET', label: '语义检索\n相关片段' },
+        { id: 'PROMPT', label: '拼接\nPrompt' },
+        { id: 'ANS', label: '🧠 LLM\n生成答案', accent: true },
+      ],
+      edges: [
+        { from: 'DOC', to: 'CHK' },
+        { from: 'CHK', to: 'EMB' },
+        { from: 'EMB', to: 'VDB' },
+        { from: 'Q', to: 'QEMB' },
+        { from: 'QEMB', to: 'RET' },
+        { from: 'VDB', to: 'RET', label: '检索', dashed: true },
+        { from: 'RET', to: 'PROMPT' },
+        { from: 'PROMPT', to: 'ANS' },
+      ],
+      groups: [
+        { id: 'IDX_G', label: '📚 离线索引', nodeIds: ['DOC', 'CHK', 'EMB', 'VDB'] },
+        { id: 'QRY_G', label: '🔍 在线问答', nodeIds: ['Q', 'QEMB', 'RET', 'PROMPT', 'ANS'] },
+      ],
+    } satisfies FlowGraph,
     analogy: {
       character: '幕僚变成了 AI',
       scene: '古代皇帝的幕僚团：军师、文书、钦天监……各司其职，帮皇帝处理信息、起草文件、分析形势。今天，一个 AI 可以同时扮演所有幕僚角色。',
@@ -89,17 +113,30 @@ export const chapter5Slides: Slide[] = [
       { icon: '✍️', text: 'Writer Agent', sub: '专门负责撰写报告和文档' },
       { icon: '🔍', text: 'Critic Agent', sub: '专门负责质量审查，找问题' },
     ],
-    diagram: `flowchart TD
-    U[用户任务] --> O[Orchestrator<br/>总指挥]
-    O --> R[Researcher<br/>调研员]
-    O --> C[Coder<br/>程序员]
-    O --> W[Writer<br/>写手]
-    R --> O
-    C --> O
-    W --> O
-    O --> CR[Critic<br/>审查员]
-    CR -->|有问题| O
-    CR -->|通过| U2[✅ 交付成果]`,
+    graph: {
+      direction: 'TD',
+      nodes: [
+        { id: 'U', label: '用户任务' },
+        { id: 'O', label: 'Orchestrator\n总指挥', accent: true },
+        { id: 'R', label: 'Researcher\n调研员' },
+        { id: 'C', label: 'Coder\n程序员' },
+        { id: 'W', label: 'Writer\n写手' },
+        { id: 'CR', label: 'Critic\n审查员' },
+        { id: 'U2', label: '✅ 交付成果', accent: true },
+      ],
+      edges: [
+        { from: 'U', to: 'O' },
+        { from: 'O', to: 'R' },
+        { from: 'O', to: 'C' },
+        { from: 'O', to: 'W' },
+        { from: 'R', to: 'O', dashed: true },
+        { from: 'C', to: 'O', dashed: true },
+        { from: 'W', to: 'O', dashed: true },
+        { from: 'O', to: 'CR' },
+        { from: 'CR', to: 'O', label: '有问题', dashed: true },
+        { from: 'CR', to: 'U2', label: '通过' },
+      ],
+    } satisfies FlowGraph,
     analogy: {
       character: '丐帮分舵',
       scene: '丐帮帮主（Orchestrator）接了个大任务，把任务拆开：探子（Researcher）去打探消息，武艺高强的（Coder）负责行动，长老（Writer）负责写信，军师（Critic）负责审查计划。分工协作，完成单人无法完成的任务。',
@@ -139,12 +176,27 @@ export const chapter5Slides: Slide[] = [
       { icon: '🔒', text: '安全与隐私', sub: '训练数据里的个人信息、被用来生成有害内容的风险' },
       { icon: '⚖️', text: '权力集中', value: '几家大公司控制最强 AI，普通人和小国的话语权？' },
     ],
-    diagram: `flowchart TD
-    ROOT[⚠️ AI 走火入魔] --> HALL[🌀 幻觉<br/>一本正经地说错<br/>甚至捏造引用]
-    ROOT --> HACK[🎯 奖励欺骗<br/>只会讨好评分者<br/>而非真正做好]
-    ROOT --> SEC[🔒 安全隐私<br/>数据泄露<br/>生成有害内容]
-    ROOT --> POW[⚖️ 权力集中<br/>少数公司掌控<br/>强 AI 话语权]
-    HALL & HACK & SEC & POW -->|对齐研究 努力解决| ALIGN[🎯 AI 对齐<br/>AI Alignment]`,
+    graph: {
+      direction: 'TD',
+      nodes: [
+        { id: 'ROOT', label: '⚠️ AI\n走火入魔', accent: true },
+        { id: 'HALL', label: '🌀 幻觉\n一本正经地说错\n甚至捏造引用' },
+        { id: 'HACK', label: '🎯 奖励欺骗\n只会讨好评分者\n而非真正做好' },
+        { id: 'SEC', label: '🔒 安全隐私\n数据泄露\n生成有害内容' },
+        { id: 'POW', label: '⚖️ 权力集中\n少数公司掌控\n强 AI 话语权' },
+        { id: 'ALIGN', label: '🎯 AI 对齐\nAI Alignment', accent: true },
+      ],
+      edges: [
+        { from: 'ROOT', to: 'HALL' },
+        { from: 'ROOT', to: 'HACK' },
+        { from: 'ROOT', to: 'SEC' },
+        { from: 'ROOT', to: 'POW' },
+        { from: 'HALL', to: 'ALIGN', label: '对齐研究', dashed: true },
+        { from: 'HACK', to: 'ALIGN', dashed: true },
+        { from: 'SEC', to: 'ALIGN', dashed: true },
+        { from: 'POW', to: 'ALIGN', dashed: true },
+      ],
+    } satisfies FlowGraph,
     analogy: {
       character: '走火入魔',
       scene: '欧阳锋修炼九阴真经，走火入魔，武功天下第一，却神志不清。AI 走火入魔的表现：能力极强，但说话不实、目标错位、无法真正对人类负责。',

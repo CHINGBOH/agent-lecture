@@ -1,4 +1,4 @@
-import type { Slide } from '../types'
+import type { Slide, FlowGraph } from '../types'
 
 // 第一章：内力觉醒 —— 深度学习革命（2006-2017）
 // 悬念：5岁小孩能认出猫，顶尖程序员写10万行代码也做不到——为什么？
@@ -51,15 +51,27 @@ export const chapter1Slides: Slide[] = [
       { icon: '⬅️', text: '反向传播', sub: '误差从输出层往回传，用链式法则计算每个权重的梯度' },
       { icon: '🔧', text: '梯度下降', sub: '按梯度方向微调权重，一点点减小误差，迭代数百万次' },
     ],
-    diagram: `flowchart LR
-    A[输入图片] -->|前向| B[第1层<br/>边缘检测]
-    B -->|前向| C[第2层<br/>形状识别]
-    C -->|前向| D[第3层<br/>部位识别]
-    D -->|前向| E[预测:猫🐱]
-    E -->|误差| F[Loss损失]
-    F -->|反向传播| D
-    F -->|反向传播| C
-    F -->|反向传播| B`,
+    graph: {
+      direction: 'LR',
+      nodes: [
+        { id: 'A', label: '输入图片' },
+        { id: 'B', label: '第1层\n边缘检测' },
+        { id: 'C', label: '第2层\n形状识别' },
+        { id: 'D', label: '第3层\n部位识别' },
+        { id: 'E', label: '预测:猫🐱' },
+        { id: 'F', label: 'Loss 损失', accent: true },
+      ],
+      edges: [
+        { from: 'A', to: 'B', label: '前向' },
+        { from: 'B', to: 'C', label: '前向' },
+        { from: 'C', to: 'D', label: '前向' },
+        { from: 'D', to: 'E', label: '前向' },
+        { from: 'E', to: 'F', label: '误差' },
+        { from: 'F', to: 'D', label: '反向', dashed: true },
+        { from: 'F', to: 'C', label: '反向', dashed: true },
+        { from: 'F', to: 'B', label: '反向', dashed: true },
+      ],
+    } satisfies FlowGraph,
     analogy: {
       character: '气走小周天',
       scene: '内力运转要打通任督二脉：先从丹田出发（前向），遇到阻碍（误差），再反向疏通经脉（反向传播），循环往复，内力越来越深厚。',
@@ -109,13 +121,26 @@ export const chapter1Slides: Slide[] = [
       { icon: '😵', text: 'RNN 的致命缺陷', sub: '序列太长就「健忘」：说到第100个字，前10个字的信息早已稀释殆尽' },
       { icon: '⏳', text: '训练慢', sub: '必须串行处理（下一步依赖上一步），无法并行，GPU 白白浪费' },
     ],
-    diagram: `flowchart LR
-    IMG[🖼️ 输入图像<br/>224x224x3] --> C1[卷积层<br/>Conv+ReLU<br/>边缘/纹理]
-    C1 --> P1[池化层<br/>MaxPool /2]
-    P1 --> C2[深层卷积<br/>Conv+ReLU<br/>形状/部件]
-    C2 --> P2[池化层<br/>MaxPool /2]
-    P2 --> FC[全连接层<br/>特征融合]
-    FC --> OUT[🏷️ 分类输出<br/>1000类 Softmax]`,
+    graph: {
+      direction: 'LR',
+      nodes: [
+        { id: 'IMG', label: '🖼️ 输入图像\n224×224×3' },
+        { id: 'C1', label: '卷积层\nConv+ReLU\n边缘/纹理' },
+        { id: 'P1', label: '池化层\nMaxPool /2' },
+        { id: 'C2', label: '深层卷积\nConv+ReLU\n形状/部件' },
+        { id: 'P2', label: '池化层\nMaxPool /2' },
+        { id: 'FC', label: '全连接层\n特征融合', accent: true },
+        { id: 'OUT', label: '🏷️ 分类输出\n1000类 Softmax' },
+      ],
+      edges: [
+        { from: 'IMG', to: 'C1' },
+        { from: 'C1', to: 'P1' },
+        { from: 'P1', to: 'C2' },
+        { from: 'C2', to: 'P2' },
+        { from: 'P2', to: 'FC' },
+        { from: 'FC', to: 'OUT' },
+      ],
+    } satisfies FlowGraph,
     analogy: {
       character: '听琴辨位 vs 过目不忘',
       scene: '独孤求败的剑法，讲究「以静制动，以慢打快」——但如果对手说了100招，你只记得最近10招，前90招的规律你全错过了。这就是 RNN 的困境。',

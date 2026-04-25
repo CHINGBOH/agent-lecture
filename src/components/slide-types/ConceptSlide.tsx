@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import type { Slide } from '../../data/types'
 import type { ChapterTheme } from '../../data/themes'
 import MermaidChart from '../MermaidChart'
+import FlowDiagram from '../FlowDiagram'
 import { CHART_MAP } from '../../charts'
 
 const PlotlyChart = lazy(() => import('../PlotlyChart'))
@@ -136,7 +137,8 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
   const chartDef = slide.chart ? CHART_MAP[slide.chart] : undefined
   const hasChart = !!chartDef
   const hasImage = !!slide.image && !hasChart
-  const hasDiagram = !!slide.diagram && !hasImage && !hasChart
+  const hasGraph = !!slide.graph && !hasImage && !hasChart
+  const hasDiagram = !!slide.diagram && !hasImage && !hasChart && !hasGraph
 
   return (
     <>
@@ -261,6 +263,59 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
           >
             ⊕ 点击放大
           </motion.div>
+          )}
+        </div>
+
+      ) : hasGraph ? (
+        // ══════════════════════════════════════════════════════════════════
+        // NATIVE FLOW DIAGRAM LAYOUT — same grid as Mermaid but renders FlowDiagram
+        // ══════════════════════════════════════════════════════════════════
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            style={{ padding: '22px 44px 0', flexShrink: 0 }}
+          >
+            <h2 style={{
+              color: theme.accent, fontSize: 'clamp(20px,3vw,34px)',
+              fontWeight: 800, margin: '0 0 4px',
+            }}>
+              {slide.title}
+            </h2>
+            {slide.subtitle && (
+              <p style={{ color: theme.textSecondary, margin: 0, fontSize: '15px', opacity: 0.85 }}>
+                {slide.subtitle}
+              </p>
+            )}
+          </motion.div>
+          <div style={{
+            flex: 1, minHeight: 0,
+            display: 'grid',
+            gridTemplateColumns: bullets.length > 0 ? '24% 76%' : '0 100%',
+            gap: 0, overflow: 'hidden', padding: '14px 36px 8px',
+          }}>
+            {bullets.length > 0 && (
+              <div style={{
+                display: 'flex', flexDirection: 'column', gap: '6px',
+                overflowY: 'auto', paddingRight: '16px',
+                alignSelf: 'flex-start', minWidth: 0,
+              }}>
+                <BulletList bullets={bullets} theme={theme} compact />
+              </div>
+            )}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3 }}
+              style={{ overflow: 'hidden', height: '100%', minWidth: 0, minHeight: 0 }}
+            >
+              <FlowDiagram graph={slide.graph!} theme={theme} />
+            </motion.div>
+          </div>
+          {slide.analogy && (
+            <div style={{ padding: '0 44px 16px', flexShrink: 0 }}>
+              <AnalogyStrip analogy={slide.analogy} theme={theme} delay={0.5} />
+            </div>
           )}
         </div>
 
