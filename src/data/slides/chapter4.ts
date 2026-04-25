@@ -69,9 +69,9 @@ export const chapter4Slides: Slide[] = [
       { icon: '🔄', text: '再思考', sub: '「已经拿到结果了，现在可以回答用户了」' },
     ],
     diagram: `flowchart TD
-    A[用户提问] --> B[💭 Thought\n分析问题，决定行动]
-    B --> C[⚡ Action\n调用工具/API]
-    C --> D[👁️ Observation\n获得工具结果]
+    A[用户提问] --> B[💭 Thought<br/>分析问题，决定行动]
+    B --> C[⚡ Action<br/>调用工具/API]
+    C --> D[👁️ Observation<br/>获得工具结果]
     D --> E{目标达成?}
     E -->|否| B
     E -->|是| F[✅ 最终回答]`,
@@ -94,10 +94,10 @@ export const chapter4Slides: Slide[] = [
       { icon: '🧠', text: '模型权重（长期记忆）', sub: '训练阶段学到的知识，永久内化，但无法实时更新' },
     ],
     diagram: `flowchart TD
-    AGENT[🤖 AI Agent] --> CTX[⚡ 短期记忆\nContext Window\n对话中有效]
-    AGENT --> VDB[🗄️ 外部记忆\n向量数据库 RAG\n持久化检索]
-    AGENT --> FILE[📁 工具记忆\n文件/数据库\n中间结果存储]
-    AGENT --> WEIGHTS[🧠 模型权重\n训练内化知识\n固定不可更新]`,
+    AGENT[🤖 AI Agent] --> CTX[⚡ 短期记忆<br/>Context Window<br/>对话中有效]
+    AGENT --> VDB[🗄️ 外部记忆<br/>向量数据库 RAG<br/>持久化检索]
+    AGENT --> FILE[📁 工具记忆<br/>文件/数据库<br/>中间结果存储]
+    AGENT --> WEIGHTS[🧠 模型权重<br/>训练内化知识<br/>固定不可更新]`,
     analogy: {
       character: '武林人士的记忆',
       scene: '黄蓉的记忆系统：脑子里（短期）记着今天要办的事；怀里秘籍（外部记忆）记着所有武功心法；武林档案馆（向量DB）查江湖人物；而她自幼修炼的聪明才智（权重）是改不了的。',
@@ -118,11 +118,11 @@ export const chapter4Slides: Slide[] = [
       { icon: '📡', text: 'API 调用', sub: '发邮件、查天气、订机票、发推文——接入所有外部服务' },
     ],
     diagram: `flowchart LR
-    LLM[🧠 LLM\n推理中心] --> FC[工具调用\nFunction Calling]
-    FC --> SEARCH[🔍 搜索\nGoogle/Bing]
-    FC --> CODE[💻 代码执行\nPython 沙箱]
-    FC --> BROWSER[🌐 浏览器\n网页操控]
-    FC --> API[📡 外部 API\n邮件/日历/支付]
+    LLM[🧠 LLM<br/>推理中心] --> FC[工具调用<br/>Function Calling]
+    FC --> SEARCH[🔍 搜索<br/>Google/Bing]
+    FC --> CODE[💻 代码执行<br/>Python 沙箱]
+    FC --> BROWSER[🌐 浏览器<br/>网页操控]
+    FC --> API[📡 外部 API<br/>邮件/日历/支付]
     SEARCH & CODE & BROWSER & API -->|观察结果 Observation| LLM`,
     analogy: {
       character: '十八般武器',

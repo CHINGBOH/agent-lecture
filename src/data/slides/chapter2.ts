@@ -51,14 +51,11 @@ export const chapter2Slides: Slide[] = [
       { icon: '🏗️', text: 'Encoder-Decoder', sub: 'Encoder 理解输入，Decoder 生成输出，两者通过 Attention 交互' },
       { icon: '📏', text: 'Position Encoding', sub: '纯 Attention 没有顺序感，加入位置编码，让模型知道「谁在哪个位置」' },
     ],
-    diagram: `flowchart TD
-    A[输入文本\n我爱北京] --> B[Tokenizer\n分词]
-    B --> C[Embedding\n向量化]
-    C --> D[位置编码]
-    D --> E[Multi-Head\nAttention\n×12层]
-    E --> F[FFN前馈网络]
-    F --> G[输出向量]
-    G --> H[预测下一个词]`,
+    diagram: `flowchart LR
+    IN[📝 输入文本<br/>Tokenize] --> EMB[🔢 Embedding<br/>向量 + 位置编码]
+    EMB --> ATT[🧠 Multi-Head<br/>Attention × 12]
+    ATT --> FFN[⚡ 前馈网络<br/>FFN × 12]
+    FFN --> OUT[📤 输出<br/>预测下一个词]`,
   },
   {
     id: 'c2-comparison',

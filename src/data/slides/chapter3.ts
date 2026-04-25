@@ -33,7 +33,7 @@ export const chapter3Slides: Slide[] = [
       { icon: '🔄', text: '核心循环', sub: '观察状态 → 选择行动 → 获得奖励 → 更新策略 → 重复' },
     ],
     diagram: `flowchart LR
-    A[Agent\n学习者] -->|行动| B[Environment\n环境]
+    A[Agent<br/>学习者] -->|行动| B[Environment<br/>环境]
     B -->|新状态| A
     B -->|奖励信号| A
     A -->|更新策略| A`,
@@ -56,9 +56,9 @@ export const chapter3Slides: Slide[] = [
       { icon: '🪞', text: '自我对弈（Self-play）', sub: '用上述网络的早期版本对战自己，生成无限棋局数据，不断自我进化' },
     ],
     diagram: `flowchart TD
-    BOARD[🎯 棋盘状态 19x19] --> PN[策略网络\nPolicy Network\n下哪里？]
-    BOARD --> VN[价值网络\nValue Network\n谁更可能赢？]
-    PN & VN --> MCTS[🌲 蒙特卡洛树搜索\nMCTS 模拟+剪枝]
+    BOARD[🎯 棋盘状态 19x19] --> PN[策略网络<br/>Policy Network<br/>下哪里？]
+    BOARD --> VN[价值网络<br/>Value Network<br/>谁更可能赢？]
+    PN & VN --> MCTS[🌲 蒙特卡洛树搜索<br/>MCTS 模拟+剪枝]
     MCTS --> MOVE[✅ 最终落子]
     MOVE -->|自我对弈 Self-play| BOARD
     MOVE -->|胜/负 反馈| PN & VN`,
@@ -118,13 +118,13 @@ export const chapter3Slides: Slide[] = [
     diagram: `flowchart LR
     subgraph RLHF[传统 RLHF 4步流程]
         direction TB
-        R1[① SFT\n基础微调] --> R2[② 奖励模型\n学习打分]
-        R2 --> R3[③ PPO\nRL 强化训练]
+        R1[① SFT<br/>基础微调] --> R2[② 奖励模型<br/>学习打分]
+        R2 --> R3[③ PPO<br/>RL 强化训练]
         R3 --> R4[④ 对齐模型]
     end
     subgraph DPO[DPO 直接偏好优化 1步]
         direction TB
-        D1[好回答 vs 坏回答\n人类偏好对] --> D2[🎯 直接优化\n无需奖励模型]
+        D1[好回答 vs 坏回答<br/>人类偏好对] --> D2[🎯 直接优化<br/>无需奖励模型]
         D2 --> D3[✨ 对齐模型]
     end
     RLHF -.->|DPO 简化为| DPO`,

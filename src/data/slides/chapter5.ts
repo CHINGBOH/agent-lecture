@@ -33,10 +33,10 @@ export const chapter5Slides: Slide[] = [
       { icon: '📊', text: '现实数据', sub: 'SWE-bench（真实 GitHub Issue 修复）：2023 年解决率 1%；2025 年超过 50%' },
     ],
     diagram: `flowchart LR
-    COP[✍️ Copilot\n代码补全\n你写它猜] -->|进化| CUR[💬 Cursor\n对话式编程\n你说它写]
-    CUR -->|进化| DEV[🤖 Devin\n自主 Agent\n任务到代码到PR]
-    DEV --> LOOP[🔄 自动循环\n写代码 运行 Debug\n提交]
-    DEV --> BENCH[📊 SWE-bench\n2023年: 1%\n2025年: 50%+]`,
+    COP[✍️ Copilot<br/>代码补全<br/>你写它猜] -->|进化| CUR[💬 Cursor<br/>对话式编程<br/>你说它写]
+    CUR -->|进化| DEV[🤖 Devin<br/>自主 Agent<br/>任务到代码到PR]
+    DEV --> LOOP[🔄 自动循环<br/>写代码 运行 Debug<br/>提交]
+    DEV --> BENCH[📊 SWE-bench<br/>2023年: 1%<br/>2025年: 50%+]`,
     analogy: {
       character: '铁匠铺里的学徒',
       scene: '以前铁匠铺来了个神奇学徒（Copilot）：打铁时他帮你递锤子，猜你下一步要干嘛。现在学徒（Devin）进化成了：给他一张图纸，他自己把整把剑打出来，打完还自己检查有没有缺口。',
@@ -65,7 +65,7 @@ export const chapter5Slides: Slide[] = [
     subgraph QRY[🔍 在线问答]
         direction TB
         Q[❓ 用户问题] --> QEMB[问题向量化]
-        QEMB --> RET[语义检索\n找最相关片段]
+        QEMB --> RET[语义检索<br/>找最相关片段]
         VDB --> RET
         RET --> PROMPT[拼接 Prompt]
         PROMPT --> ANS[🧠 LLM 生成答案]
@@ -90,14 +90,14 @@ export const chapter5Slides: Slide[] = [
       { icon: '🔍', text: 'Critic Agent', sub: '专门负责质量审查，找问题' },
     ],
     diagram: `flowchart TD
-    U[用户任务] --> O[Orchestrator\n总指挥]
-    O --> R[Researcher\n调研员]
-    O --> C[Coder\n程序员]
-    O --> W[Writer\n写手]
+    U[用户任务] --> O[Orchestrator<br/>总指挥]
+    O --> R[Researcher<br/>调研员]
+    O --> C[Coder<br/>程序员]
+    O --> W[Writer<br/>写手]
     R --> O
     C --> O
     W --> O
-    O --> CR[Critic\n审查员]
+    O --> CR[Critic<br/>审查员]
     CR -->|有问题| O
     CR -->|通过| U2[✅ 交付成果]`,
     analogy: {
@@ -140,11 +140,11 @@ export const chapter5Slides: Slide[] = [
       { icon: '⚖️', text: '权力集中', value: '几家大公司控制最强 AI，普通人和小国的话语权？' },
     ],
     diagram: `flowchart TD
-    ROOT[⚠️ AI 走火入魔] --> HALL[🌀 幻觉\n一本正经地说错\n甚至捏造引用]
-    ROOT --> HACK[🎯 奖励欺骗\n只会讨好评分者\n而非真正做好]
-    ROOT --> SEC[🔒 安全隐私\n数据泄露\n生成有害内容]
-    ROOT --> POW[⚖️ 权力集中\n少数公司掌控\n强 AI 话语权]
-    HALL & HACK & SEC & POW -->|对齐研究\n努力解决| ALIGN[🎯 AI 对齐\nAI Alignment]`,
+    ROOT[⚠️ AI 走火入魔] --> HALL[🌀 幻觉<br/>一本正经地说错<br/>甚至捏造引用]
+    ROOT --> HACK[🎯 奖励欺骗<br/>只会讨好评分者<br/>而非真正做好]
+    ROOT --> SEC[🔒 安全隐私<br/>数据泄露<br/>生成有害内容]
+    ROOT --> POW[⚖️ 权力集中<br/>少数公司掌控<br/>强 AI 话语权]
+    HALL & HACK & SEC & POW -->|对齐研究 努力解决| ALIGN[🎯 AI 对齐<br/>AI Alignment]`,
     analogy: {
       character: '走火入魔',
       scene: '欧阳锋修炼九阴真经，走火入魔，武功天下第一，却神志不清。AI 走火入魔的表现：能力极强，但说话不实、目标错位、无法真正对人类负责。',

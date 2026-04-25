@@ -60,9 +60,14 @@ export default function MermaidChart({ chart, id }: MermaidChartProps) {
           ref.current.innerHTML = svg;
           const svgEl = ref.current.querySelector('svg');
           if (svgEl) {
-            svgEl.style.width = '100%';
+            // Remove fixed dimensions so CSS can scale to fit the container
+            svgEl.removeAttribute('height');
+            svgEl.removeAttribute('width');
             svgEl.style.maxWidth = '100%';
+            svgEl.style.maxHeight = '100%';
+            svgEl.style.width = 'auto';
             svgEl.style.height = 'auto';
+            svgEl.style.display = 'block';
           }
           setError(null);
         })
@@ -104,7 +109,10 @@ export default function MermaidChart({ chart, id }: MermaidChartProps) {
         borderRadius: '12px',
         padding: '12px 16px',
         border: '1px solid rgba(79, 195, 247, 0.15)',
-        overflow: 'auto',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         minHeight: '80px',
         width: '100%',
         height: '100%',
