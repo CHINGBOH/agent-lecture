@@ -18,9 +18,9 @@ mermaid.initialize({
     titleColor: '#8adcff',
     nodeBorder: '#4fc3f7',
     fontFamily: '"PingFang SC", "Helvetica Neue", -apple-system, sans-serif',
-    fontSize: '13px',
+    fontSize: '15px',
   },
-  flowchart: { curve: 'basis', padding: 16, htmlLabels: true },
+  flowchart: { curve: 'basis', padding: 20, htmlLabels: true },
   securityLevel: 'loose',
 });
 
@@ -60,14 +60,39 @@ export default function MermaidChart({ chart, id }: MermaidChartProps) {
           ref.current.innerHTML = svg;
           const svgEl = ref.current.querySelector('svg');
           if (svgEl) {
-            // Remove fixed dimensions so CSS can scale to fit the container
             svgEl.removeAttribute('height');
             svgEl.removeAttribute('width');
-            svgEl.style.maxWidth = '100%';
-            svgEl.style.maxHeight = '100%';
-            svgEl.style.width = 'auto';
-            svgEl.style.height = 'auto';
             svgEl.style.display = 'block';
+            // Initial size — prevents layout collapse before rAF fires
+            svgEl.style.width = '100%';
+            svgEl.style.height = 'auto';
+
+            // After browser lays out the grid cell, apply container-aware scaling:
+            // if SVG is wider (relative to height) than its container → constrain by width
+            // if SVG is taller (relative to width) than its container → constrain by height
+            requestAnimationFrame(() => {
+              if (cancelled || !ref.current) return;
+              const viewBox = svgEl.getAttribute('viewBox');
+              const containerH = ref.current.clientHeight;
+              const containerW = ref.current.clientWidth;
+              if (viewBox && containerH > 0 && containerW > 0) {
+                const parts = viewBox.trim().split(/[\s,]+/).map(Number);
+                if (parts.length >= 4 && parts[2] > 0 && parts[3] > 0) {
+                  const svgRatio = parts[2] / parts[3];
+                  const containerRatio = containerW / containerH;
+                  if (svgRatio > containerRatio) {
+                    // SVG wider than container aspect: constrain by width
+                    svgEl.style.width = '100%';
+                    svgEl.style.height = 'auto';
+                  } else {
+                    // SVG taller than container aspect: constrain by height, center
+                    svgEl.style.height = '100%';
+                    svgEl.style.width = 'auto';
+                    svgEl.style.maxWidth = '100%';
+                  }
+                }
+              }
+            });
           }
           setError(null);
         })
@@ -105,18 +130,17 @@ export default function MermaidChart({ chart, id }: MermaidChartProps) {
     <div
       ref={ref}
       style={{
-        background: 'rgba(10, 26, 48, 0.6)',
-        borderRadius: '12px',
-        padding: '12px 16px',
-        border: '1px solid rgba(79, 195, 247, 0.15)',
+        borderRadius: '14px',
+        border: '1px solid rgba(79, 195, 247, 0.10)',
         overflow: 'hidden',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '80px',
         width: '100%',
         height: '100%',
         boxSizing: 'border-box',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minWidth: 0,
+        minHeight: 0,
       }}
     />
   );

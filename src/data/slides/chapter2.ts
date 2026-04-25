@@ -56,6 +56,11 @@ export const chapter2Slides: Slide[] = [
     EMB --> ATT[🧠 Multi-Head<br/>Attention × 12]
     ATT --> FFN[⚡ 前馈网络<br/>FFN × 12]
     FFN --> OUT[📤 输出<br/>预测下一个词]`,
+    analogy: {
+      character: '郭靖练降龙十八掌',
+      scene: '以前的武功（RNN）要一招一招按顺序打，打第18招时早忘了第1招发力的感觉。Transformer像开了「天眼」——同时看到所有招式，随时调用最关键那一招的内力。',
+      insight: '「注意力机制」本质是：不靠顺序，靠「哪个最重要就看哪个」，彻底解放了序列处理的枷锁。',
+    },
   },
   {
     id: 'c2-comparison',

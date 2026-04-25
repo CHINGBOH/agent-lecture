@@ -266,13 +266,13 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
 
       ) : hasDiagram ? (
         // ══════════════════════════════════════════════════════════════════
-        // MERMAID DIAGRAM LAYOUT — 32/68 grid (unchanged)
+        // MERMAID DIAGRAM LAYOUT — 25/75 grid, diagram is the hero
         // ══════════════════════════════════════════════════════════════════
         <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            style={{ padding: '28px 44px 0', flexShrink: 0 }}
+            style={{ padding: '22px 44px 0', flexShrink: 0 }}
           >
             <h2 style={{
               color: theme.accent, fontSize: 'clamp(20px,3vw,34px)',
@@ -281,37 +281,47 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
               {slide.title}
             </h2>
             {slide.subtitle && (
-              <p style={{ color: theme.textSecondary, margin: 0, fontSize: '16px', opacity: 0.85 }}>
+              <p style={{ color: theme.textSecondary, margin: 0, fontSize: '15px', opacity: 0.85 }}>
                 {slide.subtitle}
               </p>
             )}
           </motion.div>
           <div style={{
-            flex: 1, display: 'grid', gridTemplateColumns: '32% 68%',
-            gap: 0, overflow: 'hidden', padding: '16px 44px 24px',
+            flex: 1, minHeight: 0,
+            display: 'grid',
+            gridTemplateColumns: bullets.length > 0 ? '24% 76%' : '0 100%',
+            gap: 0, overflow: 'hidden', padding: '14px 36px 8px',
           }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', overflowY: 'auto', paddingRight: '20px' }}>
-              <BulletList bullets={bullets} theme={theme} compact />
-              {slide.analogy && (
-                <div style={{ marginTop: '10px' }}>
-                  <AnalogyStrip analogy={slide.analogy} theme={theme} delay={bullets.length * 0.1 + 0.2} />
-                </div>
-              )}
-            </div>
+            {bullets.length > 0 && (
+              <div style={{
+                display: 'flex', flexDirection: 'column', gap: '6px',
+                overflowY: 'auto', paddingRight: '16px',
+                alignSelf: 'flex-start',
+                minWidth: 0,
+              }}>
+                <BulletList bullets={bullets} theme={theme} compact />
+              </div>
+            )}
             <motion.div
               initial={{ opacity: 0, scale: 0.97 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3 }}
               style={{
-                borderRadius: '12px', overflow: 'hidden',
-                background: 'rgba(255,255,255,0.02)',
-                boxShadow: `0 0 0 1px rgba(255,255,255,0.07)`,
-                padding: '16px', overflowY: 'auto',
+                overflow: 'hidden',
+                height: '100%',
+                minWidth: 0,
+                minHeight: 0,
               }}
             >
               <MermaidChart chart={slide.diagram!} id={slide.id} />
             </motion.div>
           </div>
+          {/* Analogy strip — always at bottom, full width */}
+          {slide.analogy && (
+            <div style={{ padding: '0 44px 16px', flexShrink: 0 }}>
+              <AnalogyStrip analogy={slide.analogy} theme={theme} delay={0.5} />
+            </div>
+          )}
         </div>
 
       ) : (
