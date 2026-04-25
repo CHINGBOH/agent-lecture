@@ -27,7 +27,6 @@ export const chapter1Slides: Slide[] = [
     chapter: 1,
     title: '问题的根源：特征从哪来？',
     subtitle: '手工特征 vs 自动学习特征',
-    image: '/diagrams/ch1_feature_vs_dl.png',
     bullets: [
       { icon: '✋', text: '手工特征时代', sub: '工程师手动设计：检测边缘、颜色直方图、HOG 描述子……费时费力效果差' },
       { icon: '❓', text: '现实的残酷', sub: '猫有几千种姿势、光照、角度，穷举不完' },
@@ -46,7 +45,6 @@ export const chapter1Slides: Slide[] = [
     chapter: 1,
     title: '反向传播：内力如何运转',
     subtitle: 'Hinton 1986 年的突破',
-    image: '/diagrams/ch1_backprop.png',
     bullets: [
       { icon: '➡️', text: '前向传播', sub: '输入数据，逐层计算，最终得到预测结果' },
       { icon: '📏', text: '计算误差', sub: '对比预测值与真实值，得到 Loss（损失）' },
@@ -90,7 +88,6 @@ export const chapter1Slides: Slide[] = [
     type: 'timeline',
     chapter: 1,
     title: 'AlexNet 时刻：震惊整个武林',
-    image: '/diagrams/ch1_timeline.png',
     timeline: [
       { year: '2006', event: 'Hinton 重燃希望', detail: 'Hinton 发表深度信念网络，证明深层网络可以训练，AI 研究者重新聚集', icon: '🕯️', highlight: false },
       { year: '2009', event: 'ImageNet 诞生', detail: 'Fei-Fei Li 历时3年建成 ImageNet，120万张人工标注图片，深度学习的「粮草」', icon: '🗄️', highlight: false },
@@ -106,7 +103,6 @@ export const chapter1Slides: Slide[] = [
     chapter: 1,
     title: 'CNN vs RNN：眼功与耳力',
     subtitle: '两种不同的「感知内力」',
-    image: '/diagrams/ch1_neural_network.png',
     bullets: [
       { icon: '👁️', text: 'CNN（卷积神经网络）= 眼功', sub: '扫描图片的局部区域，识别空间特征：边缘、纹理、形状' },
       { icon: '👂', text: 'RNN（循环神经网络）= 耳力', sub: '按顺序处理序列，有「记忆」，适合语言、时序数据' },

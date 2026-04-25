@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { DIAGRAM_MAP } from '../generated/diagramMap'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { Slide } from '../data/types'
 import type { Chapter } from '../data/types'
@@ -260,16 +261,17 @@ export default function SlideShow({ slides, chapters }: Props) {
 
 // ─── Slide Router ────────────────────────────────────────────
 function SlideRenderer({ slide, theme }: { slide: Slide; theme: ReturnType<typeof getTheme> }) {
-  switch (slide.type) {
-    case 'cover':      return <CoverSlide slide={slide} theme={theme} />
-    case 'mystery':    return <MysterySlide slide={slide} theme={theme} />
-    case 'timeline':   return <TimelineSlide slide={slide} theme={theme} />
-    case 'comparison': return <ComparisonSlide slide={slide} theme={theme} />
-    case 'quote':      return <QuoteSlide slide={slide} theme={theme} />
-    case 'summary':    return <SummarySlide slide={slide} theme={theme} />
+  const enrichedSlide = { ...slide, image: slide.image ?? DIAGRAM_MAP[slide.id] }
+  switch (enrichedSlide.type) {
+    case 'cover':      return <CoverSlide slide={enrichedSlide} theme={theme} />
+    case 'mystery':    return <MysterySlide slide={enrichedSlide} theme={theme} />
+    case 'timeline':   return <TimelineSlide slide={enrichedSlide} theme={theme} />
+    case 'comparison': return <ComparisonSlide slide={enrichedSlide} theme={theme} />
+    case 'quote':      return <QuoteSlide slide={enrichedSlide} theme={theme} />
+    case 'summary':    return <SummarySlide slide={enrichedSlide} theme={theme} />
     case 'concept':
     case 'diagram':
-    default:           return <ConceptSlide slide={slide} theme={theme} />
+    default:           return <ConceptSlide slide={enrichedSlide} theme={theme} />
   }
 }
 

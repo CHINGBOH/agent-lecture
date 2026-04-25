@@ -47,7 +47,6 @@ export const chapter4Slides: Slide[] = [
     type: 'timeline',
     chapter: 4,
     title: 'Agent 的前世：AI 行动者的历史',
-    image: '/diagrams/ch4_timeline.png',
     timeline: [
       { year: '1966', event: 'ELIZA', detail: '第一个聊天机器人，靠模板匹配对话，让人以为在和真人说话。会说不会做。', icon: '💬', highlight: false },
       { year: '1972', event: 'MYCIN', detail: '斯坦福专家系统，能推断血液感染并推荐抗生素。有行动（建议）但规则写死。', icon: '🏥', highlight: false },
@@ -63,7 +62,6 @@ export const chapter4Slides: Slide[] = [
     chapter: 4,
     title: 'ReAct：侠客的行事方式',
     subtitle: '想→做→看结果→再想——LLM Agent 的核心循环',
-    image: '/diagrams/ch4_agent_loop.png',
     bullets: [
       { icon: '💭', text: 'Thought（思考）', sub: '「我需要知道今天深圳的天气，应该调用天气 API」' },
       { icon: '⚡', text: 'Action（行动）', sub: '调用工具：weather_api("深圳")' },
@@ -89,7 +87,6 @@ export const chapter4Slides: Slide[] = [
     chapter: 4,
     title: 'Agent 的记忆系统',
     subtitle: '没有记忆，行动就没有积累',
-    image: '/diagrams/ch4_memory.png',
     bullets: [
       { icon: '🔤', text: '短期记忆（Context Window）', sub: '当前对话的全部内容，存在模型输入里。现代模型支持 100K-1M tokens' },
       { icon: '📝', text: '外部记忆（向量数据库）', sub: '把历史对话/文档转成向量存储，需要时检索相关片段放入 Context（RAG）' },
@@ -108,7 +105,6 @@ export const chapter4Slides: Slide[] = [
     chapter: 4,
     title: 'Tools：Agent 的十八般武器',
     subtitle: '工具把 LLM 从「书生」变成「侠客」',
-    image: '/diagrams/ch4_tools.png',
     bullets: [
       { icon: '🔍', text: '搜索工具', sub: 'Google Search、Bing——获取实时信息，打破训练数据截止日期限制' },
       { icon: '💻', text: '代码执行', sub: 'Python Interpreter——不只是写代码，还能真正运行它，看结果' },

@@ -42,9 +42,29 @@ THEMES = {
 def fig(ch: int):
     """创建统一尺寸、深色背景的画布"""
     t = THEMES[ch]
+    plt.rcParams.update({
+        'text.color': t['text'],
+        'axes.facecolor': t['bg'],
+        'figure.facecolor': t['bg'],
+        'axes.edgecolor': 'none',
+        'xtick.color': t['text'],
+        'ytick.color': t['text'],
+    })
     f = plt.figure(figsize=(W, H), facecolor=t['bg'])
     f.patch.set_facecolor(t['bg'])
     return f, t
+
+
+def make_ax(f, t, rect=None):
+    """创建与主题一致的坐标轴"""
+    ax = f.add_axes(rect or [0.02, 0.02, 0.96, 0.96])
+    ax.set_facecolor(t['bg'])
+    ax.patch.set_alpha(1)
+    for spine in ax.spines.values():
+        spine.set_visible(False)
+    ax.set_xticks([])
+    ax.set_yticks([])
+    return ax
 
 
 def save(f, name: str):
@@ -68,8 +88,7 @@ def glow_text(ax, x, y, s, fontsize=14, color='white', **kw):
 # ══════════════════════════════════════════════════════════════
 # 图1：AI 发展时间线（序章）
 # ══════════════════════════════════════════════════════════════
-def gen_timeline():
-    f, t = fig(0)
+def gen_timeline(f, t):
     ax = f.add_axes([0.04, 0.1, 0.92, 0.8])
     ax.set_facecolor(t['bg'])
     ax.set_xlim(1950, 2025)
@@ -114,14 +133,12 @@ def gen_timeline():
     ax.text(1987, 1.18, '从一个思想实验，到改变世界的引擎',
             fontsize=13, ha='center', va='center', color=t['accent'], alpha=0.8)
 
-    save(f, 'ch0_timeline.png')
 
 
 # ══════════════════════════════════════════════════════════════
 # 图2：神经网络多层感知机（第一章）
 # ══════════════════════════════════════════════════════════════
-def gen_neural_network():
-    f, t = fig(1)
+def gen_neural_network(f, t):
     ax = f.add_axes([0.05, 0.05, 0.9, 0.9])
     ax.set_facecolor(t['bg'])
     ax.set_xlim(-0.5, 5.5)
@@ -167,14 +184,12 @@ def gen_neural_network():
     ax.text(2.5, 4.05, '每一层神经元提取更抽象的特征，就像人类从像素到轮廓到概念的认知过程',
             fontsize=12, ha='center', va='center', color=t['accent'], alpha=0.8)
 
-    save(f, 'ch1_neural_network.png')
 
 
 # ══════════════════════════════════════════════════════════════
 # 图3：Transformer 编解码器架构（第二章）
 # ══════════════════════════════════════════════════════════════
-def gen_transformer():
-    f, t = fig(2)
+def gen_transformer(f, t):
     ax = f.add_axes([0.05, 0.05, 0.9, 0.88])
     ax.set_facecolor(t['bg'])
     ax.set_xlim(0, 10)
@@ -244,14 +259,12 @@ def gen_transformer():
     glow_text(ax, 5, 6.85, 'Transformer 架构  "让每个词都能关注所有其他词"',
               fontsize=20, color=t['text'], fontweight='bold')
 
-    save(f, 'ch2_transformer.png')
 
 
 # ══════════════════════════════════════════════════════════════
 # 图4：Attention 热力图示意（第二章）
 # ══════════════════════════════════════════════════════════════
-def gen_attention_heatmap():
-    f, t = fig(2)
+def gen_attention_heatmap(f, t):
     ax = f.add_axes([0.18, 0.12, 0.65, 0.72])
     ax.set_facecolor(t['bg'])
     f.patch.set_facecolor(t['bg'])
@@ -290,20 +303,20 @@ def gen_attention_heatmap():
     cbar = f.colorbar(im, ax=ax, fraction=0.03, pad=0.02)
     cbar.ax.yaxis.set_tick_params(color=t['text'])
     plt.setp(cbar.ax.yaxis.get_ticklabels(), color=t['text'])
+    cbar.ax.set_facecolor(t['bg'])
+    cbar.ax.figure.patch.set_facecolor(t['bg'])
 
     f.text(0.5, 0.92, 'Attention 热力图  "猫" 在关注谁？',
            ha='center', fontsize=20, color=t['text'], fontweight='bold')
     f.text(0.5, 0.87, '颜色越亮 = 注意力权重越高。"猫" 这个词主要关注主语"它"和修饰词"聪明"',
            ha='center', fontsize=13, color=t['accent'], alpha=0.85)
 
-    save(f, 'ch2_attention.png')
 
 
 # ══════════════════════════════════════════════════════════════
 # 图5：强化学习循环（第三章）
 # ══════════════════════════════════════════════════════════════
-def gen_rl_loop():
-    f, t = fig(3)
+def gen_rl_loop(f, t):
     ax = f.add_axes([0.05, 0.05, 0.9, 0.88])
     ax.set_facecolor(t['bg'])
     ax.set_xlim(0, 10)
@@ -361,14 +374,12 @@ def gen_rl_loop():
     ax.text(5, 5.35, 'Agent 观察状态 → 选择动作 → 获得奖励 → 更新策略 → 循环',
             fontsize=13, ha='center', color=accent, alpha=0.85)
 
-    save(f, 'ch3_rl_loop.png')
 
 
 # ══════════════════════════════════════════════════════════════
 # 图6：Agent 执行循环 Plan→Act→Observe（第四章）
 # ══════════════════════════════════════════════════════════════
-def gen_agent_loop():
-    f, t = fig(4)
+def gen_agent_loop(f, t):
     ax = f.add_axes([0.05, 0.05, 0.9, 0.88])
     ax.set_facecolor(t['bg'])
     ax.set_xlim(0, 10)
@@ -434,14 +445,12 @@ def gen_agent_loop():
     ax.text(5, 5.35, '现代 Agent（AutoGPT / Claude / Copilot）都在跑这个循环',
             fontsize=13, ha='center', color=accent, alpha=0.85)
 
-    save(f, 'ch4_agent_loop.png')
 
 
 # ══════════════════════════════════════════════════════════════
 # 图7：多 Agent 协作拓扑（第五章）
 # ══════════════════════════════════════════════════════════════
-def gen_multi_agent():
-    f, t = fig(5)
+def gen_multi_agent(f, t):
     ax = f.add_axes([0.05, 0.05, 0.9, 0.88])
     ax.set_facecolor(t['bg'])
     ax.set_xlim(-1.5, 11.5)
@@ -521,12 +530,10 @@ def gen_multi_agent():
     ax.text(5, 6.3, '就像金庸里的丐帮：帮主统筹，各堂口各司其职',
             fontsize=13, ha='center', color=accent, alpha=0.85)
 
-    save(f, 'ch5_multi_agent.png')
 
 
-def gen_backprop():
+def gen_backprop(f, t):
     """反向传播：前向（蓝）+ 反向（橙）双向数值流动图，气走小周天意象"""
-    f, t = fig(1)
     accent = t['accent']
     bg = t['bg']
     text_col = t['text']
@@ -672,14 +679,12 @@ def gen_backprop():
     glow_text(ax, 5.0, 5.9, '反向传播：内力如何运转', fontsize=22,
               color=text_col, fontweight='bold')
 
-    save(f, 'ch1_backprop.png')
 
 
 # ══════════════════════════════════════════════════════════════
 # 图9：感知机（第0章）
 # ══════════════════════════════════════════════════════════════
-def gen_perceptron():
-    f, t = fig(0)
+def gen_perceptron(f, t):
     ax = f.add_axes([0, 0, 1, 1])
     ax.set_facecolor(t['bg'])
     ax.set_xlim(0, 10)
@@ -752,14 +757,12 @@ def gen_perceptron():
     ax.text(5.0, 5.1, '加权求和 + 激活函数 = 最简单的"神经元"',
             fontsize=13, ha='center', va='center', color=accent, alpha=0.85)
 
-    save(f, 'ch0_perceptron.png')
 
 
 # ══════════════════════════════════════════════════════════════
 # 图10：特征工程 vs 深度学习（第1章）
 # ══════════════════════════════════════════════════════════════
-def gen_feature_vs_dl():
-    f, t = fig(1)
+def gen_feature_vs_dl(f, t):
     ax = f.add_axes([0, 0, 1, 1])
     ax.set_facecolor(t['bg'])
     ax.set_xlim(0, 10)
@@ -816,14 +819,12 @@ def gen_feature_vs_dl():
     glow_text(ax, 5.0, 5.75, '特征工程 vs 深度学习', fontsize=22,
               color=text_col, fontweight='bold')
 
-    save(f, 'ch1_feature_vs_dl.png')
 
 
 # ══════════════════════════════════════════════════════════════
 # 图11：规模定律（第2章）
 # ══════════════════════════════════════════════════════════════
-def gen_scaling_law():
-    f, t = fig(2)
+def gen_scaling_law(f, t):
     ax = f.add_axes([0.1, 0.12, 0.82, 0.75])
     ax.set_facecolor(t['bg'])
     f.patch.set_facecolor(t['bg'])
@@ -872,14 +873,12 @@ def gen_scaling_law():
     glow_text(ax, 22.5, 8.8, '规模定律：越大越强', fontsize=20,
               color=text_col, fontweight='bold')
 
-    save(f, 'ch2_scaling_law.png')
 
 
 # ══════════════════════════════════════════════════════════════
 # 图12：蒙特卡洛树搜索（第3章）
 # ══════════════════════════════════════════════════════════════
-def gen_mcts():
-    f, t = fig(3)
+def gen_mcts(f, t):
     ax = f.add_axes([0, 0, 1, 1])
     ax.set_facecolor(t['bg'])
     ax.set_xlim(0, 10)
@@ -947,14 +946,12 @@ def gen_mcts():
     glow_text(ax, 5.0, 0.4, 'AlphaGo: 蒙特卡洛树搜索', fontsize=20,
               color=text_col, fontweight='bold')
 
-    save(f, 'ch3_mcts.png')
 
 
 # ══════════════════════════════════════════════════════════════
 # 图13：RLHF 流程（第3章）
 # ══════════════════════════════════════════════════════════════
-def gen_rlhf_pipeline():
-    f, t = fig(3)
+def gen_rlhf_pipeline(f, t):
     ax = f.add_axes([0, 0, 1, 1])
     ax.set_facecolor(t['bg'])
     ax.set_xlim(0, 10)
@@ -1002,14 +999,12 @@ def gen_rlhf_pipeline():
     ax.text(5.0, 1.5, '注：PPO = Proximal Policy Optimization (近端策略优化)',
             fontsize=11, ha='center', va='center', color=text_col, alpha=0.6)
 
-    save(f, 'ch3_rlhf.png')
 
 
 # ══════════════════════════════════════════════════════════════
 # 图14：DPO vs RLHF（第3章）
 # ══════════════════════════════════════════════════════════════
-def gen_dpo_vs_rlhf():
-    f, t = fig(3)
+def gen_dpo_vs_rlhf(f, t):
     ax = f.add_axes([0, 0, 1, 1])
     ax.set_facecolor(t['bg'])
     ax.set_xlim(0, 10)
@@ -1064,14 +1059,12 @@ def gen_dpo_vs_rlhf():
     glow_text(ax, 5.0, 5.72, 'DPO: 去掉奖励模型，直接优化', fontsize=20,
               color=text_col, fontweight='bold')
 
-    save(f, 'ch3_dpo.png')
 
 
 # ══════════════════════════════════════════════════════════════
 # 图15：Agent 记忆架构（第4章）
 # ══════════════════════════════════════════════════════════════
-def gen_agent_memory():
-    f, t = fig(4)
+def gen_agent_memory(f, t):
     ax = f.add_axes([0, 0, 1, 1])
     ax.set_facecolor(t['bg'])
     ax.set_xlim(0, 10)
@@ -1125,14 +1118,12 @@ def gen_agent_memory():
     ax.text(5.0, 5.35, '工作记忆快但易失，语义记忆慢但持久',
             fontsize=13, ha='center', va='center', color=accent, alpha=0.85)
 
-    save(f, 'ch4_memory.png')
 
 
 # ══════════════════════════════════════════════════════════════
 # 图16：Function Calling 工具调用（第4章）
 # ══════════════════════════════════════════════════════════════
-def gen_function_calling():
-    f, t = fig(4)
+def gen_function_calling(f, t):
     ax = f.add_axes([0, 0, 1, 1])
     ax.set_facecolor(t['bg'])
     ax.set_xlim(0, 10)
@@ -1194,14 +1185,12 @@ def gen_function_calling():
     ax.text(5.0, 4.95, 'LLM 决定何时调用哪个工具，整合结果后回答用户',
             fontsize=13, ha='center', va='center', color=accent, alpha=0.85)
 
-    save(f, 'ch4_tools.png')
 
 
 # ══════════════════════════════════════════════════════════════
 # 图17：AI 编程辅助工作流（第5章）
 # ══════════════════════════════════════════════════════════════
-def gen_copilot_workflow():
-    f, t = fig(5)
+def gen_copilot_workflow(f, t):
     ax = f.add_axes([0, 0, 1, 1])
     ax.set_facecolor(t['bg'])
     ax.set_xlim(0, 10)
@@ -1262,14 +1251,12 @@ def gen_copilot_workflow():
     ax.text(5.0, 5.1, '从编写到建议到测试，AI 参与整个循环',
             fontsize=13, ha='center', va='center', color=accent, alpha=0.85)
 
-    save(f, 'ch5_coding.png')
 
 
 # ══════════════════════════════════════════════════════════════
 # 图18：RAG 检索增强生成（第5章）
 # ══════════════════════════════════════════════════════════════
-def gen_rag_pipeline():
-    f, t = fig(5)
+def gen_rag_pipeline(f, t):
     ax = f.add_axes([0, 0, 1, 1])
     ax.set_facecolor(t['bg'])
     ax.set_xlim(0, 10)
@@ -1333,14 +1320,12 @@ def gen_rag_pipeline():
     ax.text(5.0, 5.1 - 0.55, '索引阶段：离线预处理', fontsize=11, ha='center',
             color=idx_color, alpha=0.7)
 
-    save(f, 'ch5_rag.png')
 
 
 # ══════════════════════════════════════════════════════════════
 # 图19：AI 风险地图（第5章）
 # ══════════════════════════════════════════════════════════════
-def gen_ai_risks():
-    f, t = fig(5)
+def gen_ai_risks(f, t):
     ax = f.add_axes([0.1, 0.12, 0.82, 0.75])
     ax.set_facecolor(t['bg'])
     f.patch.set_facecolor(t['bg'])
@@ -1388,14 +1373,12 @@ def gen_ai_risks():
     glow_text(ax, 5.0, 10.8, 'AI 风险地图', fontsize=22,
               color=text_col, fontweight='bold')
 
-    save(f, 'ch5_risks.png')
 
 
 # ══════════════════════════════════════════════════════════════
 # 图20：深度学习发展时间线（第1章）
 # ══════════════════════════════════════════════════════════════
-def gen_dl_timeline():
-    f, t = fig(1)
+def gen_dl_timeline(f, t):
     ax = f.add_axes([0.04, 0.1, 0.92, 0.8])
     ax.set_facecolor(t['bg'])
     ax.set_xlim(1984, 2024)
@@ -1439,14 +1422,12 @@ def gen_dl_timeline():
     glow_text(ax, 2004, 1.55, '深度学习发展时间线  1986 — 2022',
               fontsize=20, color=text_col, fontweight='bold')
 
-    save(f, 'ch1_timeline.png')
 
 
 # ══════════════════════════════════════════════════════════════
 # 图21：大语言模型发展时间线（第2章）
 # ══════════════════════════════════════════════════════════════
-def gen_llm_timeline():
-    f, t = fig(2)
+def gen_llm_timeline(f, t):
     ax = f.add_axes([0.04, 0.1, 0.92, 0.8])
     ax.set_facecolor(t['bg'])
     ax.set_xlim(2016, 2025)
@@ -1489,14 +1470,12 @@ def gen_llm_timeline():
     glow_text(ax, 2020.5, 1.55, '大语言模型发展时间线  2017 — 2024',
               fontsize=20, color=text_col, fontweight='bold')
 
-    save(f, 'ch2_timeline.png')
 
 
 # ══════════════════════════════════════════════════════════════
 # 图22：Agent 工具链发展时间线（第4章）
 # ══════════════════════════════════════════════════════════════
-def gen_agent_timeline():
-    f, t = fig(4)
+def gen_agent_timeline(f, t):
     ax = f.add_axes([0.04, 0.1, 0.92, 0.8])
     ax.set_facecolor(t['bg'])
     ax.set_xlim(2021.5, 2024.8)
@@ -1539,31 +1518,69 @@ def gen_agent_timeline():
     glow_text(ax, 2023.2, 1.55, 'Agent 工具链发展时间线  2022 — 2024',
               fontsize=20, color=text_col, fontweight='bold')
 
-    save(f, 'ch4_timeline.png')
+
+
+
+SLIDE_MAP: dict[str, tuple[int, object]] = {
+    'p-timeline':            (0, gen_timeline),
+    'p-concept-nn':          (0, gen_perceptron),
+    'c1-concept-feature':    (1, gen_feature_vs_dl),
+    'c1-concept-backprop':   (1, gen_backprop),
+    'c1-concept-cnn':        (1, gen_neural_network),
+    'c1-timeline':           (1, gen_dl_timeline),
+    'c2-concept-attention':  (2, gen_attention_heatmap),
+    'c2-concept-transformer':(2, gen_transformer),
+    'c2-concept-scaling':    (2, gen_scaling_law),
+    'c2-timeline':           (2, gen_llm_timeline),
+    'c3-concept-rl':         (3, gen_rl_loop),
+    'c3-concept-alphago':    (3, gen_mcts),
+    'c3-concept-rlhf':       (3, gen_rlhf_pipeline),
+    'c3-concept-dpo':        (3, gen_dpo_vs_rlhf),
+    'c4-timeline':           (4, gen_agent_timeline),
+    'c4-concept-react':      (4, gen_agent_loop),
+    'c4-concept-memory':     (4, gen_agent_memory),
+    'c4-concept-tools':      (4, gen_function_calling),
+    'c5-concept-multiagent': (5, gen_multi_agent),
+    'c5-concept-coding':     (5, gen_copilot_workflow),
+    'c5-concept-knowledge':  (5, gen_rag_pipeline),
+    'c5-concept-risks':      (5, gen_ai_risks),
+}
+
+
+def write_manifest(mapping: dict):
+    ts_lines = [
+        '// Auto-generated by scripts/gen_diagrams.py — do not edit manually',
+        '// Run: python scripts/gen_diagrams.py to regenerate',
+        '',
+        'export const DIAGRAM_MAP: Record<string, string> = {',
+    ]
+    for slide_id, path in sorted(mapping.items()):
+        ts_lines.append(f"  '{slide_id}': '{path}',")
+    ts_lines.append('}')
+    ts_lines.append('')
+
+    out_path = os.path.join(os.path.dirname(__file__), '..', 'src', 'generated', 'diagramMap.ts')
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    with open(out_path, 'w') as fh:
+        fh.write('\n'.join(ts_lines))
+    print(f'📄 Manifest written: {out_path}')
+
+
+def main():
+    os.makedirs(OUT, exist_ok=True)
+    print('🎨 生成架构图中...\n')
+
+    generated: dict = {}
+    for slide_id, (ch, gen_fn) in SLIDE_MAP.items():
+        f, t = fig(ch)
+        gen_fn(f, t)
+        filename = f'{slide_id}.png'
+        save(f, filename)
+        generated[slide_id] = f'/diagrams/{filename}'
+
+    write_manifest(generated)
+    print('\n✨ 全部完成！')
 
 
 if __name__ == '__main__':
-    print('🎨 生成架构图中...\n')
-    gen_timeline()
-    gen_neural_network()
-    gen_transformer()
-    gen_attention_heatmap()
-    gen_rl_loop()
-    gen_agent_loop()
-    gen_multi_agent()
-    gen_backprop()
-    gen_perceptron()
-    gen_feature_vs_dl()
-    gen_scaling_law()
-    gen_mcts()
-    gen_rlhf_pipeline()
-    gen_dpo_vs_rlhf()
-    gen_agent_memory()
-    gen_function_calling()
-    gen_copilot_workflow()
-    gen_rag_pipeline()
-    gen_ai_risks()
-    gen_dl_timeline()
-    gen_llm_timeline()
-    gen_agent_timeline()
-    print('\n✨ 全部完成！输出在 public/diagrams/')
+    main()

@@ -26,7 +26,6 @@ export const chapter5Slides: Slide[] = [
     chapter: 5,
     title: '编程：AI 最成熟的战场',
     subtitle: '从辅助补全到全自动编程',
-    image: '/diagrams/ch5_coding.png',
     bullets: [
       { icon: '✍️', text: 'GitHub Copilot', sub: '代码补全，写一半它猜下半，开发效率提升 55%（GitHub 数据）' },
       { icon: '💬', text: 'Cursor / Windsurf', sub: '对话式编程，用自然语言描述，AI 生成并修改整个文件' },
@@ -45,7 +44,6 @@ export const chapter5Slides: Slide[] = [
     chapter: 5,
     title: '知识工作：写作、研究、分析',
     subtitle: '白领工作正在被重新定义',
-    image: '/diagrams/ch5_rag.png',
     bullets: [
       { icon: '📝', text: '写作辅助', sub: '营销文案、法律合同、医学报告初稿——AI 起草，人类审核修改' },
       { icon: '🔬', text: '科研加速', sub: 'AlphaFold 解决了蛋白质折叠50年难题；AI 论文综述、实验设计' },
@@ -64,7 +62,6 @@ export const chapter5Slides: Slide[] = [
     chapter: 5,
     title: '多 Agent 系统：武林帮派分工',
     subtitle: '一个 AI 不够，组建团队来',
-    image: '/diagrams/ch5_multi_agent.png',
     bullets: [
       { icon: '👑', text: 'Orchestrator（总指挥）', sub: '接受任务，分解子任务，分配给专门 Agent，汇总结果' },
       { icon: '🔍', text: 'Researcher Agent', sub: '专门负责搜索和信息收集' },
@@ -116,7 +113,6 @@ export const chapter5Slides: Slide[] = [
     chapter: 5,
     title: 'AI 的挑战：走火入魔的风险',
     subtitle: '武功高强，也要防走火入魔',
-    image: '/diagrams/ch5_risks.png',
     bullets: [
       { icon: '🌀', text: '幻觉（Hallucination）', sub: '一本正经地说错的话，甚至捏造引用、数据——看起来真实但是假的' },
       { icon: '🎯', text: '奖励欺骗（Reward Hacking）', sub: '只会讨好评分者，而不是真的做好事——RLHF 的副作用' },
