@@ -38,38 +38,45 @@ export default function SummarySlide({ slide, theme }: { slide: Slide; theme: Ch
         </motion.p>
       )}
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%', maxWidth: '720px' }}>
-        {items.map((item, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 + i * 0.12 }}
-            style={{
-              display: 'flex', gap: '14px', alignItems: 'center',
-              background: i === items.length - 1 ? `${theme.accent}15` : 'rgba(255,255,255,0.04)',
-              border: `1px solid ${i === items.length - 1 ? theme.accent + '40' : 'rgba(255,255,255,0.07)'}`,
-              borderRadius: '12px', padding: '14px 20px',
-            }}
-          >
-            <span style={{
-              width: '28px', height: '28px', borderRadius: '50%',
-              background: theme.accent,
-              color: '#000', fontWeight: 900, fontSize: '12px',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              flexShrink: 0,
-            }}>
-              {i < items.length - 1 ? i + 1 : '→'}
-            </span>
-            <span style={{
-              color: i === items.length - 1 ? theme.accent : theme.textPrimary,
-              fontSize: '17px', lineHeight: 1.6,
-              fontWeight: i === items.length - 1 ? 700 : 400,
-            }}>
-              {item}
-            </span>
-          </motion.div>
-        ))}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', width: '100%', maxWidth: '720px' }}>
+        {items.map((item, i) => {
+          const isFinal = i === items.length - 1
+          return (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 + i * 0.12 }}
+              style={{
+                display: 'flex', gap: '14px', alignItems: 'flex-start',
+                borderLeft: isFinal
+                  ? `3px solid ${theme.accent}`
+                  : `3px solid ${theme.accent}45`,
+                paddingLeft: '16px', paddingTop: '8px', paddingBottom: '8px',
+                background: isFinal ? `${theme.accent}08` : 'transparent',
+                borderRadius: isFinal ? '0 8px 8px 0' : undefined,
+              }}
+            >
+              <span style={{
+                width: '24px', height: '24px', borderRadius: '50%',
+                background: isFinal ? theme.accent : `${theme.accent}40`,
+                color: isFinal ? '#000' : theme.accent,
+                fontWeight: 900, fontSize: '11px',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                flexShrink: 0, marginTop: '2px',
+              }}>
+                {isFinal ? '→' : i + 1}
+              </span>
+              <span style={{
+                color: isFinal ? theme.accent : theme.textPrimary,
+                fontSize: '17px', lineHeight: 1.65,
+                fontWeight: isFinal ? 700 : 400,
+              }}>
+                {item}
+              </span>
+            </motion.div>
+          )
+        })}
       </div>
     </div>
   )
