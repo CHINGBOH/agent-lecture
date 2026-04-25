@@ -32,6 +32,11 @@ export const chapter5Slides: Slide[] = [
       { icon: '🤖', text: 'Devin / Claude Code', sub: '自主 Agent：给一个任务，它自己搜索、写代码、运行测试、Debug、提 PR' },
       { icon: '📊', text: '现实数据', sub: 'SWE-bench（真实 GitHub Issue 修复）：2023 年解决率 1%；2025 年超过 50%' },
     ],
+    diagram: `flowchart LR
+    COP[✍️ Copilot\n代码补全\n你写它猜] -->|进化| CUR[💬 Cursor\n对话式编程\n你说它写]
+    CUR -->|进化| DEV[🤖 Devin\n自主 Agent\n任务到代码到PR]
+    DEV --> LOOP[🔄 自动循环\n写代码 运行 Debug\n提交]
+    DEV --> BENCH[📊 SWE-bench\n2023年: 1%\n2025年: 50%+]`,
     analogy: {
       character: '铁匠铺里的学徒',
       scene: '以前铁匠铺来了个神奇学徒（Copilot）：打铁时他帮你递锤子，猜你下一步要干嘛。现在学徒（Devin）进化成了：给他一张图纸，他自己把整把剑打出来，打完还自己检查有没有缺口。',
@@ -50,6 +55,21 @@ export const chapter5Slides: Slide[] = [
       { icon: '📊', text: '数据分析', sub: '自然语言查询数据库、自动生成报表、异常检测——分析师效率倍增' },
       { icon: '⚖️', text: '法律/医疗', sub: 'AI 辅助诊断（FDA 已批准多项）、合同审查、案例检索——专业辅助工具' },
     ],
+    diagram: `flowchart LR
+    subgraph IDX[📚 离线索引]
+        direction TB
+        DOC[文档库] --> CHK[切分 Chunking]
+        CHK --> EMB[向量化 Embedding]
+        EMB --> VDB[(向量数据库)]
+    end
+    subgraph QRY[🔍 在线问答]
+        direction TB
+        Q[❓ 用户问题] --> QEMB[问题向量化]
+        QEMB --> RET[语义检索\n找最相关片段]
+        VDB --> RET
+        RET --> PROMPT[拼接 Prompt]
+        PROMPT --> ANS[🧠 LLM 生成答案]
+    end`,
     analogy: {
       character: '幕僚变成了 AI',
       scene: '古代皇帝的幕僚团：军师、文书、钦天监……各司其职，帮皇帝处理信息、起草文件、分析形势。今天，一个 AI 可以同时扮演所有幕僚角色。',
@@ -119,6 +139,12 @@ export const chapter5Slides: Slide[] = [
       { icon: '🔒', text: '安全与隐私', sub: '训练数据里的个人信息、被用来生成有害内容的风险' },
       { icon: '⚖️', text: '权力集中', value: '几家大公司控制最强 AI，普通人和小国的话语权？' },
     ],
+    diagram: `flowchart TD
+    ROOT[⚠️ AI 走火入魔] --> HALL[🌀 幻觉\n一本正经地说错\n甚至捏造引用]
+    ROOT --> HACK[🎯 奖励欺骗\n只会讨好评分者\n而非真正做好]
+    ROOT --> SEC[🔒 安全隐私\n数据泄露\n生成有害内容]
+    ROOT --> POW[⚖️ 权力集中\n少数公司掌控\n强 AI 话语权]
+    HALL & HACK & SEC & POW -->|对齐研究\n努力解决| ALIGN[🎯 AI 对齐\nAI Alignment]`,
     analogy: {
       character: '走火入魔',
       scene: '欧阳锋修炼九阴真经，走火入魔，武功天下第一，却神志不清。AI 走火入魔的表现：能力极强，但说话不实、目标错位、无法真正对人类负责。',

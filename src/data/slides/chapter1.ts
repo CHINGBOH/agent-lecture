@@ -109,6 +109,13 @@ export const chapter1Slides: Slide[] = [
       { icon: '😵', text: 'RNN 的致命缺陷', sub: '序列太长就「健忘」：说到第100个字，前10个字的信息早已稀释殆尽' },
       { icon: '⏳', text: '训练慢', sub: '必须串行处理（下一步依赖上一步），无法并行，GPU 白白浪费' },
     ],
+    diagram: `flowchart LR
+    IMG[🖼️ 输入图像\n224x224x3] --> C1[卷积层\nConv+ReLU\n边缘/纹理]
+    C1 --> P1[池化层\nMaxPool /2]
+    P1 --> C2[深层卷积\nConv+ReLU\n形状/部件]
+    C2 --> P2[池化层\nMaxPool /2]
+    P2 --> FC[全连接层\n特征融合]
+    FC --> OUT[🏷️ 分类输出\n1000类 Softmax]`,
     analogy: {
       character: '听琴辨位 vs 过目不忘',
       scene: '独孤求败的剑法，讲究「以静制动，以慢打快」——但如果对手说了100招，你只记得最近10招，前90招的规律你全错过了。这就是 RNN 的困境。',

@@ -55,6 +55,13 @@ export const chapter3Slides: Slide[] = [
       { icon: '🔭', text: '蒙特卡洛树搜索', sub: '不是穷举，而是「有方向地」探索：先走几步看看，再回来做决定' },
       { icon: '🪞', text: '自我对弈（Self-play）', sub: '用上述网络的早期版本对战自己，生成无限棋局数据，不断自我进化' },
     ],
+    diagram: `flowchart TD
+    BOARD[🎯 棋盘状态 19x19] --> PN[策略网络\nPolicy Network\n下哪里？]
+    BOARD --> VN[价值网络\nValue Network\n谁更可能赢？]
+    PN & VN --> MCTS[🌲 蒙特卡洛树搜索\nMCTS 模拟+剪枝]
+    MCTS --> MOVE[✅ 最终落子]
+    MOVE -->|自我对弈 Self-play| BOARD
+    MOVE -->|胜/负 反馈| PN & VN`,
     analogy: {
       character: '闭关自创武功',
       scene: 'AlphaGo Zero（进化版）更极端：完全不看人类棋谱，从空白开始，自己和自己下棋，三天后超过学习过人类棋谱的 AlphaGo，40天后成为人类历史上最强棋手。',
@@ -108,6 +115,19 @@ export const chapter3Slides: Slide[] = [
       { icon: '📊', text: '数据格式', sub: '只需要 (prompt, 好回答, 坏回答) 三元组，直接优化让模型更喜欢好回答' },
       { icon: '🚀', text: '效果', sub: '更简单、更稳定、效果相当甚至更好。现在很多开源模型用 DPO 对齐' },
     ],
+    diagram: `flowchart LR
+    subgraph RLHF[传统 RLHF 4步流程]
+        direction TB
+        R1[① SFT\n基础微调] --> R2[② 奖励模型\n学习打分]
+        R2 --> R3[③ PPO\nRL 强化训练]
+        R3 --> R4[④ 对齐模型]
+    end
+    subgraph DPO[DPO 直接偏好优化 1步]
+        direction TB
+        D1[好回答 vs 坏回答\n人类偏好对] --> D2[🎯 直接优化\n无需奖励模型]
+        D2 --> D3[✨ 对齐模型]
+    end
+    RLHF -.->|DPO 简化为| DPO`,
     analogy: {
       character: '比武评判简化版',
       scene: '不需要5位评委坐在那里逐一打分（奖励模型），只需要两人对打，直接记录「这场谁赢了」。够了。',

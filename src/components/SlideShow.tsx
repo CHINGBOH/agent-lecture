@@ -265,7 +265,7 @@ function SlideRenderer({ slide, theme }: { slide: Slide; theme: ReturnType<typeo
   const enrichedSlide = {
     ...slide,
     chart: slide.chart ?? (CHART_MAP[slide.id] ? slide.id : undefined),
-    image: slide.image ?? (CHART_MAP[slide.id] ? undefined : DIAGRAM_MAP[slide.id]),
+    image: slide.image ?? (CHART_MAP[slide.id] || slide.diagram ? undefined : DIAGRAM_MAP[slide.id]),
   }
   switch (enrichedSlide.type) {
     case 'cover':      return <CoverSlide slide={enrichedSlide} theme={theme} />

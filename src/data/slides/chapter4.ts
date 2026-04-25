@@ -93,6 +93,11 @@ export const chapter4Slides: Slide[] = [
       { icon: '🗂️', text: '工具记忆（文件/数据库）', sub: 'Agent 可以把中间结果写入文件或数据库，下次任务继续使用' },
       { icon: '🧠', text: '模型权重（长期记忆）', sub: '训练阶段学到的知识，永久内化，但无法实时更新' },
     ],
+    diagram: `flowchart TD
+    AGENT[🤖 AI Agent] --> CTX[⚡ 短期记忆\nContext Window\n对话中有效]
+    AGENT --> VDB[🗄️ 外部记忆\n向量数据库 RAG\n持久化检索]
+    AGENT --> FILE[📁 工具记忆\n文件/数据库\n中间结果存储]
+    AGENT --> WEIGHTS[🧠 模型权重\n训练内化知识\n固定不可更新]`,
     analogy: {
       character: '武林人士的记忆',
       scene: '黄蓉的记忆系统：脑子里（短期）记着今天要办的事；怀里秘籍（外部记忆）记着所有武功心法；武林档案馆（向量DB）查江湖人物；而她自幼修炼的聪明才智（权重）是改不了的。',
@@ -112,6 +117,13 @@ export const chapter4Slides: Slide[] = [
       { icon: '📁', text: '文件系统', sub: '读写文件——有了持久化存储，任务可以分步完成' },
       { icon: '📡', text: 'API 调用', sub: '发邮件、查天气、订机票、发推文——接入所有外部服务' },
     ],
+    diagram: `flowchart LR
+    LLM[🧠 LLM\n推理中心] --> FC[工具调用\nFunction Calling]
+    FC --> SEARCH[🔍 搜索\nGoogle/Bing]
+    FC --> CODE[💻 代码执行\nPython 沙箱]
+    FC --> BROWSER[🌐 浏览器\n网页操控]
+    FC --> API[📡 外部 API\n邮件/日历/支付]
+    SEARCH & CODE & BROWSER & API -->|观察结果 Observation| LLM`,
     analogy: {
       character: '十八般武器',
       scene: '一个武林高手，单靠拳脚能做的有限。配上长剑（搜索）、暗器（代码）、望远镜（浏览器）、口袋（文件）、信鸽（API），能做的事情指数级增加。',
