@@ -50,6 +50,7 @@ export const chapter3Slides: Slide[] = [
     chapter: 3,
     title: 'AlphaGo：自我对弈，超越人类',
     subtitle: '三个关键设计，一个历史性胜利',
+    image: '/diagrams/ch3_mcts.png',
     bullets: [
       { icon: '🧠', text: '策略网络（Policy Network）', sub: '看着棋盘，预测下一步最好的落子位置——从人类棋谱中学习' },
       { icon: '💎', text: '价值网络（Value Network）', sub: '评估当前棋盘局面，谁更可能赢——从自我对弈中学习' },
@@ -85,6 +86,7 @@ export const chapter3Slides: Slide[] = [
     chapter: 3,
     title: 'RLHF：让 GPT 从「能说」到「会说」',
     subtitle: 'ChatGPT 的秘密武器——人类反馈强化学习',
+    image: '/diagrams/ch3_rlhf.png',
     bullets: [
       { icon: '😤', text: 'GPT-3 的问题', sub: '能生成流畅文本，但常说有害内容、谎话、或明明会却装不会' },
       { icon: '👥', text: 'Step 1: 收集人类反馈', sub: '让人类对 AI 的多个回答打分排序，哪个更好、更安全、更有用' },
@@ -103,6 +105,7 @@ export const chapter3Slides: Slide[] = [
     chapter: 3,
     title: 'DPO：更简洁的对齐方法',
     subtitle: 'RLHF 太复杂了，有没有更优雅的方案？',
+    image: '/diagrams/ch3_dpo.png',
     bullets: [
       { icon: '😩', text: 'RLHF 的麻烦', sub: '要训练4个模型（SFT、奖励模型、Actor、Critic），超参数难调，训练不稳定' },
       { icon: '💡', text: 'DPO 的想法', sub: '直接偏好优化（2023）：把 RL 问题转化为分类问题，不需要奖励模型' },

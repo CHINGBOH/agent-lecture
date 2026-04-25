@@ -675,6 +675,873 @@ def gen_backprop():
     save(f, 'ch1_backprop.png')
 
 
+# ══════════════════════════════════════════════════════════════
+# 图9：感知机（第0章）
+# ══════════════════════════════════════════════════════════════
+def gen_perceptron():
+    f, t = fig(0)
+    ax = f.add_axes([0, 0, 1, 1])
+    ax.set_facecolor(t['bg'])
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 6)
+    ax.axis('off')
+
+    accent = t['accent']
+    text_col = t['text']
+
+    def node(x, y, label, color, r=0.28, fs=12):
+        c = plt.Circle((x, y), r, color=color, alpha=0.85, zorder=3)
+        cg = plt.Circle((x, y), r + 0.08, color=color, alpha=0.15, zorder=2)
+        ax.add_patch(c)
+        ax.add_patch(cg)
+        ax.text(x, y, label, fontsize=fs, ha='center', va='center',
+                color='#111', fontweight='bold', zorder=4)
+
+    def box(x, y, w, h, label, color, sublabel=''):
+        rect = FancyBboxPatch((x - w/2, y - h/2), w, h,
+                              boxstyle='round,pad=0.12',
+                              facecolor=color + '30', edgecolor=color,
+                              linewidth=2, zorder=3)
+        ax.add_patch(rect)
+        ax.text(x, y + (0.12 if sublabel else 0), label, fontsize=13,
+                ha='center', va='center', color=text_col, fontweight='bold', zorder=4)
+        if sublabel:
+            ax.text(x, y - 0.25, sublabel, fontsize=10, ha='center', va='center',
+                    color=color, alpha=0.9, zorder=4)
+
+    def arrow(x1, y1, x2, y2, label='', color=None):
+        c = color or accent
+        ax.annotate('', xy=(x2, y2), xytext=(x1, y1),
+                    arrowprops=dict(arrowstyle='->', color=c, lw=1.8), zorder=5)
+        if label:
+            mx, my = (x1 + x2) / 2, (y1 + y2) / 2
+            ax.text(mx - 0.15, my, label, fontsize=10, ha='right', va='center',
+                    color=c, fontweight='bold')
+
+    # Input nodes
+    inputs = [(2.0, 4.5, 'x1'), (2.0, 3.0, 'x2'), (2.0, 1.5, 'x3')]
+    weights = ['w1', 'w2', 'w3']
+    for (ix, iy, lbl), wlbl in zip(inputs, weights):
+        node(ix, iy, lbl, accent)
+        arrow(ix + 0.28, iy, 4.7, 3.0, wlbl, accent)
+
+    # Bias
+    node(2.0, 5.8, 'bias', '#CE93D8', r=0.25, fs=10)
+    arrow(2.0 + 0.25, 5.8, 4.7, 3.2, 'b', '#CE93D8')
+
+    # Weighted sum box
+    box(5.5, 3.0, 1.6, 1.0, 'Sum', accent, 'w*x + b')
+
+    # Step function box
+    box(7.5, 3.0, 1.6, 1.0, 'Step', '#FFB74D', '激活函数')
+
+    # Output node
+    node(9.3, 3.0, '0/1', '#81C784')
+
+    # Arrows between boxes
+    arrow(6.3, 3.0, 6.7, 3.0)
+    arrow(8.3, 3.0, 9.0, 3.0)
+
+    # Annotations
+    ax.text(5.5, 1.8, '加权求和', fontsize=11, ha='center', color=accent, alpha=0.8)
+    ax.text(7.5, 1.8, '阈值判断', fontsize=11, ha='center', color='#FFB74D', alpha=0.8)
+    ax.text(9.3, 1.8, '输出', fontsize=11, ha='center', color='#81C784', alpha=0.8)
+
+    glow_text(ax, 5.0, 5.6, '感知机：神经网络的雏形', fontsize=22,
+              color=text_col, fontweight='bold')
+    ax.text(5.0, 5.1, '加权求和 + 激活函数 = 最简单的"神经元"',
+            fontsize=13, ha='center', va='center', color=accent, alpha=0.85)
+
+    save(f, 'ch0_perceptron.png')
+
+
+# ══════════════════════════════════════════════════════════════
+# 图10：特征工程 vs 深度学习（第1章）
+# ══════════════════════════════════════════════════════════════
+def gen_feature_vs_dl():
+    f, t = fig(1)
+    ax = f.add_axes([0, 0, 1, 1])
+    ax.set_facecolor(t['bg'])
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 6)
+    ax.axis('off')
+
+    accent = t['accent']
+    text_col = t['text']
+
+    def pipeline_box(x, y, w, h, label, color):
+        rect = FancyBboxPatch((x - w/2, y - h/2), w, h,
+                              boxstyle='round,pad=0.12',
+                              facecolor=color + '30', edgecolor=color,
+                              linewidth=2, zorder=3)
+        ax.add_patch(rect)
+        ax.text(x, y, label, fontsize=11, ha='center', va='center',
+                color=text_col, fontweight='bold', zorder=4)
+
+    def pipe_arrow(x1, y1, x2, y2, color):
+        ax.annotate('', xy=(x2, y2), xytext=(x1, y1),
+                    arrowprops=dict(arrowstyle='->', color=color, lw=2), zorder=5)
+
+    # Dividing line
+    ax.plot([5.0, 5.0], [0.5, 5.5], color='#555', lw=1.5, linestyle='--', alpha=0.5)
+
+    # LEFT side: Traditional ML
+    left_color = '#EF9A9A'
+    ax.text(2.5, 5.3, '传统机器学习', fontsize=16, ha='center', color=left_color, fontweight='bold')
+    left_steps = ['原始输入', '手工特征', '分类器', '输出']
+    lys = [4.3, 3.3, 2.3, 1.3]
+    for lbl, ly in zip(left_steps, lys):
+        pipeline_box(2.5, ly, 2.0, 0.6, lbl, left_color)
+    for i in range(len(lys) - 1):
+        pipe_arrow(2.5, lys[i] - 0.3, 2.5, lys[i+1] + 0.3, left_color)
+    # Annotation
+    ax.text(1.0, 3.3, '人工设计', fontsize=12, ha='center', color='#EF5350',
+            fontweight='bold',
+            bbox=dict(boxstyle='round,pad=0.3', facecolor='#EF535030', edgecolor='#EF5350'))
+
+    # RIGHT side: Deep Learning
+    right_color = accent
+    ax.text(7.5, 5.3, '深度学习', fontsize=16, ha='center', color=right_color, fontweight='bold')
+    right_steps = ['原始输入', '特征层 L1', '特征层 L2', '特征层 L3', '输出']
+    rys = [4.5, 3.7, 2.9, 2.1, 1.3]
+    for lbl, ry in zip(right_steps, rys):
+        pipeline_box(7.5, ry, 2.0, 0.5, lbl, right_color)
+    for i in range(len(rys) - 1):
+        pipe_arrow(7.5, rys[i] - 0.25, 7.5, rys[i+1] + 0.25, right_color)
+    # Annotation
+    ax.text(9.2, 2.9, '自动学习', fontsize=12, ha='center', color='#4FC3F7',
+            fontweight='bold',
+            bbox=dict(boxstyle='round,pad=0.3', facecolor='#4FC3F730', edgecolor='#4FC3F7'))
+
+    glow_text(ax, 5.0, 5.75, '特征工程 vs 深度学习', fontsize=22,
+              color=text_col, fontweight='bold')
+
+    save(f, 'ch1_feature_vs_dl.png')
+
+
+# ══════════════════════════════════════════════════════════════
+# 图11：规模定律（第2章）
+# ══════════════════════════════════════════════════════════════
+def gen_scaling_law():
+    f, t = fig(2)
+    ax = f.add_axes([0.1, 0.12, 0.82, 0.75])
+    ax.set_facecolor(t['bg'])
+    f.patch.set_facecolor(t['bg'])
+
+    accent = t['accent']
+    text_col = t['text']
+
+    x = np.linspace(20, 25, 200)
+
+    # Three curves with different slopes
+    y_params = 8.5 - 0.30 * (x - 20)
+    y_data   = 8.5 - 0.25 * (x - 20)
+    y_compute = 8.5 - 0.22 * (x - 20)
+
+    ax.plot(x, y_params,  color=accent,    lw=3, label='参数量',
+            path_effects=[pe.withStroke(linewidth=6, foreground=accent + '40'), pe.Normal()])
+    ax.plot(x, y_data,    color='#4FC3F7', lw=3, label='数据量',
+            path_effects=[pe.withStroke(linewidth=6, foreground='#4FC3F740'), pe.Normal()])
+    ax.plot(x, y_compute, color='#CE93D8', lw=3, label='算力',
+            path_effects=[pe.withStroke(linewidth=6, foreground='#CE93D840'), pe.Normal()])
+
+    # Milestones
+    milestones = [
+        (21.0, 'GPT-2',  accent),
+        (22.5, 'GPT-3',  '#4FC3F7'),
+        (24.0, 'GPT-4',  '#CE93D8'),
+    ]
+    for mx, mlbl, mc in milestones:
+        my = 8.5 - 0.30 * (mx - 20)
+        ax.scatter([mx], [my], color=mc, s=120, zorder=5)
+        ax.annotate(mlbl, xy=(mx, my), xytext=(mx + 0.1, my + 0.3),
+                    fontsize=11, color=mc, fontweight='bold',
+                    arrowprops=dict(arrowstyle='->', color=mc, lw=1.2))
+
+    ax.set_xlabel('计算量 (log FLOPs)', fontsize=13, color=text_col)
+    ax.set_ylabel('Loss (越低越强)', fontsize=13, color=text_col)
+    ax.tick_params(colors=text_col, labelsize=11)
+    for spine in ax.spines.values():
+        spine.set_edgecolor('#555')
+    ax.set_facecolor(t['bg'])
+    ax.grid(True, color='#333', linestyle='--', alpha=0.4)
+
+    legend = ax.legend(fontsize=12, facecolor=t['bg'], edgecolor=accent,
+                       labelcolor=text_col, loc='upper right')
+
+    glow_text(ax, 22.5, 8.8, '规模定律：越大越强', fontsize=20,
+              color=text_col, fontweight='bold')
+
+    save(f, 'ch2_scaling_law.png')
+
+
+# ══════════════════════════════════════════════════════════════
+# 图12：蒙特卡洛树搜索（第3章）
+# ══════════════════════════════════════════════════════════════
+def gen_mcts():
+    f, t = fig(3)
+    ax = f.add_axes([0, 0, 1, 1])
+    ax.set_facecolor(t['bg'])
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 6)
+    ax.axis('off')
+
+    accent = t['accent']
+    text_col = t['text']
+    dim_color = '#555577'
+
+    def tree_node(x, y, label, color, visited=True, r=0.22):
+        c = plt.Circle((x, y), r, color=color if visited else dim_color,
+                        alpha=0.85, zorder=4)
+        cg = plt.Circle((x, y), r + 0.08, color=color if visited else dim_color,
+                         alpha=0.15, zorder=3)
+        ax.add_patch(c)
+        ax.add_patch(cg)
+        ax.text(x, y, label, fontsize=9, ha='center', va='center',
+                color='#111' if visited else '#888', fontweight='bold', zorder=5)
+
+    def tree_arrow(x1, y1, x2, y2):
+        ax.annotate('', xy=(x2, y2 + 0.22), xytext=(x1, y1 - 0.22),
+                    arrowprops=dict(arrowstyle='->', color='#9988BB', lw=1.5), zorder=3)
+
+    # Root
+    tree_node(5.0, 4.8, 'Root', accent)
+
+    # Level 1 children
+    l1 = [(2.5, 3.4), (5.0, 3.4), (7.5, 3.4)]
+    l1_visit = [True, True, False]
+    for (x, y), vis in zip(l1, l1_visit):
+        tree_node(x, y, 'N', accent if vis else dim_color, visited=vis)
+        tree_arrow(5.0, 4.8, x, y)
+
+    # Level 2 children
+    l2 = [
+        (1.5, 2.0, True), (3.5, 2.0, True),
+        (4.2, 2.0, True), (5.8, 2.0, False),
+        (6.8, 2.0, False), (8.2, 2.0, False),
+    ]
+    parents = [0, 0, 1, 1, 2, 2]
+    for (x, y, vis), pi in zip(l2, parents):
+        tree_node(x, y, 'N', accent if vis else dim_color, visited=vis, r=0.18)
+        px, py = l1[pi]
+        tree_arrow(px, py, x, y)
+
+    # Phase labels at top
+    phases = [
+        (2.0, 5.5, '1. 选择 Select', accent),
+        (4.2, 5.5, '2. 扩展 Expand', '#FFB74D'),
+        (6.5, 5.5, '3. 模拟 Simulate', '#4FC3F7'),
+        (8.5, 5.5, '4. 回传 Backprop', '#CE93D8'),
+    ]
+    for px, py, plbl, pc in phases:
+        ax.text(px, py, plbl, fontsize=11, ha='center', va='center',
+                color=pc, fontweight='bold',
+                bbox=dict(boxstyle='round,pad=0.3', facecolor=pc + '20', edgecolor=pc))
+
+    # Simulate arrow (dotted, from visited leaf)
+    ax.plot([3.5, 3.5], [1.82, 1.0], color='#4FC3F7', lw=1.5,
+            linestyle=':', alpha=0.8, zorder=3)
+    ax.text(3.5, 0.75, '随机模拟\n结果评估', fontsize=9, ha='center',
+            color='#4FC3F7', alpha=0.85)
+
+    glow_text(ax, 5.0, 0.4, 'AlphaGo: 蒙特卡洛树搜索', fontsize=20,
+              color=text_col, fontweight='bold')
+
+    save(f, 'ch3_mcts.png')
+
+
+# ══════════════════════════════════════════════════════════════
+# 图13：RLHF 流程（第3章）
+# ══════════════════════════════════════════════════════════════
+def gen_rlhf_pipeline():
+    f, t = fig(3)
+    ax = f.add_axes([0, 0, 1, 1])
+    ax.set_facecolor(t['bg'])
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 6)
+    ax.axis('off')
+
+    accent = t['accent']
+    text_col = t['text']
+
+    stages = [
+        (1.8,  3.2, '① 监督微调 SFT',  '#4FC3F7',
+         'LLM + 人工示范数据', '人类专家编写高质量\n回答作为训练样本'),
+        (5.0,  3.2, '② 奖励模型 RM',   '#FFB74D',
+         '人类偏好排序 → 打分', '对多个回答进行排序\n训练打分函数'),
+        (8.2,  3.2, '③ PPO 强化学习', accent,
+         'RM 打分 → 更新 LLM', '用奖励信号通过 PPO\n持续优化语言模型'),
+    ]
+
+    for sx, sy, title, color, sub1, sub2 in stages:
+        rect = FancyBboxPatch((sx - 1.3, sy - 0.8), 2.6, 1.6,
+                              boxstyle='round,pad=0.15',
+                              facecolor=color + '25', edgecolor=color,
+                              linewidth=2.5, zorder=3)
+        ax.add_patch(rect)
+        ax.text(sx, sy + 0.38, title, fontsize=13, ha='center', va='center',
+                color=color, fontweight='bold', zorder=4)
+        ax.text(sx, sy - 0.08, sub1, fontsize=10, ha='center', va='center',
+                color=text_col, fontweight='bold', zorder=4)
+        ax.text(sx, sy - 0.55, sub2, fontsize=9, ha='center', va='center',
+                color=text_col, alpha=0.75, linespacing=1.4, zorder=4)
+
+    # Arrows between stages
+    for x1, x2, color in [(3.1, 3.7, '#4FC3F7'), (6.3, 6.9, '#FFB74D')]:
+        ax.annotate('', xy=(x2, 3.2), xytext=(x1, 3.2),
+                    arrowprops=dict(arrowstyle='->', color=color, lw=3), zorder=5)
+
+    # Top description
+    ax.text(5.0, 5.2, 'RLHF: 让 AI 学会人类偏好', fontsize=22,
+            ha='center', va='center', color=text_col, fontweight='bold',
+            path_effects=[pe.withStroke(linewidth=8, foreground=accent + '40'), pe.Normal()])
+    ax.text(5.0, 4.65, '三阶段训练：先模仿，再打分，再用分数优化',
+            fontsize=13, ha='center', va='center', color=accent, alpha=0.85)
+
+    # Bottom note
+    ax.text(5.0, 1.5, '注：PPO = Proximal Policy Optimization (近端策略优化)',
+            fontsize=11, ha='center', va='center', color=text_col, alpha=0.6)
+
+    save(f, 'ch3_rlhf.png')
+
+
+# ══════════════════════════════════════════════════════════════
+# 图14：DPO vs RLHF（第3章）
+# ══════════════════════════════════════════════════════════════
+def gen_dpo_vs_rlhf():
+    f, t = fig(3)
+    ax = f.add_axes([0, 0, 1, 1])
+    ax.set_facecolor(t['bg'])
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 6)
+    ax.axis('off')
+
+    accent = t['accent']
+    text_col = t['text']
+
+    def flow_box(x, y, label, color, w=1.6, h=0.6):
+        rect = FancyBboxPatch((x - w/2, y - h/2), w, h,
+                              boxstyle='round,pad=0.1',
+                              facecolor=color + '28', edgecolor=color,
+                              linewidth=2, zorder=3)
+        ax.add_patch(rect)
+        ax.text(x, y, label, fontsize=11, ha='center', va='center',
+                color=text_col, fontweight='bold', zorder=4)
+
+    def v_arrow(x, y1, y2, color):
+        ax.annotate('', xy=(x, y2), xytext=(x, y1),
+                    arrowprops=dict(arrowstyle='->', color=color, lw=2), zorder=5)
+
+    # Dividing line
+    ax.plot([5.0, 5.0], [0.8, 5.4], color='#555', lw=1.5, linestyle='--', alpha=0.5)
+
+    # LEFT: RLHF (complex)
+    lx = 2.5
+    left_color = '#EF9A9A'
+    ax.text(lx, 5.2, 'RLHF (复杂)', fontsize=15, ha='center', color=left_color, fontweight='bold')
+    left_steps = ['LLM', '奖励模型 RM', '奖励信号', 'PPO 优化', '更新后 LLM']
+    lys = [4.4, 3.6, 2.8, 2.0, 1.2]
+    for lbl, ly in zip(left_steps, lys):
+        flow_box(lx, ly, lbl, left_color)
+    for i in range(len(lys) - 1):
+        v_arrow(lx, lys[i] - 0.3, lys[i+1] + 0.3, left_color)
+    ax.text(lx - 1.5, 3.0, '多步骤\n复杂', fontsize=10, ha='center',
+            color='#EF5350', alpha=0.85, linespacing=1.4)
+
+    # RIGHT: DPO (simple)
+    rx = 7.5
+    right_color = '#81C784'
+    ax.text(rx, 5.2, 'DPO (简洁)', fontsize=15, ha='center', color=right_color, fontweight='bold')
+    right_steps = ['偏好数据对\n(好答案/坏答案)', '直接优化损失', '更新后 LLM']
+    rys = [4.1, 2.8, 1.5]
+    for lbl, ry in zip(right_steps, rys):
+        flow_box(rx, ry, lbl, right_color, w=2.2, h=0.7)
+    for i in range(len(rys) - 1):
+        v_arrow(rx, rys[i] - 0.35, rys[i+1] + 0.35, right_color)
+    ax.text(rx + 1.6, 2.8, '无需\n奖励模型', fontsize=10, ha='center',
+            color='#81C784', alpha=0.85, linespacing=1.4)
+
+    glow_text(ax, 5.0, 5.72, 'DPO: 去掉奖励模型，直接优化', fontsize=20,
+              color=text_col, fontweight='bold')
+
+    save(f, 'ch3_dpo.png')
+
+
+# ══════════════════════════════════════════════════════════════
+# 图15：Agent 记忆架构（第4章）
+# ══════════════════════════════════════════════════════════════
+def gen_agent_memory():
+    f, t = fig(4)
+    ax = f.add_axes([0, 0, 1, 1])
+    ax.set_facecolor(t['bg'])
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 6)
+    ax.axis('off')
+
+    accent = t['accent']
+    text_col = t['text']
+
+    # Agent center
+    cx, cy = 5.0, 3.0
+    c = plt.Circle((cx, cy), 0.55, color=accent, alpha=0.85, zorder=4)
+    cg = plt.Circle((cx, cy), 0.7, color=accent, alpha=0.15, zorder=3)
+    ax.add_patch(c)
+    ax.add_patch(cg)
+    ax.text(cx, cy, 'Agent', fontsize=13, ha='center', va='center',
+            color='#111', fontweight='black', zorder=5)
+
+    layers = [
+        (5.0, 5.0, '工作记忆 (上下文窗口)',  '#4FC3F7',
+         '速度: 极快  |  容量: 小  |  时效: 临时'),
+        (5.0, 3.0, '情节记忆 (向量数据库)',   accent,
+         '速度: 中等  |  容量: 中  |  方式: 语义检索'),
+        (5.0, 1.0, '语义记忆 (外部文档/知识库)', '#CE93D8',
+         '速度: 较慢  |  容量: 大  |  时效: 持久'),
+    ]
+
+    for lx, ly, label, color, desc in layers:
+        is_center = (ly == cy)
+        if is_center:
+            continue
+        rect = FancyBboxPatch((lx - 3.5, ly - 0.45), 7.0, 0.9,
+                              boxstyle='round,pad=0.12',
+                              facecolor=color + '25', edgecolor=color,
+                              linewidth=2, zorder=3)
+        ax.add_patch(rect)
+        ax.text(lx, ly + 0.12, label, fontsize=13, ha='center', va='center',
+                color=color, fontweight='bold', zorder=4)
+        ax.text(lx, ly - 0.22, desc, fontsize=10, ha='center', va='center',
+                color=text_col, alpha=0.8, zorder=4)
+
+        # Arrow from agent
+        dy = ly - cy
+        ay1 = cy + 0.55 * np.sign(dy)
+        ay2 = ly - 0.45 * np.sign(dy)
+        ax.annotate('', xy=(cx, ay2), xytext=(cx, ay1),
+                    arrowprops=dict(arrowstyle='<->', color=color, lw=2), zorder=5)
+
+    glow_text(ax, 5.0, 5.72, 'Agent 记忆三层架构', fontsize=22,
+              color=text_col, fontweight='bold')
+    ax.text(5.0, 5.35, '工作记忆快但易失，语义记忆慢但持久',
+            fontsize=13, ha='center', va='center', color=accent, alpha=0.85)
+
+    save(f, 'ch4_memory.png')
+
+
+# ══════════════════════════════════════════════════════════════
+# 图16：Function Calling 工具调用（第4章）
+# ══════════════════════════════════════════════════════════════
+def gen_function_calling():
+    f, t = fig(4)
+    ax = f.add_axes([0, 0, 1, 1])
+    ax.set_facecolor(t['bg'])
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 6)
+    ax.axis('off')
+
+    accent = t['accent']
+    text_col = t['text']
+
+    def hbox(x, y, w, h, label, color, sublabel=''):
+        rect = FancyBboxPatch((x - w/2, y - h/2), w, h,
+                              boxstyle='round,pad=0.12',
+                              facecolor=color + '28', edgecolor=color,
+                              linewidth=2, zorder=3)
+        ax.add_patch(rect)
+        ax.text(x, y + (0.1 if sublabel else 0), label, fontsize=12,
+                ha='center', va='center', color=text_col, fontweight='bold', zorder=4)
+        if sublabel:
+            ax.text(x, y - 0.22, sublabel, fontsize=9, ha='center', va='center',
+                    color=color, alpha=0.85, zorder=4)
+
+    def h_arrow(x1, y, x2, color=None):
+        ax.annotate('', xy=(x2, y), xytext=(x1, y),
+                    arrowprops=dict(arrowstyle='->', color=color or accent, lw=2), zorder=5)
+
+    # Main flow: left to right
+    main_y = 3.5
+    hbox(1.0, main_y, 1.4, 0.7, 'User', '#4FC3F7', '用户问题')
+    h_arrow(1.7, main_y, 2.1, accent)
+    hbox(2.9, main_y, 1.4, 0.7, 'LLM', accent, '决策调用')
+    h_arrow(3.6, main_y, 4.0, accent)
+    hbox(5.0, main_y, 1.8, 0.7, 'Tool Router', '#FFB74D', '路由分发')
+    h_arrow(5.9, main_y, 6.3, accent)
+    hbox(7.2, main_y, 1.4, 0.7, 'LLM', accent, '整合结果')
+    h_arrow(7.9, main_y, 8.3, accent)
+    hbox(9.1, main_y, 1.4, 0.7, 'Answer', '#81C784', '最终回答')
+
+    # Tools below router
+    tools = [
+        (3.8, 1.8, '天气 API',    '#4FC3F7'),
+        (5.2, 1.8, '代码执行',    '#FFB74D'),
+        (6.6, 1.8, '网页搜索',    '#CE93D8'),
+        (8.0, 1.8, '数据库',      '#EF9A9A'),
+    ]
+    for tx, ty, tlbl, tc in tools:
+        rect = FancyBboxPatch((tx - 0.6, ty - 0.3), 1.2, 0.6,
+                              boxstyle='round,pad=0.1',
+                              facecolor=tc + '25', edgecolor=tc,
+                              linewidth=1.5, zorder=3)
+        ax.add_patch(rect)
+        ax.text(tx, ty, tlbl, fontsize=10, ha='center', va='center',
+                color=tc, fontweight='bold', zorder=4)
+        ax.annotate('', xy=(tx, ty + 0.3), xytext=(5.0, main_y - 0.35),
+                    arrowprops=dict(arrowstyle='<->', color=tc, lw=1.2,
+                                   connectionstyle='arc3,rad=0.2'), zorder=2)
+
+    glow_text(ax, 5.0, 5.4, 'Agent 工具调用：Function Calling', fontsize=21,
+              color=text_col, fontweight='bold')
+    ax.text(5.0, 4.95, 'LLM 决定何时调用哪个工具，整合结果后回答用户',
+            fontsize=13, ha='center', va='center', color=accent, alpha=0.85)
+
+    save(f, 'ch4_tools.png')
+
+
+# ══════════════════════════════════════════════════════════════
+# 图17：AI 编程辅助工作流（第5章）
+# ══════════════════════════════════════════════════════════════
+def gen_copilot_workflow():
+    f, t = fig(5)
+    ax = f.add_axes([0, 0, 1, 1])
+    ax.set_facecolor(t['bg'])
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 6)
+    ax.axis('off')
+
+    accent = t['accent']
+    text_col = t['text']
+
+    # Circular loop nodes
+    import math
+    cx, cy, R = 5.0, 2.9, 2.1
+    steps = [
+        ('Developer\n开发者',   0,    '#4FC3F7'),
+        ('写代码\nWrite Code',  60,   accent),
+        ('AI 建议\nSuggest',    120,  '#FFB74D'),
+        ('接受/拒绝\nAccept',   180,  '#CE93D8'),
+        ('运行测试\nRun Tests', 240,  '#EF9A9A'),
+        ('测试结果\nFeedback',  300,  '#81C784'),
+    ]
+
+    node_positions = []
+    for label, angle_deg, color in steps:
+        angle = math.radians(angle_deg)
+        nx_ = cx + R * math.cos(angle)
+        ny_ = cy + R * math.sin(angle)
+        node_positions.append((nx_, ny_, color))
+
+        c = plt.Circle((nx_, ny_), 0.45, color=color, alpha=0.80, zorder=4)
+        cg = plt.Circle((nx_, ny_), 0.58, color=color, alpha=0.15, zorder=3)
+        ax.add_patch(c)
+        ax.add_patch(cg)
+        ax.text(nx_, ny_, label, fontsize=9, ha='center', va='center',
+                color='#111', fontweight='bold', zorder=5, linespacing=1.3)
+
+    # Arrows between consecutive nodes
+    for i in range(len(node_positions)):
+        x1, y1, c1 = node_positions[i]
+        x2, y2, c2 = node_positions[(i + 1) % len(node_positions)]
+        dx, dy_ = x2 - x1, y2 - y1
+        dist = math.hypot(dx, dy_)
+        ox1 = x1 + 0.45 * dx / dist
+        oy1 = y1 + 0.45 * dy_ / dist
+        ox2 = x2 - 0.45 * dx / dist
+        oy2 = y2 - 0.45 * dy_ / dist
+        ax.annotate('', xy=(ox2, oy2), xytext=(ox1, oy1),
+                    arrowprops=dict(arrowstyle='->', color=c1, lw=1.8,
+                                   connectionstyle='arc3,rad=0.15'), zorder=3)
+
+    # Tool labels
+    tools_lbl = 'GitHub Copilot  |  Cursor  |  OpenCode'
+    ax.text(5.0, 0.45, tools_lbl, fontsize=12, ha='center', va='center',
+            color=accent, fontweight='bold',
+            bbox=dict(boxstyle='round,pad=0.4', facecolor=accent + '20', edgecolor=accent))
+
+    glow_text(ax, 5.0, 5.55, 'AI 编程辅助工作流', fontsize=22,
+              color=text_col, fontweight='bold')
+    ax.text(5.0, 5.1, '从编写到建议到测试，AI 参与整个循环',
+            fontsize=13, ha='center', va='center', color=accent, alpha=0.85)
+
+    save(f, 'ch5_coding.png')
+
+
+# ══════════════════════════════════════════════════════════════
+# 图18：RAG 检索增强生成（第5章）
+# ══════════════════════════════════════════════════════════════
+def gen_rag_pipeline():
+    f, t = fig(5)
+    ax = f.add_axes([0, 0, 1, 1])
+    ax.set_facecolor(t['bg'])
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 6)
+    ax.axis('off')
+
+    accent = t['accent']
+    text_col = t['text']
+
+    def step_box(x, y, label, color, w=1.5, h=0.65):
+        rect = FancyBboxPatch((x - w/2, y - h/2), w, h,
+                              boxstyle='round,pad=0.1',
+                              facecolor=color + '28', edgecolor=color,
+                              linewidth=2, zorder=3)
+        ax.add_patch(rect)
+        ax.text(x, y, label, fontsize=11, ha='center', va='center',
+                color=text_col, fontweight='bold', zorder=4)
+
+    def h_arrow(x1, y, x2, color, style='-'):
+        ax.annotate('', xy=(x2, y), xytext=(x1, y),
+                    arrowprops=dict(arrowstyle='->', color=color, lw=1.8,
+                                   linestyle=style), zorder=5)
+
+    # TOP ROW: Indexing
+    top_y = 4.2
+    idx_steps = ['文档', 'Chunking\n分块', 'Embedding\n向量化', '向量数据库']
+    idx_x = [1.2, 3.0, 5.0, 7.2]
+    idx_color = '#4FC3F7'
+    ax.text(0.3, top_y, '索引\n阶段', fontsize=10, ha='center', va='center',
+            color=idx_color, fontweight='bold', alpha=0.8)
+    for lbl, ix in zip(idx_steps, idx_x):
+        step_box(ix, top_y, lbl, idx_color)
+    for i in range(len(idx_x) - 1):
+        h_arrow(idx_x[i] + 0.75, top_y, idx_x[i+1] - 0.75, idx_color)
+
+    # BOTTOM ROW: Retrieval
+    bot_y = 2.0
+    ret_steps = ['用户问题', 'Embedding', '向量检索', 'Top-K\n文本块', 'LLM+\n上下文', '答案']
+    ret_x = [1.0, 2.5, 4.0, 5.5, 7.2, 9.0]
+    ret_color = accent
+    ax.text(0.3, bot_y, '检索\n阶段', fontsize=10, ha='center', va='center',
+            color=ret_color, fontweight='bold', alpha=0.8)
+    for lbl, rx in zip(ret_steps, ret_x):
+        step_box(rx, bot_y, lbl, ret_color)
+    for i in range(len(ret_x) - 1):
+        h_arrow(ret_x[i] + 0.75, bot_y, ret_x[i+1] - 0.75, ret_color)
+
+    # Dotted connection: vector store → retrieval
+    ax.plot([7.2, 7.2], [top_y - 0.33, bot_y + 0.33], color='#FFB74D',
+            lw=1.5, linestyle=':', alpha=0.9, zorder=3)
+    ax.text(7.7, 3.1, '存储', fontsize=9, color='#FFB74D', ha='center')
+
+    glow_text(ax, 5.0, 5.5, 'RAG: 知识检索增强生成', fontsize=22,
+              color=text_col, fontweight='bold')
+    ax.text(5.0, 5.1, '先建索引，再检索相关片段，最后结合上下文生成答案',
+            fontsize=13, ha='center', va='center', color=accent, alpha=0.85)
+
+    # Phase labels
+    ax.text(5.0, 1.1, '检索阶段：运行时实时查询', fontsize=11, ha='center',
+            color=accent, alpha=0.7)
+    ax.text(5.0, 5.1 - 0.55, '索引阶段：离线预处理', fontsize=11, ha='center',
+            color=idx_color, alpha=0.7)
+
+    save(f, 'ch5_rag.png')
+
+
+# ══════════════════════════════════════════════════════════════
+# 图19：AI 风险地图（第5章）
+# ══════════════════════════════════════════════════════════════
+def gen_ai_risks():
+    f, t = fig(5)
+    ax = f.add_axes([0.1, 0.12, 0.82, 0.75])
+    ax.set_facecolor(t['bg'])
+    f.patch.set_facecolor(t['bg'])
+
+    accent = t['accent']
+    text_col = t['text']
+
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 10)
+    ax.axis('off')
+
+    # Quadrant lines
+    ax.axvline(5, color='#444', lw=1, linestyle='--', alpha=0.5)
+    ax.axhline(5, color='#444', lw=1, linestyle='--', alpha=0.5)
+
+    # Axis labels
+    ax.text(5.0, -0.8, '发生概率', fontsize=13, ha='center', color=text_col, fontweight='bold')
+    ax.text(0.0, -1.4, '低', fontsize=11, ha='center', color=text_col, alpha=0.7)
+    ax.text(10.0, -1.4, '高', fontsize=11, ha='center', color=text_col, alpha=0.7)
+    ax.text(-1.0, 5.0, '影响程度', fontsize=13, ha='center', va='center',
+            color=text_col, fontweight='bold', rotation=90)
+    ax.text(-1.5, 0.0, '低', fontsize=11, ha='center', color=text_col, alpha=0.7)
+    ax.text(-1.5, 10.0, '高', fontsize=11, ha='center', color=text_col, alpha=0.7)
+
+    risks = [
+        ('幻觉/错误',   8.0, 5.5, 500,  '#FFB74D'),
+        ('隐私泄露',    6.0, 8.0, 600,  '#EF9A9A'),
+        ('偏见歧视',    5.5, 5.0, 450,  '#FFB74D'),
+        ('超级对齐失败', 2.0, 9.5, 1200, '#EF5350'),
+        ('失业替代',    7.5, 8.5, 700,  '#EF5350'),
+    ]
+
+    for label, rx, ry, size, color in risks:
+        ax.scatter([rx], [ry], s=size, color=color, alpha=0.45, zorder=3)
+        ax.scatter([rx], [ry], s=size * 0.15, color=color, alpha=0.9, zorder=4)
+        ax.text(rx, ry + 0.5 + size / 4000, label, fontsize=11, ha='center',
+                va='bottom', color=color, fontweight='bold', zorder=5)
+
+    # Quadrant annotations
+    for qx, qy, qlbl in [(2.5, 2.5, '低风险'), (7.5, 2.5, '需监控'),
+                          (2.5, 7.5, '低概率\n高影响'), (7.5, 7.5, '高度关注')]:
+        ax.text(qx, qy, qlbl, fontsize=10, ha='center', va='center',
+                color='#777', alpha=0.6, linespacing=1.4)
+
+    glow_text(ax, 5.0, 10.8, 'AI 风险地图', fontsize=22,
+              color=text_col, fontweight='bold')
+
+    save(f, 'ch5_risks.png')
+
+
+# ══════════════════════════════════════════════════════════════
+# 图20：深度学习发展时间线（第1章）
+# ══════════════════════════════════════════════════════════════
+def gen_dl_timeline():
+    f, t = fig(1)
+    ax = f.add_axes([0.04, 0.1, 0.92, 0.8])
+    ax.set_facecolor(t['bg'])
+    ax.set_xlim(1984, 2024)
+    ax.set_ylim(-1.2, 1.8)
+    ax.axis('off')
+
+    accent = t['accent']
+    text_col = t['text']
+
+    events = [
+        (1986, '反向传播\nBackprop',      False),
+        (1998, 'LeNet\n卷积网络',          False),
+        (2006, '深度信念网络\nDeep Belief', False),
+        (2012, 'AlexNet\nImageNet',        True),
+        (2014, 'GAN\n生成对抗',            False),
+        (2017, 'Transformer',              True),
+        (2020, 'GPT-3',                    True),
+        (2022, 'ChatGPT',                  True),
+    ]
+
+    ax.axhline(0, color=accent, lw=2, alpha=0.5, zorder=1)
+    ax.annotate('', xy=(2024, 0), xytext=(1984, 0),
+                arrowprops=dict(arrowstyle='->', color=accent, lw=2), zorder=2)
+
+    for i, (year, label, highlight) in enumerate(events):
+        ypos = 0.7 if i % 2 == 0 else -0.7
+        color = '#FFB74D' if highlight else accent
+        r = 0.10 if highlight else 0.07
+        circle = plt.Circle((year, 0), r, color=color, zorder=4)
+        ax.add_patch(circle)
+        if highlight:
+            glow = plt.Circle((year, 0), r + 0.05, color=color, alpha=0.2, zorder=3)
+            ax.add_patch(glow)
+        ax.plot([year, year], [0, ypos * 0.7], color=color, lw=1.2, alpha=0.6, zorder=2)
+        ax.text(year, ypos * 0.82, label, fontsize=9.5 if highlight else 8.5,
+                ha='center', va='center', color=color, fontweight='bold',
+                linespacing=1.4, zorder=5)
+        ax.text(year, -0.15 if ypos > 0 else 0.13, str(year),
+                fontsize=8, ha='center', va='center', color=accent, alpha=0.7)
+
+    glow_text(ax, 2004, 1.55, '深度学习发展时间线  1986 — 2022',
+              fontsize=20, color=text_col, fontweight='bold')
+
+    save(f, 'ch1_timeline.png')
+
+
+# ══════════════════════════════════════════════════════════════
+# 图21：大语言模型发展时间线（第2章）
+# ══════════════════════════════════════════════════════════════
+def gen_llm_timeline():
+    f, t = fig(2)
+    ax = f.add_axes([0.04, 0.1, 0.92, 0.8])
+    ax.set_facecolor(t['bg'])
+    ax.set_xlim(2016, 2025)
+    ax.set_ylim(-1.2, 1.8)
+    ax.axis('off')
+
+    accent = t['accent']
+    text_col = t['text']
+
+    events = [
+        (2017, 'Transformer\n"Attention Is All You Need"', False),
+        (2018, 'BERT / GPT-1',                             False),
+        (2019, 'GPT-2',                                    False),
+        (2020, 'GPT-3\n1750亿参数',                        True),
+        (2022, 'ChatGPT\n全民 AI',                         True),
+        (2023, 'GPT-4 / Claude\n/ Llama',                  True),
+        (2024, '百模大战\n开源竞争',                        False),
+    ]
+
+    ax.axhline(0, color=accent, lw=2, alpha=0.5, zorder=1)
+    ax.annotate('', xy=(2025, 0), xytext=(2016, 0),
+                arrowprops=dict(arrowstyle='->', color=accent, lw=2), zorder=2)
+
+    for i, (year, label, highlight) in enumerate(events):
+        ypos = 0.7 if i % 2 == 0 else -0.7
+        color = '#FFB74D' if highlight else accent
+        r = 0.09 if highlight else 0.06
+        circle = plt.Circle((year, 0), r, color=color, zorder=4)
+        ax.add_patch(circle)
+        if highlight:
+            glow = plt.Circle((year, 0), r + 0.04, color=color, alpha=0.2, zorder=3)
+            ax.add_patch(glow)
+        ax.plot([year, year], [0, ypos * 0.7], color=color, lw=1.2, alpha=0.6, zorder=2)
+        ax.text(year, ypos * 0.82, label, fontsize=9.5 if highlight else 8.5,
+                ha='center', va='center', color=color, fontweight='bold',
+                linespacing=1.4, zorder=5)
+        ax.text(year, -0.15 if ypos > 0 else 0.13, str(year),
+                fontsize=8, ha='center', va='center', color=accent, alpha=0.7)
+
+    glow_text(ax, 2020.5, 1.55, '大语言模型发展时间线  2017 — 2024',
+              fontsize=20, color=text_col, fontweight='bold')
+
+    save(f, 'ch2_timeline.png')
+
+
+# ══════════════════════════════════════════════════════════════
+# 图22：Agent 工具链发展时间线（第4章）
+# ══════════════════════════════════════════════════════════════
+def gen_agent_timeline():
+    f, t = fig(4)
+    ax = f.add_axes([0.04, 0.1, 0.92, 0.8])
+    ax.set_facecolor(t['bg'])
+    ax.set_xlim(2021.5, 2024.8)
+    ax.set_ylim(-1.2, 1.8)
+    ax.axis('off')
+
+    accent = t['accent']
+    text_col = t['text']
+
+    events = [
+        (2022.2, 'ReAct 论文\n推理+行动',           False),
+        (2023.1, 'AutoGPT 爆红\n自主 Agent',         True),
+        (2023.4, 'LangChain\n/ CrewAI',              False),
+        (2023.7, 'Claude\n工具调用',                  False),
+        (2024.1, 'OpenAI\nAgents SDK',               True),
+        (2024.5, 'OpenCode\n/ Devin',                True),
+    ]
+
+    ax.axhline(0, color=accent, lw=2, alpha=0.5, zorder=1)
+    ax.annotate('', xy=(2024.8, 0), xytext=(2021.5, 0),
+                arrowprops=dict(arrowstyle='->', color=accent, lw=2), zorder=2)
+
+    for i, (year, label, highlight) in enumerate(events):
+        ypos = 0.7 if i % 2 == 0 else -0.7
+        color = '#FFB74D' if highlight else accent
+        r = 0.04 if highlight else 0.028
+        circle = plt.Circle((year, 0), r, color=color, zorder=4)
+        ax.add_patch(circle)
+        if highlight:
+            glow = plt.Circle((year, 0), r + 0.02, color=color, alpha=0.2, zorder=3)
+            ax.add_patch(glow)
+        ax.plot([year, year], [0, ypos * 0.7], color=color, lw=1.2, alpha=0.6, zorder=2)
+        ax.text(year, ypos * 0.82, label, fontsize=9.5 if highlight else 8.5,
+                ha='center', va='center', color=color, fontweight='bold',
+                linespacing=1.4, zorder=5)
+        yr_str = str(int(year)) if year == int(year) else f'{year:.1f}'
+        ax.text(year, -0.15 if ypos > 0 else 0.13, yr_str,
+                fontsize=8, ha='center', va='center', color=accent, alpha=0.7)
+
+    glow_text(ax, 2023.2, 1.55, 'Agent 工具链发展时间线  2022 — 2024',
+              fontsize=20, color=text_col, fontweight='bold')
+
+    save(f, 'ch4_timeline.png')
+
+
 if __name__ == '__main__':
     print('🎨 生成架构图中...\n')
     gen_timeline()
@@ -685,4 +1552,18 @@ if __name__ == '__main__':
     gen_agent_loop()
     gen_multi_agent()
     gen_backprop()
+    gen_perceptron()
+    gen_feature_vs_dl()
+    gen_scaling_law()
+    gen_mcts()
+    gen_rlhf_pipeline()
+    gen_dpo_vs_rlhf()
+    gen_agent_memory()
+    gen_function_calling()
+    gen_copilot_workflow()
+    gen_rag_pipeline()
+    gen_ai_risks()
+    gen_dl_timeline()
+    gen_llm_timeline()
+    gen_agent_timeline()
     print('\n✨ 全部完成！输出在 public/diagrams/')

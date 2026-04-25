@@ -27,6 +27,7 @@ export const chapter1Slides: Slide[] = [
     chapter: 1,
     title: '问题的根源：特征从哪来？',
     subtitle: '手工特征 vs 自动学习特征',
+    image: '/diagrams/ch1_feature_vs_dl.png',
     bullets: [
       { icon: '✋', text: '手工特征时代', sub: '工程师手动设计：检测边缘、颜色直方图、HOG 描述子……费时费力效果差' },
       { icon: '❓', text: '现实的残酷', sub: '猫有几千种姿势、光照、角度，穷举不完' },
@@ -89,6 +90,7 @@ export const chapter1Slides: Slide[] = [
     type: 'timeline',
     chapter: 1,
     title: 'AlexNet 时刻：震惊整个武林',
+    image: '/diagrams/ch1_timeline.png',
     timeline: [
       { year: '2006', event: 'Hinton 重燃希望', detail: 'Hinton 发表深度信念网络，证明深层网络可以训练，AI 研究者重新聚集', icon: '🕯️', highlight: false },
       { year: '2009', event: 'ImageNet 诞生', detail: 'Fei-Fei Li 历时3年建成 ImageNet，120万张人工标注图片，深度学习的「粮草」', icon: '🗄️', highlight: false },

@@ -89,6 +89,7 @@ export const chapter2Slides: Slide[] = [
     chapter: 2,
     title: 'Scaling Law：越大，越强，越神奇',
     subtitle: '量变引发质变——这不是玄学，这是规律',
+    image: '/diagrams/ch2_scaling_law.png',
     bullets: [
       { icon: '📏', text: 'Scaling Law（规模法则）', sub: 'OpenAI 2020 年发现：模型性能和参数量/数据量/算力呈幂律关系，可以预测' },
       { icon: '🌊', text: '涌现能力', sub: '小模型完全做不到，大模型突然就会了——这种「质变」叫 Emergent Abilities' },
@@ -106,6 +107,7 @@ export const chapter2Slides: Slide[] = [
     type: 'timeline',
     chapter: 2,
     title: '通往 ChatGPT 的路',
+    image: '/diagrams/ch2_timeline.png',
     timeline: [
       { year: '2017', event: 'Transformer 论文', detail: 'Google Brain 发表「Attention Is All You Need」，Transformer 架构诞生', icon: '📖', highlight: true },
       { year: '2018', event: 'BERT + GPT-1', detail: 'Google BERT 和 OpenAI GPT-1 同年发布，NLP 进入预训练时代', icon: '🚀', highlight: false },

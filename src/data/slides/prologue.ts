@@ -65,6 +65,7 @@ export const prologueSlides: Slide[] = [
     chapter: 0,
     title: '神经网络的雏形：感知机（1958）',
     subtitle: '天才的直觉，被时代埋没的答案',
+    image: '/diagrams/ch0_perceptron.png',
     bullets: [
       { icon: '🧬', text: '受大脑神经元启发', sub: 'Frank Rosenblatt 发明感知机，模仿神经元的「激活」机制' },
       { icon: '✅', text: '能学习简单规律', sub: '通过调整权重，自动找到分类边界，不需要手写规则' },
