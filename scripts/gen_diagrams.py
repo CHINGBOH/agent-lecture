@@ -26,7 +26,7 @@ if _cjk_font:
 OUT = os.path.join(os.path.dirname(__file__), '..', 'public', 'diagrams')
 os.makedirs(OUT, exist_ok=True)
 
-W, H = 19.2, 10.8  # 1920x1080 @ 100dpi
+W, H = 12.8, 7.2   # 1920x1080 @ 150dpi
 
 # ── 颜色主题 ──────────────────────────────────────────────────
 THEMES = {
@@ -49,7 +49,7 @@ def fig(ch: int):
 
 def save(f, name: str):
     path = os.path.join(OUT, name)
-    f.savefig(path, dpi=100, bbox_inches='tight', facecolor=f.get_facecolor())
+    f.savefig(path, dpi=150, bbox_inches='tight', facecolor=f.get_facecolor())
     plt.close(f)
     print(f'✅  {path}')
 
