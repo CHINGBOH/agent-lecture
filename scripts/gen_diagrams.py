@@ -524,6 +524,157 @@ def gen_multi_agent():
     save(f, 'ch5_multi_agent.png')
 
 
+def gen_backprop():
+    """反向传播：前向（蓝）+ 反向（橙）双向数值流动图，气走小周天意象"""
+    f, t = fig(1)
+    accent = t['accent']
+    bg = t['bg']
+    text_col = t['text']
+
+    ax = f.add_axes([0, 0, 1, 1])
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 6)
+    ax.set_aspect('auto')
+    ax.axis('off')
+    ax.set_facecolor(bg)
+
+    FWD = '#4FC3F7'   # 前向：章节主色（蓝）
+    BWD = '#FF8A65'   # 反向：暖橙
+    LOSS_C = '#EF5350' # 损失：红
+
+    # ── 网络结构定义 ────────────────────────────────────────────
+    layers = [
+        {'name': '输入层\nInput', 'x': 1.5, 'nodes': 3,
+         'values': ['x1=0.8', 'x2=0.4', 'x3=0.2']},
+        {'name': '隐藏层1\nHidden 1', 'x': 3.8, 'nodes': 4,
+         'values': ['h1=0.62', 'h2=0.41', 'h3=0.78', 'h4=0.35']},
+        {'name': '隐藏层2\nHidden 2', 'x': 6.1, 'nodes': 3,
+         'values': ['h5=0.71', 'h6=0.55', 'h7=0.43']},
+        {'name': '输出层\nOutput', 'x': 8.4, 'nodes': 2,
+         'values': ['y1=0.83', 'y2=0.17']},
+    ]
+    node_y_center = 3.0  # vertical center
+
+    def node_ys(n):
+        """返回 n 个节点的 y 坐标列表（居中分布）"""
+        spacing = 0.85
+        total = (n - 1) * spacing
+        start = node_y_center - total / 2
+        return [start + i * spacing for i in range(n)]
+
+    # 收集所有节点坐标
+    coords = {}  # (layer_idx, node_idx) -> (x, y)
+    for li, layer in enumerate(layers):
+        ys = node_ys(layer['nodes'])
+        for ni, y in enumerate(ys):
+            coords[(li, ni)] = (layer['x'], y)
+
+    # ── 绘制前向连接（蓝色，细线） ──────────────────────────────
+    for li in range(len(layers) - 1):
+        n1 = layers[li]['nodes']
+        n2 = layers[li + 1]['nodes']
+        for a in range(n1):
+            for b in range(n2):
+                x1, y1 = coords[(li, a)]
+                x2, y2 = coords[(li + 1, b)]
+                ax.annotate('', xy=(x2 - 0.22, y2), xytext=(x1 + 0.22, y1),
+                            arrowprops=dict(arrowstyle='->', color=FWD,
+                                           lw=0.9, alpha=0.35,
+                                           connectionstyle='arc3,rad=0.05'))
+
+    # ── 绘制节点 ────────────────────────────────────────────────
+    for li, layer in enumerate(layers):
+        ys = node_ys(layer['nodes'])
+        is_output = (li == len(layers) - 1)
+        for ni, y in enumerate(ys):
+            x = layer['x']
+            # 节点圆
+            circle = plt.Circle((x, y), 0.2,
+                                 color=FWD if not is_output else LOSS_C,
+                                 zorder=6, alpha=0.9)
+            ax.add_patch(circle)
+            ax.text(x, y, layer['values'][ni],
+                    fontsize=7.5, ha='center', va='center',
+                    color='#0a0a0a', fontweight='bold', zorder=7)
+
+    # ── 反向传播：从 Loss 往左的粗橙色箭头（层间中点位置） ──────
+    bp_y_offsets = [0.55, 0, -0.55]  # 3 条代表性梯度路径
+    for path_i, dy_off in enumerate(bp_y_offsets):
+        alpha = 0.9 - path_i * 0.2
+        # 从 Loss 到各隐藏层逐层画反向箭头
+        bwd_xs = [8.1, 5.85, 3.6, 1.75]  # 从右到左
+        bwd_ys_base = [node_y_center + dy_off * 0.6] * 4
+        for seg in range(len(bwd_xs) - 1):
+            x1, y1 = bwd_xs[seg], bwd_ys_base[seg]
+            x2, y2 = bwd_xs[seg + 1], bwd_ys_base[seg + 1]
+            ax.annotate('', xy=(x2, y2), xytext=(x1, y1),
+                        arrowprops=dict(arrowstyle='->', color=BWD,
+                                       lw=2.2 - path_i * 0.4, alpha=alpha,
+                                       connectionstyle='arc3,rad=-0.08'))
+
+    # ── Loss 框 ──────────────────────────────────────────────────
+    loss_x, loss_y = 9.3, 3.0
+    loss_box = FancyBboxPatch((loss_x - 0.55, loss_y - 0.45), 1.1, 0.9,
+                               boxstyle='round,pad=0.08',
+                               facecolor='#B71C1C30', edgecolor=LOSS_C,
+                               linewidth=2, zorder=6)
+    ax.add_patch(loss_box)
+    ax.text(loss_x, loss_y + 0.18, 'Loss', fontsize=13,
+            ha='center', va='center', color=LOSS_C, fontweight='bold', zorder=7)
+    ax.text(loss_x, loss_y - 0.18, 'L=0.41', fontsize=10,
+            ha='center', va='center', color=LOSS_C, alpha=0.8, zorder=7)
+
+    # ── 连接输出层到 Loss ────────────────────────────────────────
+    for ni in range(layers[-1]['nodes']):
+        ox, oy = coords[(len(layers) - 1, ni)]
+        ax.annotate('', xy=(loss_x - 0.55, loss_y), xytext=(ox + 0.22, oy),
+                    arrowprops=dict(arrowstyle='->', color=FWD, lw=1.2, alpha=0.6))
+
+    # ── 层标签 ──────────────────────────────────────────────────
+    for li, layer in enumerate(layers):
+        ax.text(layer['x'], 1.35, layer['name'],
+                fontsize=10.5, ha='center', va='center',
+                color=accent, fontweight='bold',
+                bbox=dict(boxstyle='round,pad=0.3', facecolor=bg + 'CC',
+                          edgecolor=accent + '60', linewidth=1))
+
+    # ── 图例 ────────────────────────────────────────────────────
+    leg_x, leg_y = 0.25, 5.6
+    ax.annotate('', xy=(leg_x + 0.7, leg_y), xytext=(leg_x, leg_y),
+                arrowprops=dict(arrowstyle='->', color=FWD, lw=2.5))
+    ax.text(leg_x + 0.8, leg_y, '前向传播（激活值）', fontsize=11,
+            va='center', color=FWD, fontweight='bold')
+
+    ax.annotate('', xy=(leg_x + 0.7, leg_y - 0.38), xytext=(leg_x, leg_y - 0.38),
+                arrowprops=dict(arrowstyle='->', color=BWD, lw=2.5))
+    ax.text(leg_x + 0.8, leg_y - 0.38, '反向传播（梯度）', fontsize=11,
+            va='center', color=BWD, fontweight='bold')
+
+    ax.annotate('', xy=(leg_x + 0.7, leg_y - 0.76), xytext=(leg_x, leg_y - 0.76),
+                arrowprops=dict(arrowstyle='->', color=LOSS_C, lw=2.5))
+    ax.text(leg_x + 0.8, leg_y - 0.76, '损失信号（误差）', fontsize=11,
+            va='center', color=LOSS_C, fontweight='bold')
+
+    # ── 梯度公式标注 ────────────────────────────────────────────
+    formula_x, formula_y = 5.0, 5.5
+    ax.text(formula_x, formula_y,
+            '链式法则：dL/dw = dL/dy · dy/dh · dh/dw',
+            fontsize=13, ha='center', color=BWD, fontweight='bold', alpha=0.9,
+            bbox=dict(boxstyle='round,pad=0.4', facecolor=bg,
+                      edgecolor=BWD + '60', linewidth=1.5))
+
+    # ── 气走小周天注释 ───────────────────────────────────────────
+    ax.text(5.0, 0.55,
+            '气走小周天：蓝色内力前行（前向），橙色气流回溯（反向），循环万次，内力深厚',
+            fontsize=12, ha='center', color=text_col, alpha=0.7)
+
+    # ── 标题 ────────────────────────────────────────────────────
+    glow_text(ax, 5.0, 5.9, '反向传播：内力如何运转', fontsize=22,
+              color=text_col, fontweight='bold')
+
+    save(f, 'ch1_backprop.png')
+
+
 if __name__ == '__main__':
     print('🎨 生成架构图中...\n')
     gen_timeline()
@@ -533,4 +684,5 @@ if __name__ == '__main__':
     gen_rl_loop()
     gen_agent_loop()
     gen_multi_agent()
+    gen_backprop()
     print('\n✨ 全部完成！输出在 public/diagrams/')

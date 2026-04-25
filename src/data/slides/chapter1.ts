@@ -45,6 +45,7 @@ export const chapter1Slides: Slide[] = [
     chapter: 1,
     title: '反向传播：内力如何运转',
     subtitle: 'Hinton 1986 年的突破',
+    image: '/diagrams/ch1_backprop.png',
     bullets: [
       { icon: '➡️', text: '前向传播', sub: '输入数据，逐层计算，最终得到预测结果' },
       { icon: '📏', text: '计算误差', sub: '对比预测值与真实值，得到 Loss（损失）' },
