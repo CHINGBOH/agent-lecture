@@ -66,7 +66,7 @@ export const c2Attention: ChartDef = {
     textposition: 'middle center',
     marker: {
       symbol: 'square',
-      size: 52,
+      size: 58,
       color: _sv.map(_attnColor),
       line: { width: 1, color: 'rgba(255,255,255,0.12)' },
     },

@@ -162,8 +162,7 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
               transition={{ delay: 0.18, duration: 0.6, ease: 'easeOut' }}
               style={{
                 position: 'absolute',
-                right: '0%', top: '4%',
-                width: '68%', height: '88%',
+                left: '44%', right: '0', top: '4%', height: '88%',
                 zIndex: 1,
               }}
             >
@@ -193,10 +192,10 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
             />
           )}
 
-          {/* ── Text column (z:3) — left 50%, scrollable ── */}
+          {/* ── Text column (z:3) — left 43%, scrollable ── */}
           <div style={{
             position: 'relative', zIndex: 3,
-            width: '50%', height: '100%',
+            width: '43%', height: '100%',
             display: 'flex', flexDirection: 'column',
             padding: '26px 0 96px 44px',
             overflow: 'hidden',
@@ -235,7 +234,7 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
           {slide.analogy && (
             <div style={{
               position: 'absolute', bottom: '20px', left: '44px',
-              width: '62%', zIndex: 3,
+              width: hasChart ? '50%' : '62%', zIndex: 3,
             }}>
               <AnalogyStrip
                 analogy={slide.analogy}

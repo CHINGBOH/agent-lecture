@@ -61,7 +61,7 @@ export function makeTimeline(events: TimelineEvent[], accent: string): ChartDef 
     // Vertical connector lines
     ...events.map((e, i) => ({
       type: 'line',
-      x0: e.year, x1: e.year, y0: 0, y1: offsets[i] * 0.85,
+      x0: e.year, x1: e.year, y0: 0, y1: offsets[i] * 0.92,
       line: { color: accent + '60', width: 1, dash: 'dot' },
     })),
   ]
@@ -102,10 +102,10 @@ export function makeTimeline(events: TimelineEvent[], accent: string): ChartDef 
       },
       yaxis: {
         showgrid: false, zeroline: false, showticklabels: false,
-        range: [-0.85, 0.85], fixedrange: true,
+        range: [-0.78, 0.78], fixedrange: true,
       },
       shapes,
-      margin: { t: 10, b: 10, l: 10, r: 10 },
+      margin: { t: 16, b: 14, l: 10, r: 10 },
     }),
     config: baseConfig(),
   }
