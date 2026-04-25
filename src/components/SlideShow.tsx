@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { DIAGRAM_MAP } from '../generated/diagramMap'
+import { CHART_MAP } from '../charts'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { Slide } from '../data/types'
 import type { Chapter } from '../data/types'
@@ -261,7 +262,11 @@ export default function SlideShow({ slides, chapters }: Props) {
 
 // ─── Slide Router ────────────────────────────────────────────
 function SlideRenderer({ slide, theme }: { slide: Slide; theme: ReturnType<typeof getTheme> }) {
-  const enrichedSlide = { ...slide, image: slide.image ?? DIAGRAM_MAP[slide.id] }
+  const enrichedSlide = {
+    ...slide,
+    chart: slide.chart ?? (CHART_MAP[slide.id] ? slide.id : undefined),
+    image: slide.image ?? (CHART_MAP[slide.id] ? undefined : DIAGRAM_MAP[slide.id]),
+  }
   switch (enrichedSlide.type) {
     case 'cover':      return <CoverSlide slide={enrichedSlide} theme={theme} />
     case 'mystery':    return <MysterySlide slide={enrichedSlide} theme={theme} />

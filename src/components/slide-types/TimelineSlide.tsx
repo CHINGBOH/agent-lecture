@@ -1,14 +1,19 @@
-import { useState } from 'react'
+import { useState, lazy, Suspense } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { Slide } from '../../data/types'
 import type { ChapterTheme } from '../../data/themes'
 import { Lightbox } from './ConceptSlide'
+import { CHART_MAP } from '../../charts'
+
+const PlotlyChart = lazy(() => import('../PlotlyChart'))
 
 export default function TimelineSlide({ slide, theme }: { slide: Slide; theme: ChapterTheme }) {
   const [active, setActive] = useState<number | null>(null)
   const [lightbox, setLightbox] = useState(false)
   const items = slide.timeline ?? []
-  const hasImage = !!slide.image
+  const chartDef = slide.chart ? CHART_MAP[slide.chart] : undefined
+  const hasChart = !!chartDef
+  const hasImage = !!slide.image && !hasChart
 
   return (
     <>
@@ -18,7 +23,44 @@ export default function TimelineSlide({ slide, theme }: { slide: Slide; theme: C
         )}
       </AnimatePresence>
 
-      {hasImage ? (
+      {hasChart ? (
+        // ══════════════════════════════════════════════════════════════════
+        // CHART-DOMINANT LAYOUT — title at top, Plotly chart fills below
+        // Absolute positioning gives Plotly a definite computed size.
+        // ══════════════════════════════════════════════════════════════════
+        <div style={{ height: '100%', position: 'relative' }}>
+          {/* Title pinned to top */}
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            style={{ position: 'absolute', top: 0, left: 0, right: 0, padding: '22px 44px 8px', zIndex: 2 }}
+          >
+            <h2 style={{
+              color: theme.accent, fontSize: 'clamp(20px,2.8vw,32px)',
+              fontWeight: 800, margin: 0, lineHeight: 1.2,
+            }}>
+              {slide.title}
+            </h2>
+            {slide.subtitle && (
+              <p style={{ color: theme.textSecondary, margin: '5px 0 0', fontSize: '14px', opacity: 0.85 }}>
+                {slide.subtitle}
+              </p>
+            )}
+          </motion.div>
+          {/* Chart fills everything below the ~75px title area */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.25, duration: 0.5 }}
+            style={{ position: 'absolute', top: '75px', bottom: '16px', left: '20px', right: '20px' }}
+          >
+            <Suspense fallback={null}>
+              <PlotlyChart chart={chartDef!} />
+            </Suspense>
+          </motion.div>
+        </div>
+
+      ) : hasImage ? (
         // ══════════════════════════════════════════════════════════════════
         // IMAGE-BLEED LAYOUT — image drifts from right, events float left
         // ══════════════════════════════════════════════════════════════════

@@ -53,6 +53,7 @@ export interface Slide {
   analogy?: Analogy
   diagram?: string        // Mermaid 图表字符串
   image?: string          // PNG 图片路径（如 /diagrams/xxx.png）
+  chart?: string          // Plotly 图表 ID（如 'c1-timeline'），优先于 image
   timeline?: TimelineItem[]
 
   // comparison 专用

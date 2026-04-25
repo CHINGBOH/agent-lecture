@@ -1,8 +1,11 @@
-import { useState } from 'react'
+import { useState, lazy, Suspense } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { Slide } from '../../data/types'
 import type { ChapterTheme } from '../../data/themes'
 import MermaidChart from '../MermaidChart'
+import { CHART_MAP } from '../../charts'
+
+const PlotlyChart = lazy(() => import('../PlotlyChart'))
 
 // ─── shared bullet list ───────────────────────────────────────────────────────
 function BulletList({ bullets, theme, compact = true }: {
@@ -130,8 +133,10 @@ export function Lightbox({ src, alt, onClose }: { src: string; alt: string; onCl
 export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: ChapterTheme }) {
   const [lightbox, setLightbox] = useState(false)
   const bullets = slide.bullets ?? []
-  const hasImage = !!slide.image
-  const hasDiagram = !!slide.diagram && !hasImage
+  const chartDef = slide.chart ? CHART_MAP[slide.chart] : undefined
+  const hasChart = !!chartDef
+  const hasImage = !!slide.image && !hasChart
+  const hasDiagram = !!slide.diagram && !hasImage && !hasChart
 
   return (
     <>
@@ -141,38 +146,52 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
         )}
       </AnimatePresence>
 
-      {hasImage ? (
+      {(hasImage || hasChart) ? (
         // ══════════════════════════════════════════════════════════════════
-        // IMAGE-BLEED LAYOUT
-        // Image is absolutely positioned, bleeds from center-right,
-        // fades into background via mask-image — no box, no border.
-        // Text floats left, analogy bleeds into image zone.
+        // IMAGE-BLEED / CHART LAYOUT
+        // Right side: either PNG image (bleed) or Plotly chart (transparent)
+        // Text floats left, analogy bleeds into visual zone.
         // ══════════════════════════════════════════════════════════════════
         <div style={{ height: '100%', position: 'relative', overflow: 'hidden' }}>
 
-          {/* ── Image layer (z:1) ── */}
-          <motion.img
-            src={slide.image}
-            alt={slide.title}
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.18, duration: 0.7, ease: 'easeOut' }}
-            onClick={() => setLightbox(true)}
-            style={{
-              position: 'absolute',
-              right: '-2%',
-              top: '4%',
-              width: '66%',
-              height: '90%',
-              objectFit: 'contain',
-              zIndex: 1,
-              cursor: 'zoom-in',
-              // Left-edge fade — blends into background, no hard box border
-              maskImage: 'linear-gradient(to right, transparent 0%, black 22%)',
-              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 22%)',
-              filter: `drop-shadow(0 20px 60px ${theme.accent}45) brightness(1.08)`,
-            }}
-          />
+          {/* ── Visual layer (z:1) — image OR chart ── */}
+          {hasChart ? (
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.18, duration: 0.6, ease: 'easeOut' }}
+              style={{
+                position: 'absolute',
+                right: '0%', top: '4%',
+                width: '68%', height: '88%',
+                zIndex: 1,
+              }}
+            >
+              <Suspense fallback={null}>
+                <PlotlyChart chart={chartDef!} />
+              </Suspense>
+            </motion.div>
+          ) : (
+            <motion.img
+              src={slide.image}
+              alt={slide.title}
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.18, duration: 0.7, ease: 'easeOut' }}
+              onClick={() => setLightbox(true)}
+              style={{
+                position: 'absolute',
+                right: '-2%', top: '4%',
+                width: '66%', height: '90%',
+                objectFit: 'contain',
+                zIndex: 1,
+                cursor: 'zoom-in',
+                maskImage: 'linear-gradient(to right, transparent 0%, black 22%)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 22%)',
+                filter: `drop-shadow(0 20px 60px ${theme.accent}45) brightness(1.08)`,
+              }}
+            />
+          )}
 
           {/* ── Text column (z:3) — left 50%, scrollable ── */}
           <div style={{
@@ -227,7 +246,8 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
             </div>
           )}
 
-          {/* Zoom hint bottom-right */}
+          {/* Zoom hint — only for image */}
+          {hasImage && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -242,6 +262,7 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
           >
             ⊕ 点击放大
           </motion.div>
+          )}
         </div>
 
       ) : hasDiagram ? (
