@@ -31,36 +31,60 @@
       font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
       color: var(--ink);
       background:
-        radial-gradient(circle at top left, rgba(10, 108, 104, 0.16), transparent 30%),
-        radial-gradient(circle at bottom right, rgba(139, 75, 31, 0.14), transparent 28%),
-        linear-gradient(180deg, #fbf7ef 0%, var(--bg) 100%);
+        radial-gradient(circle at top left, rgba(10, 108, 104, 0.08), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(139, 75, 31, 0.06), transparent 28%),
+        linear-gradient(180deg, #fcfaf4 0%, #f4efe5 100%);
     }
 
     header {
-      padding: 40px 28px 14px;
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 14px 32px 4px;
     }
 
     h1 {
       margin: 0;
       font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
-      font-size: clamp(2.6rem, 4.5vw, 4.2rem);
+      font-size: clamp(2.15rem, 4vw, 3.4rem);
       letter-spacing: -0.05em;
-      line-height: 0.92;
-      max-width: 960px;
+      line-height: 0.94;
+      max-width: none;
     }
 
     .subtitle {
-      margin-top: 14px;
+      margin-top: 6px;
       max-width: 960px;
       color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.7;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    body.has-live-scene header {
+      padding-top: 6px;
+      padding-bottom: 0;
+    }
+
+    body.has-live-scene h1 {
+      font-size: clamp(1.55rem, 2.8vw, 2.25rem);
+      letter-spacing: -0.04em;
+    }
+
+    body.has-live-scene .subtitle {
+      display: none;
+    }
+
+    body.has-live-scene main {
+      padding-top: 8px;
     }
 
     main {
-      padding: 18px 28px 40px;
-      display: grid;
-      gap: 24px;
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 18px 32px 40px;
     }
 
     .panel {
@@ -166,10 +190,10 @@
     }
 
     .status-ok,
-    .is-live,
     .cap-live,
     .event-ok,
-    .organ-live {
+    .organ-live,
+    .chip.is-live {
       background: var(--teal-soft);
       color: var(--teal-strong);
       border-color: rgba(10, 108, 104, 0.24);
@@ -664,26 +688,21 @@
 
     .scene {
       position: relative;
-      min-height: calc(100vh - 170px);
-      padding: 34px;
-      border-radius: 40px;
+      min-height: calc(100vh - 150px);
+      padding: 26px 28px 30px;
+      border-radius: 32px;
       overflow: hidden;
+      border: 1px solid rgba(217, 200, 178, 0.7);
       background:
-        radial-gradient(circle at 18% 16%, rgba(10, 108, 104, 0.22), transparent 24%),
-        radial-gradient(circle at 84% 18%, rgba(139, 75, 31, 0.18), transparent 20%),
-        radial-gradient(circle at 50% 55%, rgba(255, 255, 255, 0.4), transparent 34%),
-        linear-gradient(180deg, rgba(255, 249, 240, 0.94), rgba(243, 239, 230, 0.84));
-      box-shadow: 0 32px 72px rgba(36, 26, 15, 0.1);
+        radial-gradient(circle at 18% 16%, rgba(10, 108, 104, 0.08), transparent 24%),
+        radial-gradient(circle at 84% 18%, rgba(139, 75, 31, 0.07), transparent 20%),
+        linear-gradient(180deg, rgba(255, 251, 245, 0.96), rgba(245, 240, 231, 0.9));
+      box-shadow: 0 16px 36px rgba(36, 26, 15, 0.05);
     }
 
     .scene::before,
     .scene::after {
-      content: "";
-      position: absolute;
-      border-radius: 999px;
-      pointer-events: none;
-      filter: blur(8px);
-      opacity: 0.86;
+      display: none;
     }
 
     .scene::before {
@@ -706,74 +725,168 @@
       position: relative;
       z-index: 2;
       display: grid;
-      grid-template-columns: minmax(300px, 1fr) minmax(320px, 0.95fr);
-      gap: 28px;
+      grid-template-columns: minmax(0, 1fr) minmax(360px, 0.92fr);
+      gap: 18px;
       align-items: start;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(217, 200, 178, 0.62);
+    }
+
+    .scene.is-loaded .scene-top {
+      grid-template-columns: 1fr;
+      gap: 4px;
+      padding-bottom: 2px;
+      border-bottom: 0;
+    }
+
+    .scene.is-loaded .scene-copy {
+      display: none;
     }
 
     .scene-copy {
-      max-width: 680px;
+      max-width: none;
       display: grid;
-      gap: 10px;
+      gap: 4px;
     }
 
     .scene-eyebrow {
-      font-size: 0.74rem;
+      font-size: 0.68rem;
       font-weight: 800;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--teal-strong);
+      color: rgba(23, 21, 18, 0.55);
     }
 
     .scene-copy p {
       margin: 0;
-      font-size: 1.05rem;
-      line-height: 1.8;
+      font-size: 0.84rem;
+      line-height: 1.52;
       color: var(--muted);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .scene-toolbar {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
+      gap: 10px 16px;
       align-items: end;
-      padding: 18px 20px;
-      border-radius: 26px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.74), rgba(255,255,255,0.28));
-      backdrop-filter: blur(10px);
+      padding: 0;
+      border-radius: 0;
+      background: transparent;
+      backdrop-filter: none;
+      max-width: none;
+    }
+
+    .loaded-dock {
+      display: none;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(180px, 0.84fr);
+      gap: 8px 12px;
+      align-items: end;
+    }
+
+    .scene.is-loaded .scene-toolbar {
+      display: none;
+    }
+
+    .scene.is-loaded .loaded-dock {
+      display: grid;
+      gap: 6px 10px;
+    }
+
+    .dock-button,
+    .dock-select {
+      min-width: 0;
+      display: grid;
+      gap: 4px;
+      padding: 8px 10px 9px;
+      border-radius: 16px;
+      border: 1px solid rgba(217, 200, 178, 0.6);
+      background: rgba(255, 255, 255, 0.56);
+      color: var(--ink);
+    }
+
+    .dock-button {
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .dock-button span,
+    .dock-select span {
+      font-size: 0.56rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .dock-button strong {
+      font-size: 0.8rem;
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dock-select select {
+      border: 0;
+      border-bottom: 1px solid rgba(23, 21, 18, 0.16);
+      border-radius: 0;
+      background: transparent;
+      padding: 0 0 2px;
+      font: inherit;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--ink);
+      box-shadow: none;
     }
 
     .scene-toolbar label {
-      font-size: 0.78rem;
+      gap: 4px;
+      font-size: 0.68rem;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.14em;
       color: var(--muted);
     }
 
     .scene-toolbar input[type="file"],
     .scene-toolbar select {
       border: 0;
-      border-bottom: 1px solid rgba(23, 21, 18, 0.12);
+      border-bottom: 1px solid rgba(23, 21, 18, 0.16);
       border-radius: 0;
-      background: rgba(255,255,255,0.12);
-      padding: 12px 4px 10px;
-      box-shadow: inset 0 -1px 0 rgba(255,255,255,0.64);
+      background: transparent;
+      padding: 6px 0 6px;
+      font-size: 0.84rem;
+      box-shadow: none;
     }
 
     .scene-hud {
       position: relative;
       z-index: 2;
-      margin-top: 22px;
+      margin-top: 8px;
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
-      gap: 22px;
-      align-items: start;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .scene.is-loaded .scene-hud {
+      margin-top: 2px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 6px 10px;
     }
 
     .scene-status {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
       justify-content: flex-end;
       align-items: center;
     }
@@ -782,87 +895,121 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 4px;
+      padding: 3px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.58);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.72);
-      backdrop-filter: blur(8px);
+      background: rgba(255,255,255,0.42);
+      border: 1px solid rgba(217, 200, 178, 0.68);
+      box-shadow: none;
+      backdrop-filter: none;
     }
 
     .lang-button {
       border: 0;
       border-radius: 999px;
-      padding: 8px 14px;
+      padding: 7px 12px;
       background: transparent;
       color: var(--muted);
       font: inherit;
-      font-size: 0.8rem;
+      font-size: 0.74rem;
       font-weight: 800;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       cursor: pointer;
       transition: background 180ms ease, color 180ms ease, box-shadow 180ms ease;
     }
 
     .lang-button.is-active {
-      background: rgba(255,255,255,0.96);
+      background: rgba(255,255,255,0.9);
       color: var(--teal-strong);
-      box-shadow: 0 8px 16px rgba(36, 26, 15, 0.08);
+      box-shadow: none;
     }
 
     .metric-strip {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      align-items: flex-start;
+      gap: 8px 12px;
+      align-items: center;
     }
 
     .metric-chip {
-      min-width: 120px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.58);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
-      backdrop-filter: blur(8px);
+      flex: 0 1 170px;
+      min-width: 0;
+      max-width: 180px;
+      padding: 0 0 0 10px;
+      border-radius: 0;
+      background: transparent;
+      border-bottom: 0;
+      border-left: 1px solid rgba(217, 200, 178, 0.6);
+      box-shadow: none;
+      backdrop-filter: none;
     }
 
     .metric-kicker {
-      font-size: 0.7rem;
+      font-size: 0.64rem;
       font-weight: 800;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--muted);
     }
 
     .metric-reading {
       margin-top: 4px;
-      font-size: 0.92rem;
+      font-size: 0.78rem;
       font-weight: 700;
       line-height: 1.45;
       color: var(--ink);
+      word-break: break-word;
+    }
+
+    .scene.is-loaded .metric-reading {
+      font-size: 0.7rem;
+      margin-top: 2px;
+    }
+
+    .scene.is-loaded .metric-strip {
+      flex: 1 1 320px;
+      gap: 4px 8px;
+    }
+
+    .scene.is-loaded .metric-chip {
+      flex: 0 1 136px;
+      max-width: none;
+      min-width: 94px;
+      padding: 0 8px 4px 0;
+      border-left: 0;
+      border-bottom: 1px solid rgba(217, 200, 178, 0.48);
+    }
+
+    .scene.is-loaded .scene-status {
+      justify-content: flex-start;
     }
 
     .scene-body {
       position: relative;
       z-index: 2;
-      margin-top: 24px;
+      margin-top: 18px;
       display: grid;
-      grid-template-columns: minmax(220px, 1fr) minmax(420px, 1.55fr) minmax(220px, 1fr);
-      gap: 28px;
-      align-items: center;
+      grid-template-columns: minmax(170px, 0.86fr) minmax(420px, 1.3fr) minmax(170px, 0.86fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .scene.is-loaded .scene-body {
+      margin-top: 6px;
     }
 
     .annotation-rail {
       display: grid;
-      gap: 26px;
-      align-content: center;
+      gap: 14px;
+      align-content: start;
+      padding-top: 92px;
     }
 
     .annotation-line {
       position: relative;
       display: grid;
-      gap: 8px;
-      padding: 8px 0;
+      gap: 6px;
+      padding: 6px 0;
       background: transparent;
       border: 0;
       border-radius: 0;
@@ -872,14 +1019,14 @@
     .annotation-line::before {
       content: "";
       position: absolute;
-      top: 18px;
-      width: 46px;
+      top: 16px;
+      width: 28px;
       height: 1px;
-      background: linear-gradient(90deg, rgba(10, 108, 104, 0.42), transparent);
+      background: linear-gradient(90deg, rgba(23, 21, 18, 0.18), transparent);
     }
 
     .annotation-line.left {
-      padding-right: 54px;
+      padding-right: 34px;
       text-align: right;
     }
 
@@ -888,18 +1035,18 @@
     }
 
     .annotation-line.right {
-      padding-left: 54px;
+      padding-left: 34px;
       text-align: left;
     }
 
     .annotation-line.right::before {
       left: 0;
-      background: linear-gradient(90deg, transparent, rgba(10, 108, 104, 0.42));
+      background: linear-gradient(90deg, transparent, rgba(23, 21, 18, 0.18));
     }
 
     .annotation-line.is-live {
-      color: var(--teal-strong);
-      transform: translateY(-1px);
+      color: inherit;
+      transform: none;
     }
 
     .annotation-line.is-selected {
@@ -908,7 +1055,7 @@
 
     .annotation-line.is-selected::before {
       height: 2px;
-      background: linear-gradient(90deg, rgba(10, 108, 104, 0.88), transparent);
+      background: linear-gradient(90deg, rgba(10, 108, 104, 0.68), transparent);
     }
 
     .annotation-line.right.is-selected::before {
@@ -920,9 +1067,9 @@
     }
 
     .annotation-kicker {
-      font-size: 0.72rem;
+      font-size: 0.64rem;
       font-weight: 800;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--muted);
     }
@@ -930,15 +1077,15 @@
     .annotation-title {
       margin: 0;
       font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
-      font-size: 1.2rem;
-      letter-spacing: -0.03em;
+      font-size: 1.06rem;
+      letter-spacing: -0.02em;
       line-height: 1;
     }
 
     .annotation-body,
     .annotation-proof {
-      font-size: 0.92rem;
-      line-height: 1.65;
+      font-size: 0.86rem;
+      line-height: 1.6;
     }
 
     .annotation-body {
@@ -947,30 +1094,26 @@
 
     .annotation-proof {
       color: var(--muted);
+      display: none;
+    }
+
+    .annotation-line.is-selected .annotation-proof {
+      display: block;
     }
 
     .body-stage {
+      position: relative;
       min-height: 860px;
       border: 0;
-      border-radius: 40px;
+      border-radius: 28px;
+      overflow: hidden;
       background:
-        radial-gradient(circle at top center, rgba(10, 108, 104, 0.14), transparent 28%),
-        radial-gradient(circle at bottom center, rgba(139, 75, 31, 0.14), transparent 30%),
-        linear-gradient(180deg, rgba(255,255,255,0.34), rgba(255,255,255,0.08));
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.72);
+        linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.02));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.46);
     }
 
     .body-stage::before {
-      inset: 28px;
-      border-radius: 34px;
-      border: 0;
-      background:
-        linear-gradient(90deg, transparent, rgba(10, 108, 104, 0.06), transparent),
-        linear-gradient(180deg, transparent, rgba(139, 75, 31, 0.05), transparent);
-      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      padding: 1px;
-      opacity: 0.8;
+      display: none;
     }
 
     .speech-cloud {
@@ -978,9 +1121,9 @@
       right: 18px;
       width: min(320px, calc(100% - 30px));
       border: 0;
-      background: linear-gradient(180deg, rgba(255,255,255,0.84), rgba(255,255,255,0.56));
-      box-shadow: 0 18px 34px rgba(36, 26, 15, 0.08);
-      backdrop-filter: blur(8px);
+      background: rgba(255,255,255,0.74);
+      box-shadow: none;
+      backdrop-filter: none;
     }
 
     .tool-rack {
@@ -1007,7 +1150,7 @@
     }
 
     .rack-title {
-      font-size: 0.72rem;
+      font-size: 0.64rem;
       letter-spacing: 0.18em;
     }
 
@@ -1023,13 +1166,14 @@
     }
 
     .ground-title {
-      font-size: 0.72rem;
+      font-size: 0.64rem;
       letter-spacing: 0.16em;
     }
 
     .ground-text {
       max-width: 92%;
-      font-size: 0.96rem;
+      font-size: 0.88rem;
+      line-height: 1.6;
       color: var(--muted);
     }
 
@@ -1041,49 +1185,85 @@
     }
 
     .body-svg .scene-frame {
-      fill: rgba(255, 255, 255, 0.08);
-      stroke: rgba(255, 255, 255, 0.28);
-      stroke-width: 1.2;
+      fill: url(#panelWash);
+      stroke: rgba(13, 77, 72, 0.22);
+      stroke-width: 1.4;
+    }
+
+    .body-svg .scene-frame-glow {
+      fill: none;
+      stroke: rgba(10, 108, 104, 0.24);
+      stroke-width: 1.4;
+      stroke-dasharray: 8 12;
+      opacity: 0.88;
+      animation: frame-glide 22s linear infinite;
+    }
+
+    .body-svg .ambient-line {
+      fill: none;
+      stroke: rgba(13, 77, 72, 0.22);
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-dasharray: 4 12;
+      opacity: 0.86;
+      animation: ambient-drift 16s linear infinite;
+    }
+
+    .body-svg .ambient-line.copper {
+      stroke: rgba(139, 75, 31, 0.24);
+      stroke-dasharray: 3 16;
+      animation-duration: 18s;
     }
 
     .body-svg .aura-blob {
-      opacity: 0.85;
-      filter: blur(8px);
+      opacity: 0.62;
+      filter: blur(20px);
     }
 
     .body-svg .skeleton {
       fill: none;
-      stroke: rgba(217, 200, 178, 0.46);
-      stroke-width: 18;
+      stroke: rgba(139, 75, 31, 0.2);
+      stroke-width: 13;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
 
     .body-svg .body-shell {
-      fill: rgba(255, 255, 255, 0.18);
-      stroke: rgba(217, 200, 178, 0.52);
-      stroke-width: 2;
+      fill: url(#bodyShellWash);
+      stroke: rgba(13, 77, 72, 0.22);
+      stroke-width: 1.6;
     }
 
     .body-svg .body-core {
-      fill: rgba(247, 234, 216, 0.16);
+      fill: rgba(247, 234, 216, 0.1);
       stroke: rgba(10, 108, 104, 0.08);
-      stroke-width: 1.2;
+      stroke-width: 1;
     }
 
     .body-svg .body-river {
       fill: none;
-      stroke: rgba(10, 108, 104, 0.18);
-      stroke-width: 4;
+      stroke: rgba(10, 108, 104, 0.38);
+      stroke-width: 3.2;
       stroke-linecap: round;
-      stroke-dasharray: 2 12;
-      opacity: 0.7;
+      stroke-dasharray: 3 12;
+      opacity: 0.9;
+      animation: river-drift 9s linear infinite;
     }
 
     .body-svg .body-river.secondary {
-      stroke: rgba(139, 75, 31, 0.14);
-      stroke-width: 3;
-      stroke-dasharray: 1 10;
+      stroke: rgba(139, 75, 31, 0.26);
+      stroke-width: 2.3;
+      stroke-dasharray: 2 9;
+      animation-duration: 11s;
+    }
+
+    .body-svg .body-river.glow {
+      stroke: rgba(10, 108, 104, 0.34);
+      stroke-width: 7;
+      stroke-dasharray: 1 22;
+      opacity: 0.36;
+      filter: blur(3px);
+      animation-duration: 13s;
     }
 
     .body-svg .organ-node {
@@ -1095,15 +1275,69 @@
 
     .body-svg .organ-node .node-shell {
       fill: rgba(255, 255, 255, 0.92);
-      stroke: rgba(13, 77, 72, 0.18);
-      stroke-width: 1.4;
-      filter: drop-shadow(0 10px 18px rgba(36, 26, 15, 0.1));
+      stroke: rgba(13, 77, 72, 0.24);
+      stroke-width: 1.3;
+      filter: drop-shadow(0 6px 12px rgba(36, 26, 15, 0.12));
+      transition: fill 220ms ease, stroke 220ms ease, stroke-width 220ms ease;
+    }
+
+    .body-svg .organ-node .node-icon {
+      fill: none;
+      stroke: rgba(13, 77, 72, 0.5);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+      pointer-events: none;
+      transform-box: fill-box;
+      transform-origin: center;
+      transition: stroke 220ms ease, fill 220ms ease, opacity 220ms ease;
+    }
+
+    .body-svg .organ-node .node-accent {
+      fill: rgba(13, 77, 72, 0.42);
+      pointer-events: none;
+    }
+
+    .body-svg .organ-brain .node-shell {
+      fill: rgba(242, 250, 248, 0.96);
+    }
+
+    .body-svg .organ-mouth .node-shell {
+      fill: rgba(252, 245, 238, 0.96);
+    }
+
+    .body-svg .organ-breath .node-shell {
+      fill: rgba(241, 250, 247, 0.96);
+    }
+
+    .body-svg .organ-heart .node-shell {
+      fill: rgba(251, 244, 239, 0.96);
+    }
+
+    .body-svg .organ-spine .node-shell {
+      fill: rgba(244, 249, 245, 0.96);
+    }
+
+    .body-svg .organ-left-arm .node-shell {
+      fill: rgba(246, 249, 252, 0.96);
+    }
+
+    .body-svg .organ-right-arm .node-shell {
+      fill: rgba(250, 247, 241, 0.96);
+    }
+
+    .body-svg .organ-node .node-halo {
+      fill: rgba(10, 108, 104, 0.22);
+      opacity: 0;
+      transform-origin: center;
+      transition: opacity 220ms ease;
     }
 
     .body-svg .organ-node .node-name {
       fill: var(--ink);
       font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 800;
       letter-spacing: 0.02em;
       text-anchor: middle;
@@ -1112,26 +1346,85 @@
     .body-svg .organ-node .node-stat {
       fill: var(--muted);
       font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       letter-spacing: 0.02em;
       text-anchor: middle;
     }
 
     .body-svg .organ-node.active .node-shell {
-      fill: rgba(215, 240, 235, 0.98);
-      stroke: rgba(10, 108, 104, 0.28);
+      fill: rgba(215, 240, 235, 1);
+      stroke: rgba(10, 108, 104, 0.48);
+    }
+
+    .body-svg .organ-node.active .node-icon,
+    .body-svg .organ-node.active .node-accent {
+      stroke: rgba(10, 108, 104, 0.74);
+      fill: rgba(10, 108, 104, 0.62);
+    }
+
+    .body-svg .organ-node.active .node-halo,
+    .body-svg .organ-node.warm .node-halo {
+      opacity: 0.68;
+      animation: node-orbit 2.4s ease-in-out infinite;
     }
 
     .body-svg .organ-node.warm .node-shell {
-      fill: rgba(244, 221, 201, 0.98);
-      stroke: rgba(139, 75, 31, 0.24);
+      fill: rgba(244, 221, 201, 1);
+      stroke: rgba(139, 75, 31, 0.46);
+    }
+
+    .body-svg .organ-node.warm .node-icon,
+    .body-svg .organ-node.warm .node-accent {
+      stroke: rgba(139, 75, 31, 0.7);
+      fill: rgba(139, 75, 31, 0.58);
     }
 
     .body-svg .organ-node.is-selected .node-shell {
       stroke: rgba(10, 108, 104, 0.56);
-      stroke-width: 2.6;
-      filter: drop-shadow(0 0 0 10px rgba(10, 108, 104, 0.12)) drop-shadow(0 18px 28px rgba(10, 108, 104, 0.14));
+      stroke-width: 2;
+      filter: none;
+    }
+
+    .body-svg .organ-node.is-selected .node-icon,
+    .body-svg .organ-node.is-selected .node-accent {
+      stroke: rgba(10, 108, 104, 0.84);
+      fill: rgba(10, 108, 104, 0.72);
+    }
+
+    .body-svg .organ-node.is-selected .node-halo {
+      opacity: 0.94 !important;
+      fill: rgba(10, 108, 104, 0.2);
+      animation-duration: 1.9s;
+    }
+
+    .body-svg .flow-link {
+      --flow-intensity: 0;
+      fill: none;
+      stroke: rgba(23, 21, 18, 0.2);
+      stroke-width: calc(2.2px + (var(--flow-intensity) * 0.3px));
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 3 9;
+      opacity: 0.5;
+      transition: opacity 220ms ease, stroke 220ms ease, stroke-width 220ms ease;
+    }
+
+    .body-svg .flow-link.is-live {
+      stroke: rgba(10, 108, 104, 0.66);
+      stroke-width: calc(3px + (var(--flow-intensity) * 0.45px));
+      opacity: 0.98;
+      animation: flow-link-drift 4.5s linear infinite;
+    }
+
+    .body-svg .flow-link.is-strong {
+      opacity: 1;
+    }
+
+    .body-svg .flow-link.is-focus {
+      stroke: rgba(139, 75, 31, 0.74);
+      stroke-width: 3.6;
+      opacity: 1;
     }
 
     .body-svg .organ-node.is-dimmed {
@@ -1151,6 +1444,29 @@
       animation: breath-wave-svg 1.9s ease-in-out infinite;
     }
 
+    .body-svg .organ-brain.active .node-icon {
+      animation: brain-spark 3.4s ease-in-out infinite;
+    }
+
+    .body-svg .organ-mouth.active .node-icon {
+      animation: voice-flicker 1.7s ease-in-out infinite;
+    }
+
+    .body-svg .organ-breath.active .node-icon {
+      animation: breath-glyph 2.2s ease-in-out infinite;
+    }
+
+    .body-svg .organ-heart.active .node-icon {
+      animation: heart-signal 1.5s ease-in-out infinite;
+    }
+
+    .body-svg .organ-left-arm.active .node-icon,
+    .body-svg .organ-left-arm.warm .node-icon,
+    .body-svg .organ-right-arm.active .node-icon,
+    .body-svg .organ-right-arm.warm .node-icon {
+      animation: arm-pivot 2.4s ease-in-out infinite;
+    }
+
     .body-svg foreignObject {
       overflow: visible;
     }
@@ -1158,25 +1474,26 @@
     .speech-card {
       width: 100%;
       height: 100%;
-      padding: 16px 18px;
+      padding: 14px 16px;
       border-radius: 26px 26px 26px 10px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,255,255,0.56));
-      box-shadow: 0 18px 34px rgba(36, 26, 15, 0.08);
-      backdrop-filter: blur(8px);
+      background: rgba(255,255,255,0.68);
+      border: 1px solid rgba(217, 200, 178, 0.5);
+      box-shadow: none;
+      backdrop-filter: none;
       transition: transform 240ms ease, box-shadow 240ms ease;
     }
 
     .speech-card.is-speaking {
-      transform: translateY(-2px);
-      box-shadow: 0 22px 38px rgba(10, 108, 104, 0.14);
+      transform: translateY(-1px);
+      box-shadow: none;
     }
 
     .tool-rack-panel {
       width: 100%;
-      padding: 12px 14px;
-      border: 0;
+      padding: 10px 12px;
+      border: 1px solid rgba(217, 200, 178, 0.46);
       border-radius: 24px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.64), rgba(255,255,255,0.28));
+      background: rgba(255,255,255,0.56);
       box-shadow: none;
     }
 
@@ -1184,10 +1501,106 @@
       box-shadow: 0 18px 30px rgba(10, 108, 104, 0.08);
     }
 
-    .ground-panel {
-      width: 100%;
-      padding: 0;
-      background: transparent;
+    .scene-ledger {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 16px;
+      z-index: 3;
+      display: grid;
+      gap: 12px;
+      padding: 14px 16px 12px;
+      border-radius: 24px;
+      border: 1px solid rgba(217, 200, 178, 0.58);
+      background: linear-gradient(180deg, rgba(255, 251, 245, 0.92), rgba(243, 237, 228, 0.84));
+      box-shadow: 0 12px 28px rgba(36, 26, 15, 0.06);
+      backdrop-filter: blur(10px);
+      pointer-events: none;
+    }
+
+    .scene-ledger-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.04fr) minmax(0, 1.08fr) minmax(0, 0.9fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .ledger-panel {
+      min-width: 0;
+      display: grid;
+      gap: 8px;
+    }
+
+    .scene-ledger .story-strip,
+    .scene-ledger .capability-flow,
+    .scene-ledger .trail-list {
+      gap: 8px;
+    }
+
+    .scene-ledger .story-line,
+    .scene-ledger .verb-marker,
+    .scene-ledger .trail-row {
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(217, 200, 178, 0.42);
+    }
+
+    .scene-ledger .story-label,
+    .scene-ledger .verb-file {
+      font-size: 0.58rem;
+      letter-spacing: 0.16em;
+    }
+
+    .scene-ledger .story-text,
+    .scene-ledger .verb-detail,
+    .scene-ledger .trail-meta {
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+
+    .scene-ledger .verb-name {
+      font-size: 0.9rem;
+    }
+
+    .scene-ledger .capability-flow {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 14px;
+    }
+
+    .scene-ledger .trail-list {
+      padding-left: 14px;
+    }
+
+    .scene-ledger .trail-list::before {
+      left: 3px;
+      top: 6px;
+      bottom: 6px;
+    }
+
+    .scene-ledger .trail-row::before {
+      left: -18px;
+      top: 8px;
+      width: 7px;
+      height: 7px;
+    }
+
+    .scene-ledger-note {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: baseline;
+      padding-top: 2px;
+      border-top: 1px solid rgba(217, 200, 178, 0.36);
+    }
+
+    .scene-ledger-note .ground-title {
+      flex: 0 0 auto;
+    }
+
+    .scene-ledger-note .ground-text {
+      flex: 1 1 420px;
+      max-width: none;
+      font-size: 0.8rem;
+      line-height: 1.5;
     }
 
     @keyframes body-pulse-svg {
@@ -1197,6 +1610,112 @@
       }
       50% {
         transform: scale(1.04);
+      }
+    }
+
+    @keyframes river-drift {
+      0% {
+        stroke-dashoffset: 0;
+      }
+      100% {
+        stroke-dashoffset: -160;
+      }
+    }
+
+    @keyframes ambient-drift {
+      0% {
+        stroke-dashoffset: 0;
+      }
+      100% {
+        stroke-dashoffset: -220;
+      }
+    }
+
+    @keyframes frame-glide {
+      0% {
+        stroke-dashoffset: 0;
+      }
+      100% {
+        stroke-dashoffset: -320;
+      }
+    }
+
+    @keyframes node-orbit {
+      0%,
+      100% {
+        transform: scale(0.92);
+      }
+      50% {
+        transform: scale(1.08);
+      }
+    }
+
+    @keyframes flow-link-drift {
+      0% {
+        stroke-dashoffset: 0;
+      }
+      100% {
+        stroke-dashoffset: -120;
+      }
+    }
+
+    @keyframes brain-spark {
+      0%,
+      100% {
+        opacity: 0.82;
+        transform: translateY(0);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(-1px);
+      }
+    }
+
+    @keyframes voice-flicker {
+      0%,
+      100% {
+        opacity: 0.75;
+      }
+      45% {
+        opacity: 1;
+      }
+      70% {
+        opacity: 0.62;
+      }
+    }
+
+    @keyframes breath-glyph {
+      0%,
+      100% {
+        opacity: 0.76;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+    }
+
+    @keyframes heart-signal {
+      0%,
+      100% {
+        opacity: 0.76;
+      }
+      30% {
+        opacity: 1;
+      }
+      55% {
+        opacity: 0.65;
+      }
+    }
+
+    @keyframes arm-pivot {
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+      50% {
+        transform: translateX(1px);
       }
     }
 
@@ -1210,31 +1729,19 @@
       }
     }
 
-    .scene-bottom {
-      position: relative;
-      z-index: 2;
-      margin-top: 18px;
-      display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
-      gap: 32px;
-      align-items: start;
-    }
-
-    .story-column {
-      display: grid;
-      gap: 22px;
-    }
-
     .story-strip {
       display: grid;
-      gap: 14px;
+      gap: 12px;
     }
 
     .story-line {
       position: relative;
       display: grid;
       gap: 6px;
-      padding-left: 18px;
+      padding: 0 0 10px 14px;
+      border-bottom: 1px solid rgba(217, 200, 178, 0.48);
+      background: transparent;
+      color: inherit;
     }
 
     .story-line::before {
@@ -1254,31 +1761,35 @@
     }
 
     .story-label {
-      font-size: 0.72rem;
+      font-size: 0.64rem;
       font-weight: 800;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--muted);
     }
 
     .story-text {
-      font-size: 0.95rem;
-      line-height: 1.65;
+      font-size: 0.9rem;
+      line-height: 1.6;
       color: var(--ink);
     }
 
     .capability-flow {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px 22px;
-      align-items: flex-start;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 16px;
+      align-items: start;
     }
 
     .verb-marker {
-      min-width: 190px;
-      max-width: 250px;
+      min-width: 0;
+      max-width: none;
       display: grid;
-      gap: 8px;
+      gap: 6px;
+      padding: 0 0 10px;
+      border-bottom: 1px solid rgba(217, 200, 178, 0.48);
+      background: transparent;
+      color: inherit;
     }
 
     .verb-marker.is-cold {
@@ -1294,30 +1805,30 @@
 
     .verb-name {
       font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
-      font-size: 1.08rem;
-      letter-spacing: -0.03em;
+      font-size: 0.98rem;
+      letter-spacing: -0.02em;
       color: var(--ink);
     }
 
     .verb-file {
-      font-size: 0.74rem;
+      font-size: 0.64rem;
       font-weight: 800;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--muted);
     }
 
     .verb-detail {
-      font-size: 0.92rem;
-      line-height: 1.7;
+      font-size: 0.86rem;
+      line-height: 1.62;
       color: var(--muted);
     }
 
     .trail-list {
       position: relative;
       display: grid;
-      gap: 16px;
-      padding-left: 24px;
+      gap: 10px;
+      padding-left: 18px;
     }
 
     .trail-list::before {
@@ -1333,7 +1844,11 @@
     .trail-row {
       position: relative;
       display: grid;
-      gap: 8px;
+      gap: 6px;
+      padding: 0 0 12px;
+      border-bottom: 1px solid rgba(217, 200, 178, 0.48);
+      background: transparent;
+      color: inherit;
     }
 
     .trail-row::before {
@@ -1354,8 +1869,8 @@
 
     .trail-meta {
       color: var(--muted);
-      font-size: 0.92rem;
-      line-height: 1.7;
+      font-size: 0.86rem;
+      line-height: 1.6;
     }
 
     .empty {
@@ -1412,6 +1927,17 @@
         animation: none;
       }
 
+      .body-svg .scene-frame-glow,
+      .body-svg .ambient-line,
+      .body-svg .body-river,
+      .body-svg .flow-link,
+      .body-svg .organ-node .node-halo,
+      .body-svg .organ-node .node-icon,
+      .body-svg .organ-heart.active,
+      .body-svg .organ-breath.active {
+        animation: none;
+      }
+
       .organ-card,
       .cap-card,
       .event-row,
@@ -1429,19 +1955,60 @@
         grid-template-columns: 1fr;
       }
 
-      .scene-top,
-      .scene-hud,
-      .scene-body,
-      .scene-bottom {
+      .scene-body {
         grid-template-columns: 1fr;
+      }
+
+      .body-stage {
+        display: grid;
+        align-content: start;
+        min-height: 0;
+      }
+
+      .body-svg {
+        height: auto;
       }
 
       .scene-status {
         justify-content: flex-start;
       }
 
+      .metric-strip,
+      .capability-flow {
+        grid-template-columns: 1fr 1fr;
+      }
+
       .annotation-rail {
-        gap: 18px;
+        display: none;
+      }
+
+      .metric-chip {
+        flex: 1 1 180px;
+        max-width: none;
+      }
+
+      .scene-ledger {
+        position: relative;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        margin-top: 10px;
+      }
+
+      .scene-ledger-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .loaded-dock {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .dock-select {
+        grid-column: 1 / -1;
+      }
+
+      .scene-ledger .capability-flow {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .annotation-line.left,
@@ -1473,17 +2040,58 @@
       }
 
       .scene {
-        padding: 22px 18px 26px;
-        border-radius: 28px;
+        padding: 18px 16px 22px;
+        border-radius: 24px;
       }
 
       .scene-toolbar {
         grid-template-columns: 1fr;
-        padding: 14px 16px;
+        gap: 12px;
+      }
+
+      .loaded-dock {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .dock-select {
+        grid-column: 1 / -1;
+      }
+
+      .scene-top,
+      .scene-hud {
+        grid-template-columns: 1fr;
+      }
+
+      .capability-flow {
+        grid-template-columns: 1fr;
+      }
+
+      .metric-strip {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .scene.is-loaded .metric-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 10px;
+      }
+
+      .scene.is-loaded .metric-chip {
+        flex: 0 1 124px;
+        min-width: 0;
+        padding: 0 8px 6px 0;
+        border-left: 0;
+        border-bottom: 1px solid rgba(217, 200, 178, 0.48);
       }
 
       .metric-chip {
-        min-width: 0;
+        flex: initial;
+        max-width: none;
+        padding-left: 0;
+        border-left: 0;
+        border-bottom: 1px solid rgba(217, 200, 178, 0.6);
       }
 
       .figure {
@@ -1499,7 +2107,22 @@
       }
 
       .body-stage {
-        min-height: 980px;
+        min-height: 920px;
+      }
+
+      .scene-ledger {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        padding: 12px;
+      }
+
+      .scene-ledger .capability-flow {
+        grid-template-columns: 1fr;
+      }
+
+      .scene-ledger-note {
+        gap: 6px;
       }
 
       .tool-rack {
@@ -1509,10 +2132,6 @@
         top: auto;
         bottom: 120px;
         width: auto;
-      }
-
-      .scene-bottom {
-        gap: 24px;
       }
 
       .organ-left-arm {
@@ -1559,6 +2178,23 @@
             </select>
           </label>
         </div>
+
+        <div id="loaded-dock" class="loaded-dock">
+          <button id="map-dock-button" class="dock-button" type="button">
+            <span id="map-dock-label">Architecture JSON</span>
+            <strong id="map-dock-name">-</strong>
+          </button>
+          <button id="trace-dock-button" class="dock-button" type="button">
+            <span id="trace-dock-label">Trace JSONL</span>
+            <strong id="trace-dock-name">-</strong>
+          </button>
+          <label class="dock-select">
+            <span id="run-dock-label">Run</span>
+            <select id="run-dock-select" disabled>
+              <option>Select a trace first</option>
+            </select>
+          </label>
+        </div>
       </div>
 
       <div class="scene-hud">
@@ -1584,6 +2220,15 @@
         <section class="body-stage">
           <svg id="body-svg" class="body-svg" viewBox="0 0 760 980" aria-label="Handmade agent body diagram" role="img">
             <defs>
+              <linearGradient id="panelWash" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="rgba(255,255,255,0.32)" />
+                <stop offset="58%" stop-color="rgba(252,247,238,0.2)" />
+                <stop offset="100%" stop-color="rgba(237,230,217,0.2)" />
+              </linearGradient>
+              <linearGradient id="bodyShellWash" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="rgba(255,255,255,0.36)" />
+                <stop offset="100%" stop-color="rgba(242,228,208,0.16)" />
+              </linearGradient>
               <radialGradient id="auraTop" cx="50%" cy="20%" r="60%">
                 <stop offset="0%" stop-color="rgba(10,108,104,0.24)" />
                 <stop offset="100%" stop-color="rgba(10,108,104,0)" />
@@ -1595,6 +2240,9 @@
             </defs>
 
             <rect class="scene-frame" x="24" y="24" width="712" height="932" rx="42" />
+            <rect class="scene-frame-glow" x="42" y="42" width="676" height="896" rx="34" />
+            <path class="ambient-line" d="M88 250 C180 190 276 196 382 252 C484 304 578 304 672 242" />
+            <path class="ambient-line copper" d="M96 704 C200 656 286 664 376 716 C476 772 560 772 664 724" />
             <ellipse class="aura-blob" cx="380" cy="246" rx="170" ry="172" fill="url(#auraTop)" />
             <ellipse class="aura-blob" cx="380" cy="604" rx="196" ry="244" fill="url(#auraBottom)" />
 
@@ -1604,6 +2252,18 @@
             <path class="skeleton" d="M380 640 C350 706 332 768 316 846" />
             <path class="skeleton" d="M380 640 C410 706 428 768 444 846" />
 
+            <g class="flow-layer" aria-hidden="true">
+              <path id="flow-brain-mouth" class="flow-link" d="M380 192 C380 196 380 198 380 200" />
+              <path id="flow-mouth-breath" class="flow-link" d="M380 258 C380 268 380 274 380 280" />
+              <path id="flow-breath-heart" class="flow-link" d="M368 350 C340 368 322 388 308 402" />
+              <path id="flow-breath-spine" class="flow-link" d="M398 350 C418 390 426 430 429 474" />
+              <path id="flow-heart-spine" class="flow-link" d="M380 446 C398 462 410 472 429 486" />
+              <path id="flow-heart-left-arm" class="flow-link" d="M236 436 C212 438 190 442 164 451" />
+              <path id="flow-heart-right-arm" class="flow-link" d="M380 436 C450 438 526 444 596 451" />
+              <path id="flow-spine-right-arm" class="flow-link" d="M502 510 C546 500 572 482 596 451" />
+              <path id="flow-spine-mouth" class="flow-link" d="M429 474 C418 396 404 322 386 258" />
+            </g>
+
             <circle class="body-shell" cx="380" cy="164" r="72" />
             <path class="body-shell" d="M300 248 C312 206 348 186 380 186 C412 186 448 206 460 248 L490 506 C494 566 456 622 380 622 C304 622 266 566 270 506 Z" />
             <path class="body-shell" d="M268 286 C214 326 180 370 156 448 C150 468 166 482 184 472 C204 462 220 438 236 406 C250 378 266 342 286 316 Z" />
@@ -1611,48 +2271,72 @@
             <path class="body-shell" d="M336 620 C318 698 304 772 290 852 C286 876 304 890 322 882 C338 876 346 856 352 822 C360 770 370 712 380 664 Z" />
             <path class="body-shell" d="M424 620 C442 698 456 772 470 852 C474 876 456 890 438 882 C422 876 414 856 408 822 C400 770 390 712 380 664 Z" />
             <ellipse class="body-core" cx="380" cy="410" rx="78" ry="164" />
+            <path class="body-river glow" d="M380 224 C370 286 368 346 372 414 C376 486 378 560 380 622" />
             <path class="body-river" d="M380 224 C370 286 368 346 372 414 C376 486 378 560 380 622" />
             <path class="body-river secondary" d="M362 306 C328 348 314 406 316 468" />
             <path class="body-river secondary" d="M398 306 C432 348 446 406 444 468" />
 
             <g id="organ-brain" class="organ-node organ-brain" data-organ="brain" role="button" tabindex="0" aria-pressed="false">
-              <rect class="node-shell" x="306" y="116" width="148" height="76" rx="38" />
+              <circle class="node-halo" cx="380" cy="154" r="56" />
+              <path class="node-shell" d="M314 166 C314 150 322 138 336 132 C340 120 352 112 366 112 C374 112 382 114 388 118 C394 112 404 109 414 109 C432 109 447 120 451 136 C460 142 466 153 466 166 C466 183 452 197 434 197 H346 C328 197 314 183 314 166 Z" />
+              <path class="node-icon" d="M346 148 C356 140 368 140 378 148" />
+              <path class="node-icon" d="M382 154 C392 146 404 146 414 154" />
               <text class="node-name" x="380" y="146">LLM Brain</text>
               <text id="organ-brain-stat" class="node-stat" x="380" y="168">idle</text>
             </g>
 
             <g id="organ-mouth" class="organ-node organ-mouth" data-organ="mouth" role="button" tabindex="0" aria-pressed="false">
-              <rect class="node-shell" x="322" y="200" width="116" height="58" rx="29" />
+              <circle class="node-halo" cx="380" cy="229" r="44" />
+              <path class="node-shell" d="M324 214 C326 201 338 192 352 192 H408 C422 192 434 201 436 214 C438 223 434 232 426 237 L388 259 C383 262 377 262 372 259 L334 237 C326 232 322 223 324 214 Z" />
+              <path class="node-icon" d="M352 226 C360 235 400 235 408 226" />
               <text class="node-name" x="380" y="224">Voice</text>
               <text id="organ-mouth-stat" class="node-stat" x="380" y="244">silent</text>
             </g>
 
             <g id="organ-breath" class="organ-node organ-breath" data-organ="breath" role="button" tabindex="0" aria-pressed="false">
-              <rect class="node-shell" x="309" y="280" width="142" height="70" rx="35" />
+              <circle class="node-halo" cx="380" cy="315" r="52" />
+              <path class="node-shell" d="M314 304 C314 288 326 276 342 276 C356 276 368 286 372 300 L372 338 C370 350 360 358 348 358 C328 358 314 342 314 322 Z" />
+              <path class="node-shell" d="M446 304 C446 288 434 276 418 276 C404 276 392 286 388 300 L388 338 C390 350 400 358 412 358 C432 358 446 342 446 322 Z" />
+              <path class="node-icon" d="M380 278 V346" />
+              <path class="node-icon" d="M368 296 C360 304 360 318 368 326" />
+              <path class="node-icon" d="M392 296 C400 304 400 318 392 326" />
               <text class="node-name" x="380" y="308">Model Breath</text>
               <text id="organ-breath-stat" class="node-stat" x="380" y="330">offline</text>
             </g>
 
             <g id="organ-heart" class="organ-node organ-heart" data-organ="heart" role="button" tabindex="0" aria-pressed="false">
-              <rect class="node-shell" x="236" y="402" width="144" height="68" rx="34" />
+              <circle class="node-halo" cx="308" cy="436" r="50" />
+              <path class="node-shell" d="M308 470 C276 450 244 430 244 414 C244 396 258 384 276 384 C290 384 301 392 308 404 C315 392 326 384 340 384 C358 384 372 396 372 414 C372 430 340 450 308 470 Z" />
+              <path class="node-icon" d="M280 426 H294 L302 416 L312 436 L320 424 H336" />
               <text class="node-name" x="308" y="430">Trace Heart</text>
               <text id="organ-heart-stat" class="node-stat" x="308" y="452">no pulse</text>
             </g>
 
             <g id="organ-spine" class="organ-node organ-spine" data-organ="spine" role="button" tabindex="0" aria-pressed="false">
-              <rect class="node-shell" x="356" y="474" width="146" height="72" rx="36" />
+              <circle class="node-halo" cx="429" cy="510" r="52" />
+              <rect class="node-shell" x="376" y="468" width="106" height="16" rx="8" />
+              <rect class="node-shell" x="368" y="488" width="122" height="16" rx="8" />
+              <rect class="node-shell" x="372" y="508" width="114" height="16" rx="8" />
+              <rect class="node-shell" x="380" y="528" width="98" height="16" rx="8" />
+              <path class="node-icon" d="M429 472 V540" />
               <text class="node-name" x="429" y="502">Runtime Spine</text>
               <text id="organ-spine-stat" class="node-stat" x="429" y="524">no steps</text>
             </g>
 
             <g id="organ-left-arm" class="organ-node organ-left-arm" data-organ="leftArm" role="button" tabindex="0" aria-pressed="false">
-              <rect class="node-shell" x="92" y="414" width="144" height="74" rx="37" />
+              <circle class="node-halo" cx="164" cy="451" r="52" />
+              <path class="node-shell" d="M94 430 C94 418 104 408 116 408 H206 C218 408 228 418 228 430 V442 H214 V432 C214 426 210 422 204 422 H126 C120 422 116 426 116 432 V470 C116 476 120 480 126 480 H204 C210 480 214 476 214 470 V460 H228 V472 C228 484 218 494 206 494 H116 C104 494 94 484 94 472 Z" />
+              <path class="node-icon" d="M140 432 L130 442 L140 452" />
+              <path class="node-icon" d="M188 432 L198 442 L188 452" />
               <text class="node-name" x="164" y="444">Python Arm</text>
               <text id="organ-left-arm-stat" class="node-stat" x="164" y="466">resting</text>
             </g>
 
             <g id="organ-right-arm" class="organ-node organ-right-arm" data-organ="rightArm" role="button" tabindex="0" aria-pressed="false">
-              <rect class="node-shell" x="524" y="414" width="144" height="74" rx="37" />
+              <circle class="node-halo" cx="596" cy="451" r="52" />
+              <path class="node-shell" d="M526 430 C526 418 536 408 548 408 H638 C650 408 660 418 660 430 V472 C660 484 650 494 638 494 H548 C536 494 526 484 526 472 V460 H540 V470 C540 476 544 480 550 480 H628 C634 480 638 476 638 470 V432 C638 426 634 422 628 422 H550 C544 422 540 426 540 432 V442 H526 Z" />
+              <path class="node-icon" d="M582 432 L592 442 L586 448 L576 438 Z" />
+              <circle class="node-accent" cx="602" cy="452" r="5" />
               <text class="node-name" x="596" y="444">Tool Arm</text>
               <text id="organ-right-arm-stat" class="node-stat" x="596" y="466">resting</text>
             </g>
@@ -1673,33 +2357,39 @@
               </article>
             </foreignObject>
 
-            <foreignObject x="54" y="886" width="652" height="56">
-              <div xmlns="http://www.w3.org/1999/xhtml" class="ground-panel">
-                <div id="ground-title" class="ground-title">Workspace Ground</div>
-                <div id="ground-text" class="ground-text">Load architecture JSON to place this virtual person inside the repository.</div>
-              </div>
-            </foreignObject>
           </svg>
+
+          <div class="scene-ledger">
+            <div class="scene-ledger-grid">
+              <section class="ledger-panel">
+                <div id="support-stack" class="story-strip">
+                  <div class="empty">Support panels will appear after loading data.</div>
+                </div>
+              </section>
+
+              <section class="ledger-panel">
+                <div id="capability-deck" class="capability-flow">
+                  <div class="empty">Capabilities will appear after loading anatomy or pulse data.</div>
+                </div>
+              </section>
+
+              <section class="ledger-panel">
+                <div id="event-feed" class="trail-list">
+                  <div class="empty">Load a trace to see the recent body activity feed.</div>
+                </div>
+              </section>
+            </div>
+
+            <div class="scene-ledger-note">
+              <span id="ground-title" class="ground-title">Workspace Ground</span>
+              <span id="ground-text" class="ground-text">Load architecture JSON to place this virtual person inside the repository.</span>
+            </div>
+          </div>
         </section>
 
         <aside id="right-organ-cards" class="annotation-rail">
           <div class="empty">Load anatomy to map the right side organs.</div>
         </aside>
-      </div>
-
-      <div class="scene-bottom">
-        <div class="story-column">
-          <div id="support-stack" class="story-strip">
-            <div class="empty">Support panels will appear after loading data.</div>
-          </div>
-          <div id="capability-deck" class="capability-flow">
-            <div class="empty">Capabilities will appear after loading anatomy or pulse data.</div>
-          </div>
-        </div>
-
-        <div id="event-feed" class="trail-list">
-          <div class="empty">Load a trace to see the recent body activity feed.</div>
-        </div>
       </div>
     </section>
   </main>
@@ -1707,12 +2397,17 @@
   <script>
     const state = {
       mapPayload: null,
+      mapFileName: '',
       traceEvents: [],
+      traceFileName: '',
       groupedRuns: {},
       activeRunId: null,
       selectedOrgan: null,
       locale: getInitialLocale(),
     };
+
+    const pageBody = document.body;
+    const sceneShell = document.querySelector('.scene');
 
     const ALL_ORGANS = ['brain', 'mouth', 'breath', 'heart', 'spine', 'leftArm', 'rightArm'];
 
@@ -1797,6 +2492,15 @@
     const mapFileInput = document.getElementById('map-file');
     const traceFileInput = document.getElementById('trace-file');
     const runSelect = document.getElementById('run-select');
+    const loadedDock = document.getElementById('loaded-dock');
+    const mapDockButton = document.getElementById('map-dock-button');
+    const traceDockButton = document.getElementById('trace-dock-button');
+    const mapDockLabel = document.getElementById('map-dock-label');
+    const traceDockLabel = document.getElementById('trace-dock-label');
+    const runDockLabel = document.getElementById('run-dock-label');
+    const mapDockName = document.getElementById('map-dock-name');
+    const traceDockName = document.getElementById('trace-dock-name');
+    const runDockSelect = document.getElementById('run-dock-select');
     const langZhButton = document.getElementById('lang-zh');
     const langEnButton = document.getElementById('lang-en');
     const focusPill = document.getElementById('focus-pill');
@@ -1828,9 +2532,17 @@
 
     langZhButton.addEventListener('click', () => setLocale('zh'));
     langEnButton.addEventListener('click', () => setLocale('en'));
+    mapDockButton.addEventListener('click', () => mapFileInput.click());
+    traceDockButton.addEventListener('click', () => traceFileInput.click());
 
     clearFocusButton.addEventListener('click', () => {
       state.selectedOrgan = null;
+      render();
+    });
+
+    runDockSelect.addEventListener('change', () => {
+      runSelect.value = runDockSelect.value;
+      state.activeRunId = runDockSelect.value || null;
       render();
     });
 
@@ -1838,6 +2550,7 @@
       const [file] = event.target.files;
       if (!file) return;
 
+      state.mapFileName = file.name;
       state.mapPayload = JSON.parse(await file.text());
       render();
     });
@@ -1846,6 +2559,7 @@
       const [file] = event.target.files;
       if (!file) return;
 
+      state.traceFileName = file.name;
       state.traceEvents = parseJsonl(await file.text());
       state.groupedRuns = groupRuns(state.traceEvents);
       const runIds = Object.keys(state.groupedRuns).sort();
@@ -1859,12 +2573,18 @@
 
     runSelect.addEventListener('change', () => {
       state.activeRunId = runSelect.value || null;
+      runDockSelect.value = runSelect.value || '';
       render();
     });
 
     function render() {
       applyStaticCopy();
       const overlay = buildRuntimeOverlay(getActiveRunEvents());
+      const hasLoadedData = Boolean(state.mapPayload || state.traceEvents.length);
+      pageBody.classList.toggle('has-live-scene', hasLoadedData);
+      sceneShell.classList.toggle('is-loaded', hasLoadedData);
+      loadedDock.hidden = !hasLoadedData;
+      renderLoadedDock();
       renderSnapshot(overlay);
       renderFocusState(overlay);
       renderOrganCards(overlay);
@@ -1882,16 +2602,19 @@
 
       const modules = state.mapPayload?.modules || [];
       const routes = state.mapPayload?.routes || [];
-      const activeOrgans = Object.values(overlay.organCounts).filter((count) => count > 0).length;
 
       snapshotStats.innerHTML = [
-        metricChip(pick('Repo Root', '仓库根目录'), state.mapPayload?.repo_root || '-'),
+        metricChip(pick('Run', '运行'), overlay.runId || pick('none', '无')),
         metricChip(pick('Mapped Modules', '模块数量'), modules.length || 4),
         metricChip(pick('Routes', '路线数量'), routes.length || '-'),
-        metricChip(pick('Run', '运行'), overlay.runId || pick('none', '无')),
         metricChip(pick('Trace Beats', 'Trace 脉冲'), overlay.eventsCount || 0),
-        metricChip(pick('Active Organs', '活跃器官'), activeOrgans),
       ].join('');
+    }
+
+    function renderLoadedDock() {
+      mapDockName.textContent = state.mapFileName || pick('Load architecture JSON', '加载架构 JSON');
+      traceDockName.textContent = state.traceFileName || pick('Load trace JSONL', '加载 trace JSONL');
+      runDockSelect.value = state.activeRunId || '';
     }
 
     function renderOrganCards(overlay) {
@@ -1932,6 +2655,7 @@
       updateOrganNode('spine', 'spine', overlay.organCounts.spine, overlay.organLabels.spine);
       updateOrganNode('left-arm', 'leftArm', overlay.organCounts.leftArm, overlay.organLabels.leftArm, 'warm');
       updateOrganNode('right-arm', 'rightArm', overlay.organCounts.rightArm, overlay.organLabels.rightArm, 'warm');
+      updateFlowLinks(overlay);
 
       const toolRackItems = getFocusedToolRack(overlay);
       toolRackTitle.textContent = getToolRackTitle();
@@ -1943,12 +2667,77 @@
         toolRackRow.innerHTML = toolRackItems.map((item) => `<span class="chip is-live">${escapeHtml(item)}</span>`).join('');
       }
 
-      groundText.textContent = buildGroundText(overlay);
+      groundText.textContent = truncateText(buildGroundText(overlay), 180);
+    }
+
+    function updateFlowLinks(overlay) {
+      const links = Array.from(bodySvg.querySelectorAll('.flow-link'));
+      for (const link of links) {
+        link.classList.remove('is-live', 'is-focus', 'is-strong');
+        link.style.removeProperty('--flow-intensity');
+      }
+
+      const route = state.selectedOrgan ? getFocusedRoute(overlay) : overlay.flatSequence;
+      if (!route.length) {
+        return;
+      }
+
+      const routeMap = {
+        'brain->mouth': 'flow-brain-mouth',
+        'mouth->brain': 'flow-brain-mouth',
+        'mouth->breath': 'flow-mouth-breath',
+        'breath->mouth': 'flow-mouth-breath',
+        'breath->heart': 'flow-breath-heart',
+        'heart->breath': 'flow-breath-heart',
+        'breath->spine': 'flow-breath-spine',
+        'spine->breath': 'flow-breath-spine',
+        'heart->spine': 'flow-heart-spine',
+        'spine->heart': 'flow-heart-spine',
+        'heart->leftArm': 'flow-heart-left-arm',
+        'leftArm->heart': 'flow-heart-left-arm',
+        'heart->rightArm': 'flow-heart-right-arm',
+        'rightArm->heart': 'flow-heart-right-arm',
+        'spine->rightArm': 'flow-spine-right-arm',
+        'rightArm->spine': 'flow-spine-right-arm',
+        'spine->mouth': 'flow-spine-mouth',
+        'mouth->spine': 'flow-spine-mouth',
+      };
+
+      const routeHitCounts = new Map();
+
+      for (let i = 0; i < route.length - 1; i += 1) {
+        const key = `${route[i]}->${route[i + 1]}`;
+        const id = routeMap[key];
+        if (!id) {
+          continue;
+        }
+        const node = document.getElementById(id);
+        if (!node) {
+          continue;
+        }
+        node.classList.add('is-live');
+        routeHitCounts.set(id, (routeHitCounts.get(id) || 0) + 1);
+        if (state.selectedOrgan && (route[i] === state.selectedOrgan || route[i + 1] === state.selectedOrgan)) {
+          node.classList.add('is-focus');
+        }
+      }
+
+      for (const [id, count] of routeHitCounts.entries()) {
+        const node = document.getElementById(id);
+        if (!node) {
+          continue;
+        }
+        node.style.setProperty('--flow-intensity', String(Math.min(count, 4)));
+        if (count > 1) {
+          node.classList.add('is-strong');
+        }
+      }
     }
 
     function updateOrganNode(id, organKey, count, label, flavor = 'active') {
       const node = document.getElementById(`organ-${id}`);
       const stat = document.getElementById(`organ-${id}-stat`);
+      const organ = getOrganDefinition(organKey);
       const isSelected = state.selectedOrgan === organKey;
       const isDimmed = Boolean(state.selectedOrgan) && !isSelected;
       node.classList.remove('active', 'warm', 'is-selected', 'is-dimmed');
@@ -1962,7 +2751,7 @@
         node.classList.add('is-dimmed');
       }
       node.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
-      node.setAttribute('aria-label', `${ORGAN_DEFINITIONS[organKey].title}: ${label}`);
+      node.setAttribute('aria-label', `${organ.title}: ${label}`);
       stat.textContent = label;
     }
 
@@ -2026,7 +2815,19 @@
         },
       ];
 
-      const visibleCards = filterBySelectedOrgan(cards, (card) => card.organs);
+      const defaultCapabilityOrgans = ['brain', 'spine', 'rightArm', 'mouth'];
+      const defaultCards = [];
+      for (const organId of defaultCapabilityOrgans) {
+        const card = cards.find((entry) => entry.organs.includes(organId));
+        if (card && !defaultCards.includes(card)) {
+          defaultCards.push(card);
+        }
+      }
+
+      const candidateCards = state.selectedOrgan
+        ? filterBySelectedOrgan(cards, (card) => card.organs)
+        : defaultCards;
+      const visibleCards = candidateCards.slice(0, state.selectedOrgan ? 3 : 4);
 
       capabilityDeck.innerHTML = visibleCards.length ? visibleCards.map((card) => `
         <article class="verb-marker ${card.badgeClass === 'cap-live' ? 'is-live' : 'is-cold'}">
@@ -2035,7 +2836,7 @@
             <span class="cap-badge ${card.badgeClass}">${escapeHtml(card.badge)}</span>
           </div>
           <div class="verb-file">${escapeHtml(card.file)}</div>
-          <div class="verb-detail">${escapeHtml(card.detail)}</div>
+          <div class="verb-detail">${escapeHtml(truncateText(card.detail, 92))}</div>
         </article>
       `).join('') : `<div class="empty">${escapeHtml(pick(`No capability cards are mapped to ${getSelectedOrganDefinition()?.title || 'this focus'}.`, `当前没有能力卡映射到 ${getSelectedOrganDefinition()?.title || '该聚焦对象'}。`))}</div>`;
     }
@@ -2046,7 +2847,7 @@
         return;
       }
 
-      const visibleEvents = filterBySelectedOrgan(overlay.recentEvents, (eventInfo) => eventInfo.organs);
+      const visibleEvents = filterBySelectedOrgan(overlay.recentEvents, (eventInfo) => eventInfo.organs).slice(0, 3);
 
       eventFeed.innerHTML = visibleEvents.length
         ? visibleEvents.map((eventInfo) => `
@@ -2055,7 +2856,7 @@
                 <div class="event-name">${escapeHtml(eventInfo.name)}</div>
                 <span class="event-pill ${eventInfo.statusClass}">${escapeHtml(eventInfo.badge)}</span>
               </div>
-              <div class="trail-meta">${escapeHtml(eventInfo.detail)}</div>
+              <div class="trail-meta">${escapeHtml(truncateText(eventInfo.detail, 88))}</div>
             </article>
           `).join('')
         : `<div class="empty">${escapeHtml(state.selectedOrgan ? pick(`No recent events touched ${getSelectedOrganDefinition().title}.`, `最近没有事件触达 ${getSelectedOrganDefinition().title}。`) : pick('No recent events available.', '当前没有可显示的最近事件。'))}</div>`;
@@ -2064,17 +2865,16 @@
     function renderSupportPanels(overlay) {
       const focusDefinition = getSelectedOrganDefinition();
       const focusRoute = getFocusedRoute(overlay);
-      const focusTools = getFocusedToolRack(overlay);
       const panels = [
         {
-          title: pick('Focus Lens', '聚焦镜头'),
+          title: pick('Focus', '聚焦'),
           live: Boolean(focusDefinition),
           content: focusDefinition
             ? `${focusDefinition.role} ${renderOrganEvidence(state.selectedOrgan, overlay)}`
             : pick('Click any organ card or body node to focus the feed, capability deck, and tool rack.', '点击任意器官注释或身体节点，可聚焦活动流、能力流和工具架。'),
         },
         {
-          title: pick('Body Route', '身体路线'),
+          title: pick('Route', '路线'),
           live: focusRoute.length > 0,
           content: focusRoute.length
             ? focusRoute.map((organId) => getOrganTitle(organId)).join(' -> ')
@@ -2083,14 +2883,7 @@
               : pick('No body route yet. Load a trace to see the sequence of active organs.', '当前还没有身体路线，加载 trace 后会看到器官激活顺序。'),
         },
         {
-          title: pick('Hands Held', '手中工具'),
-          live: focusTools.length > 0,
-          content: focusTools.length
-            ? focusTools.join(', ')
-            : getToolRackEmptyText(),
-        },
-        {
-          title: pick('Architecture Anchor', '架构锚点'),
+          title: pick('Anchor', '锚点'),
           live: Boolean(state.mapPayload),
           content: buildArchitectureAnchorText(),
         },
@@ -2099,7 +2892,7 @@
       supportStack.innerHTML = panels.map((panel) => `
         <article class="story-line ${panel.live ? 'is-live' : ''}">
           <div class="story-label">${escapeHtml(panel.title)} · ${panel.live ? pick('live', '生效中') : pick('pending', '待加载')}</div>
-          <div class="story-text">${escapeHtml(panel.content)}</div>
+          <div class="story-text">${escapeHtml(truncateText(panel.content, 118))}</div>
         </article>
       `).join('');
     }
@@ -2474,18 +3267,27 @@
 
     function renderRunOptions(runIds) {
       runSelect.innerHTML = '';
+      runDockSelect.innerHTML = '';
       if (!runIds.length) {
         runSelect.disabled = true;
         runSelect.innerHTML = `<option>${escapeHtml(pick('No runs found', '未找到运行记录'))}</option>`;
+        runDockSelect.disabled = true;
+        runDockSelect.innerHTML = `<option>${escapeHtml(pick('No runs found', '未找到运行记录'))}</option>`;
         return;
       }
 
       runSelect.disabled = false;
+      runDockSelect.disabled = false;
       for (const runId of runIds) {
         const option = document.createElement('option');
         option.value = runId;
         option.textContent = runId;
         runSelect.appendChild(option);
+
+        const dockOption = document.createElement('option');
+        dockOption.value = runId;
+        dockOption.textContent = runId;
+        runDockSelect.appendChild(dockOption);
       }
     }
 
@@ -2619,6 +3421,9 @@
       mapFileLabel.textContent = pick('Architecture JSON', '架构 JSON');
       traceFileLabel.textContent = pick('Trace JSONL', 'Trace JSONL');
       runLabel.textContent = pick('Run', '运行');
+      mapDockLabel.textContent = pick('Architecture JSON', '架构 JSON');
+      traceDockLabel.textContent = pick('Trace JSONL', 'Trace JSONL');
+      runDockLabel.textContent = pick('Run', '运行');
       clearFocusButton.textContent = pick('Clear focus', '清除聚焦');
       speechLabel.textContent = getOrganTitle('mouth');
       groundTitle.textContent = pick('Workspace Ground', '工作区地面');
@@ -2638,6 +3443,7 @@
 
       if (runSelect.disabled && !state.traceEvents.length) {
         runSelect.innerHTML = `<option>${escapeHtml(pick('Select a trace first', '请先加载 trace'))}</option>`;
+        runDockSelect.innerHTML = `<option>${escapeHtml(pick('Select a trace first', '请先加载 trace'))}</option>`;
       }
     }
 
