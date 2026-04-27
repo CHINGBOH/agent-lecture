@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Handmade Agent Trace Viewer</title>
+  <style>
+    :root {
+      --bg: #f3efe6;
+      --panel: #fffaf2;
+      --panel-strong: #f7ead8;
+      --ink: #1e1b18;
+      --muted: #6a6257;
+      --accent: #0e6b5c;
+      --accent-soft: #d8efe6;
+      --warn: #a35f16;
+      --warn-soft: #f7e3c5;
+      --danger: #a0331f;
+      --danger-soft: #f7d7d2;
+      --line: #d8cab5;
+      --shadow: 0 16px 40px rgba(39, 29, 17, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(14, 107, 92, 0.12), transparent 32%),
+        linear-gradient(180deg, #f8f3ea 0%, var(--bg) 100%);
+    }
+
+    header {
+      padding: 36px 28px 20px;
+      border-bottom: 1px solid rgba(216, 202, 181, 0.8);
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      line-height: 0.96;
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      margin-top: 10px;
+      max-width: 920px;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    main {
+      padding: 28px;
+      display: grid;
+      gap: 24px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      padding: 18px 22px;
+      background: rgba(255, 255, 255, 0.5);
+      border-bottom: 1px solid rgba(216, 202, 181, 0.7);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      font-size: 1.05rem;
+      letter-spacing: 0.01em;
+    }
+
+    .panel-body {
+      padding: 22px;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      align-items: end;
+    }
+
+    label {
+      display: grid;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    input[type="file"],
+    select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      padding: 12px 14px;
+      font: inherit;
+      color: var(--ink);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 14px;
+    }
+
+    .stat-card {
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(247,234,216,0.72));
+    }
+
+    .stat-label {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .stat-value {
+      margin-top: 8px;
+      font-size: 1.65rem;
+      font-weight: 700;
+    }
+
+    .status-pill,
+    .event-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .status-ok,
+    .event-ok {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .status-skip,
+    .event-skip {
+      background: var(--warn-soft);
+      color: var(--warn);
+    }
+
+    .status-fail,
+    .event-fail {
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+    }
+
+    .timeline-step {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(247,234,216,0.56));
+    }
+
+    .timeline-step header {
+      padding: 14px 16px;
+      border: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255,255,255,0.64);
+    }
+
+    .timeline-step .content {
+      padding: 14px 16px 18px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .event-card {
+      border: 1px solid rgba(216, 202, 181, 0.75);
+      border-radius: 14px;
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.7);
+    }
+
+    .event-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .event-name {
+      font-weight: 700;
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.83rem;
+      line-height: 1.55;
+      color: #302721;
+    }
+
+    .quality-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+    }
+
+    .quality-card {
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: var(--panel-strong);
+    }
+
+    .empty {
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    @media (max-width: 720px) {
+      main {
+        padding: 18px;
+      }
+
+      header {
+        padding: 28px 18px 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Handmade Agent Trace Viewer</h1>
+    <div class="subtitle">
+      Offline viewer for JSONL traces. Load a trace file, switch runs, inspect quality-gate summaries, and walk the agent step by step.
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Load Trace</h2>
+      </div>
+      <div class="panel-body controls">
+        <label>
+          Trace File
+          <input id="trace-file" type="file" accept=".jsonl,.txt,.log" />
+        </label>
+        <label>
+          Run
+          <select id="run-select" disabled>
+            <option>Select a trace first</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Run Summary</h2>
+        <span id="status-pill" class="status-pill status-skip">No trace loaded</span>
+      </div>
+      <div class="panel-body">
+        <div id="stats" class="stats">
+          <div class="empty">Load a trace file to inspect runtime metrics.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Quality Gate</h2>
+      </div>
+      <div class="panel-body">
+        <div id="quality-grid" class="quality-grid">
+          <div class="empty">No quality gate event selected.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Event Timeline</h2>
+      </div>
+      <div class="panel-body">
+        <div id="timeline" class="timeline">
+          <div class="empty">Timeline will appear after loading a trace.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const state = {
+      events: [],
+      groupedRuns: {},
+      activeRunId: null,
+    };
+
+    const fileInput = document.getElementById('trace-file');
+    const runSelect = document.getElementById('run-select');
+    const stats = document.getElementById('stats');
+    const qualityGrid = document.getElementById('quality-grid');
+    const timeline = document.getElementById('timeline');
+    const statusPill = document.getElementById('status-pill');
+
+    fileInput.addEventListener('change', async (event) => {
+      const [file] = event.target.files;
+      if (!file) return;
+      const text = await file.text();
+      state.events = parseJsonl(text);
+      state.groupedRuns = groupRuns(state.events);
+      const runIds = Object.keys(state.groupedRuns).sort();
+      renderRunOptions(runIds);
+      if (runIds.length) {
+        state.activeRunId = runIds[runIds.length - 1];
+        runSelect.value = state.activeRunId;
+        renderActiveRun();
+      }
+    });
+
+    runSelect.addEventListener('change', () => {
+      state.activeRunId = runSelect.value;
+      renderActiveRun();
+    });
+
+    function parseJsonl(text) {
+      return text
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .map((line) => JSON.parse(line));
+    }
+
+    function groupRuns(events) {
+      return events.reduce((acc, event) => {
+        if (!event.run_id) return acc;
+        acc[event.run_id] ||= [];
+        acc[event.run_id].push(event);
+        return acc;
+      }, {});
+    }
+
+    function renderRunOptions(runIds) {
+      runSelect.innerHTML = '';
+      if (!runIds.length) {
+        runSelect.disabled = true;
+        runSelect.innerHTML = '<option>No runs found</option>';
+        return;
+      }
+      runSelect.disabled = false;
+      for (const runId of runIds) {
+        const option = document.createElement('option');
+        option.value = runId;
+        option.textContent = runId;
+        runSelect.appendChild(option);
+      }
+    }
+
+    function renderActiveRun() {
+      const events = state.groupedRuns[state.activeRunId] || [];
+      renderSummary(events);
+      renderQuality(events);
+      renderTimeline(events);
+    }
+
+    function renderSummary(events) {
+      if (!events.length) {
+        stats.innerHTML = '<div class="empty">No run selected.</div>';
+        statusPill.textContent = 'No run';
+        statusPill.className = 'status-pill status-skip';
+        return;
+      }
+
+      const eventCounts = countBy(events, (event) => event.event);
+      const steps = new Set(events.filter((event) => Number.isInteger(event.step)).map((event) => event.step));
+      const toolCalls = events.filter((event) => event.event === 'tool_call').length;
+      const duplicates = events.filter((event) => event.event === 'tool_call_duplicate').length;
+      const finish = events.find((event) => event.event === 'run_finished');
+      const failure = events.find((event) => event.event === 'run_failed');
+
+      const status = failure ? 'failed' : finish?.status || 'running';
+      const duration = finish?.duration_ms ?? failure?.duration_ms ?? 'n/a';
+      statusPill.textContent = status;
+      statusPill.className = `status-pill ${status === 'completed' ? 'status-ok' : status === 'failed' ? 'status-fail' : 'status-skip'}`;
+
+      const cards = [
+        card('Run ID', state.activeRunId),
+        card('Duration', duration),
+        card('Steps', steps.size),
+        card('Tool Calls', toolCalls),
+        card('Duplicates', duplicates),
+        card('Events', Object.values(eventCounts).reduce((sum, value) => sum + value, 0)),
+      ];
+      stats.innerHTML = cards.join('');
+    }
+
+    function renderQuality(events) {
+      const qualityEvent = [...events].reverse().find((event) => event.event === 'quality_gate' && event.summary);
+      if (!qualityEvent) {
+        qualityGrid.innerHTML = '<div class="empty">No quality gate summary in this run.</div>';
+        return;
+      }
+      const summary = qualityEvent.summary;
+      qualityGrid.innerHTML = [
+        card('Level', summary.level),
+        card('Total', summary.total_checks),
+        card('Passed', summary.passed_checks),
+        card('Failed', summary.failed_checks),
+        card('Skipped', summary.skipped_checks),
+        card('Failed Cmds', (summary.failed_commands || []).length),
+      ].map((markup) => `<div class="quality-card">${markup}</div>`).join('');
+    }
+
+    function renderTimeline(events) {
+      const steps = new Map();
+      for (const event of events) {
+        const key = Number.isInteger(event.step) ? event.step : 'runtime';
+        if (!steps.has(key)) steps.set(key, []);
+        steps.get(key).push(event);
+      }
+
+      const orderedSteps = [...steps.entries()].sort((a, b) => {
+        if (a[0] === 'runtime') return -1;
+        if (b[0] === 'runtime') return 1;
+        return a[0] - b[0];
+      });
+
+      timeline.innerHTML = orderedSteps.map(([step, stepEvents]) => {
+        const header = step === 'runtime' ? 'Runtime Events' : `Step ${step}`;
+        return `
+          <section class="timeline-step">
+            <header>
+              <strong>${header}</strong>
+              <span>${stepEvents.length} events</span>
+            </header>
+            <div class="content">
+              ${stepEvents.map(renderEventCard).join('')}
+            </div>
+          </section>
+        `;
+      }).join('');
+    }
+
+    function renderEventCard(event) {
+      const tone = event.event === 'tool_result' || event.event === 'quality_gate' || event.event === 'run_finished'
+        ? 'event-ok'
+        : event.event === 'run_failed'
+          ? 'event-fail'
+          : event.event === 'tool_call_duplicate'
+            ? 'event-skip'
+            : 'event-ok';
+
+      const details = event.event === 'quality_gate'
+        ? event.summary
+        : event.event === 'tool_result'
+          ? event.result
+          : event;
+
+      return `
+        <article class="event-card">
+          <div class="event-meta">
+            <span class="event-name">${escapeHtml(event.event)}</span>
+            <span class="event-pill ${tone}">${escapeHtml(buildEventTag(event))}</span>
+          </div>
+          <pre>${escapeHtml(JSON.stringify(details, null, 2))}</pre>
+        </article>
+      `;
+    }
+
+    function buildEventTag(event) {
+      if (event.event === 'tool_call' || event.event === 'tool_result' || event.event === 'tool_call_duplicate') {
+        return `${event.tool_name || 'tool'}${event.tool_call_id ? ` · ${event.tool_call_id}` : ''}`;
+      }
+      if (event.event === 'llm_response') {
+        return `${event.response_ms || '?'} ms`;
+      }
+      if (event.event === 'run_finished') {
+        return `${event.status || 'completed'} · ${event.duration_ms || '?'} ms`;
+      }
+      return event.run_id || 'event';
+    }
+
+    function countBy(items, keyFn) {
+      return items.reduce((acc, item) => {
+        const key = keyFn(item);
+        acc[key] = (acc[key] || 0) + 1;
+        return acc;
+      }, {});
+    }
+
+    function card(label, value) {
+      return `
+        <div class="stat-card">
+          <div class="stat-label">${escapeHtml(String(label))}</div>
+          <div class="stat-value">${escapeHtml(String(value))}</div>
+        </div>
+      `;
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+  </script>
+</body>
+</html>

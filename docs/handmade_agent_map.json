@@ -1,0 +1,215 @@
+{
+  "repo_root": "/home/l/agent/handmade_agent",
+  "modules": [
+    {
+      "name": "__init__",
+      "path": "__init__.py",
+      "imports": [
+        "runtime",
+        "server",
+        "tools",
+        "trace"
+      ],
+      "imported_by": [],
+      "classes": [],
+      "functions": []
+    },
+    {
+      "name": "runtime",
+      "path": "runtime.py",
+      "imports": [
+        "tools",
+        "trace"
+      ],
+      "imported_by": [
+        "__init__"
+      ],
+      "classes": [
+        "ChatExchange",
+        "ContextCompactor",
+        "HandmadeCodingAgent",
+        "LlamaCppClient",
+        "Message",
+        "ParsedToolCall"
+      ],
+      "functions": [
+        "build_system_prompt",
+        "parse_assistant_response"
+      ]
+    },
+    {
+      "name": "server",
+      "path": "server.py",
+      "imports": [],
+      "imported_by": [
+        "__init__"
+      ],
+      "classes": [
+        "LocalServerHandle"
+      ],
+      "functions": [
+        "choose_gpu_layers",
+        "detect_free_vram_mb"
+      ]
+    },
+    {
+      "name": "tools",
+      "path": "tools.py",
+      "imports": [],
+      "imported_by": [
+        "__init__",
+        "runtime",
+        "trace"
+      ],
+      "classes": [
+        "CommandPolicy",
+        "SchemaValidationError",
+        "ToolRegistry",
+        "ToolSpec",
+        "WorkspaceGuard",
+        "WorkspaceTools"
+      ],
+      "functions": [
+        "build_registry",
+        "extract_json_object",
+        "sha256_text",
+        "to_json_text",
+        "to_jsonable",
+        "validate_schema"
+      ]
+    },
+    {
+      "name": "trace",
+      "path": "trace.py",
+      "imports": [
+        "tools"
+      ],
+      "imported_by": [
+        "__init__",
+        "runtime"
+      ],
+      "classes": [
+        "TraceRecorder"
+      ],
+      "functions": [
+        "extract_quality_gate_summary",
+        "parse_tool_result_payload"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "__init__",
+      "target": "runtime"
+    },
+    {
+      "source": "__init__",
+      "target": "server"
+    },
+    {
+      "source": "__init__",
+      "target": "tools"
+    },
+    {
+      "source": "__init__",
+      "target": "trace"
+    },
+    {
+      "source": "runtime",
+      "target": "tools"
+    },
+    {
+      "source": "runtime",
+      "target": "trace"
+    },
+    {
+      "source": "trace",
+      "target": "tools"
+    }
+  ],
+  "routes": [
+    {
+      "name": "route-1",
+      "modules": [
+        "__init__",
+        "runtime"
+      ]
+    },
+    {
+      "name": "route-2",
+      "modules": [
+        "__init__",
+        "runtime",
+        "tools"
+      ]
+    },
+    {
+      "name": "route-3",
+      "modules": [
+        "__init__",
+        "runtime",
+        "trace"
+      ]
+    },
+    {
+      "name": "route-4",
+      "modules": [
+        "__init__",
+        "runtime",
+        "trace",
+        "tools"
+      ]
+    },
+    {
+      "name": "route-5",
+      "modules": [
+        "__init__",
+        "server"
+      ]
+    },
+    {
+      "name": "route-6",
+      "modules": [
+        "__init__",
+        "tools"
+      ]
+    },
+    {
+      "name": "route-7",
+      "modules": [
+        "__init__",
+        "trace"
+      ]
+    },
+    {
+      "name": "route-8",
+      "modules": [
+        "__init__",
+        "trace",
+        "tools"
+      ]
+    },
+    {
+      "name": "route-9",
+      "modules": [
+        "runtime",
+        "tools"
+      ]
+    },
+    {
+      "name": "route-10",
+      "modules": [
+        "runtime",
+        "trace"
+      ]
+    },
+    {
+      "name": "route-11",
+      "modules": [
+        "runtime",
+        "trace",
+        "tools"
+      ]
+    }
+  ]
+}
