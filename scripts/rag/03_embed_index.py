@@ -2,11 +2,7 @@
 """
 03_embed_index.py — Embed chunks with BAAI/bge-m3 and store in Qdrant
 
-Prerequisites:
-  - Qdrant running on localhost:6333 (docker run -d -p 6333:6333 qdrant/qdrant)
-  - chunks.jsonl produced by 02_chunk.py
-  - sentence-transformers installed (pip install sentence-transformers)
-  - qdrant-client installed (pip install qdrant-client)
+Uses direct REST HTTP (no qdrant-client) to support Qdrant server v1.8.0.
 
 Run:  python3 scripts/rag/03_embed_index.py
       python3 scripts/rag/03_embed_index.py --reset   # drop & rebuild
@@ -15,6 +11,8 @@ import json
 import sys
 import time
 import argparse
+import http.client
+import urllib.parse
 from pathlib import Path
 from typing import Iterator
 
@@ -25,7 +23,24 @@ from config import (
 )
 from schema import DocChunk
 
-QDRANT_UPSERT_BATCH = 8  # small sub-batches to avoid "too many open files" on server
+QDRANT_UPSERT_BATCH = 8  # small sub-batches to avoid server "too many open files"
+
+_qdrant_host = "127.0.0.1"
+_qdrant_port = 6333
+
+
+def _qdrant_request(method: str, path: str, body: dict | None = None) -> dict:
+    """Make a single Qdrant REST HTTP request; returns parsed JSON."""
+    conn = http.client.HTTPConnection(_qdrant_host, _qdrant_port, timeout=60)
+    headers = {"Content-Type": "application/json"}
+    payload = json.dumps(body).encode() if body is not None else None
+    conn.request(method, path, body=payload, headers=headers)
+    resp = conn.getresponse()
+    data = json.loads(resp.read().decode())
+    conn.close()
+    if resp.status >= 400:
+        raise RuntimeError(f"Qdrant {method} {path} → {resp.status}: {data}")
+    return data
 
 
 def load_model():
@@ -36,29 +51,31 @@ def load_model():
     return model
 
 
-def setup_qdrant(reset: bool = False):
-    from qdrant_client import QdrantClient
-    from qdrant_client.models import Distance, VectorParams
+def setup_qdrant(reset: bool = False) -> int:
+    """Create/reset collection; return number of already-indexed points."""
+    # Check existing collections
+    try:
+        data = _qdrant_request("GET", "/collections")
+        names = [c["name"] for c in data["result"]["collections"]]
+    except Exception as e:
+        print(f"ERROR: Cannot reach Qdrant at {_qdrant_host}:{_qdrant_port} — {e}")
+        sys.exit(1)
 
-    client = QdrantClient(url=QDRANT_URL, timeout=60, check_compatibility=False)
-
-    collections = [c.name for c in client.get_collections().collections]
-    if COLLECTION_NAME in collections:
+    if COLLECTION_NAME in names:
         if reset:
             print(f"Dropping existing collection: {COLLECTION_NAME}")
-            client.delete_collection(COLLECTION_NAME)
+            _qdrant_request("DELETE", f"/collections/{COLLECTION_NAME}")
         else:
-            info = client.get_collection(COLLECTION_NAME)
-            existing = info.points_count or 0
+            info = _qdrant_request("GET", f"/collections/{COLLECTION_NAME}")
+            existing = info["result"]["points_count"] or 0
             print(f"Collection '{COLLECTION_NAME}' exists with {existing} points. Resuming...")
-            return client, existing
+            return existing
 
     print(f"Creating collection: {COLLECTION_NAME} (dim={VECTOR_SIZE}, cosine)")
-    client.create_collection(
-        collection_name=COLLECTION_NAME,
-        vectors_config=VectorParams(size=VECTOR_SIZE, distance=Distance.COSINE),
-    )
-    return client, 0
+    _qdrant_request("PUT", f"/collections/{COLLECTION_NAME}", {
+        "vectors": {"size": VECTOR_SIZE, "distance": "Cosine"}
+    })
+    return 0
 
 
 def iter_chunks(path: Path) -> Iterator[DocChunk]:
@@ -69,7 +86,7 @@ def iter_chunks(path: Path) -> Iterator[DocChunk]:
                 yield DocChunk.from_dict(json.loads(line))
 
 
-def batch(iterable, n: int):
+def _batches(iterable, n: int):
     buf = []
     for item in iterable:
         buf.append(item)
@@ -80,9 +97,7 @@ def batch(iterable, n: int):
         yield buf
 
 
-def embed_and_index(model, client, existing_count: int = 0):
-    from qdrant_client.models import PointStruct
-
+def embed_and_index(model, existing_count: int = 0):
     if not CHUNKS_FILE.exists():
         print(f"ERROR: {CHUNKS_FILE} not found. Run 02_chunk.py first.")
         sys.exit(1)
@@ -93,42 +108,43 @@ def embed_and_index(model, client, existing_count: int = 0):
     remaining = all_chunks[skip:]
 
     if skip > 0:
-        print(f"Resuming: skipping {skip} already-indexed chunks, {len(remaining)} remaining")
+        print(f"Resuming: skipping {skip} already-indexed, {len(remaining)} remaining")
     else:
         print(f"Embedding {total} chunks in batches of {EMBED_BATCH_SIZE} ...")
 
     upserted = 0
     t0 = time.time()
 
-    for embed_batch in batch(remaining, EMBED_BATCH_SIZE):
+    for embed_batch in _batches(remaining, EMBED_BATCH_SIZE):
         texts = [c.content for c in embed_batch]
         passages = [f"passage: {t}" for t in texts]
         vectors = model.encode(passages, normalize_embeddings=True, show_progress_bar=False)
 
         points = [
-            PointStruct(
-                id=c.id,
-                vector=vec.tolist(),
-                payload={
-                    "source_file":   c.source_file,
-                    "doc_type":      c.doc_type,
-                    "title":         c.title,
-                    "section_path":  c.section_path,
-                    "content":       c.content,
-                    "chunk_index":   c.chunk_index,
-                    "total_chunks":  c.total_chunks,
-                    "language":      c.language,
-                    "tags":          c.tags,
-                    "word_count":    c.word_count,
-                    "chapter":       c.chapter,
+            {
+                "id": c.id,
+                "vector": vec.tolist(),
+                "payload": {
+                    "source_file":  c.source_file,
+                    "doc_type":     c.doc_type,
+                    "title":        c.title,
+                    "section_path": c.section_path,
+                    "content":      c.content,
+                    "chunk_index":  c.chunk_index,
+                    "total_chunks": c.total_chunks,
+                    "language":     c.language,
+                    "tags":         c.tags,
+                    "word_count":   c.word_count,
+                    "chapter":      c.chapter,
                 },
-            )
+            }
             for c, vec in zip(embed_batch, vectors)
         ]
 
         # Upsert in small sub-batches to protect Qdrant from open-file exhaustion
-        for sub in batch(points, QDRANT_UPSERT_BATCH):
-            client.upsert(collection_name=COLLECTION_NAME, points=sub)
+        for sub in _batches(points, QDRANT_UPSERT_BATCH):
+            _qdrant_request("PUT", f"/collections/{COLLECTION_NAME}/points?wait=true",
+                            {"points": sub})
             upserted += len(sub)
 
         elapsed = time.time() - t0
@@ -139,8 +155,8 @@ def embed_and_index(model, client, existing_count: int = 0):
               end="\r", flush=True)
 
     print(f"\nIndexed {upserted} new chunks in {time.time()-t0:.1f}s ✓")
-    info = client.get_collection(COLLECTION_NAME)
-    print(f"Collection '{COLLECTION_NAME}': {info.points_count} points total")
+    info = _qdrant_request("GET", f"/collections/{COLLECTION_NAME}")
+    print(f"Collection '{COLLECTION_NAME}': {info['result']['points_count']} points total")
 
 
 def main():
@@ -150,8 +166,8 @@ def main():
     args = parser.parse_args()
 
     model = load_model()
-    client, existing = setup_qdrant(reset=args.reset)
-    embed_and_index(model, client, existing_count=existing)
+    existing = setup_qdrant(reset=args.reset)
+    embed_and_index(model, existing_count=existing)
 
 
 if __name__ == "__main__":

@@ -35,30 +35,50 @@ def rel(path: Path) -> str:
 
 
 # ── 1. Slide TS → text ────────────────────────────────────────────────────────
-def _extract_strings_from_ts(text: str) -> list[str]:
-    """Heuristic extraction of string values from TypeScript object literals."""
-    return re.findall(r"['\"]((?:[^'\"\\]|\\.){10,})['\"]", text)
+# Fields that contain educational content (ordered by priority)
+_CONTENT_FIELDS = [
+    'title', 'subtitle', 'question', 'context', 'text', 'sub',
+    'scene', 'insight', 'speakerNote', 'quote', 'quoteAuthor', 'character',
+    'label', 'description', 'caption',
+]
 
 
 def _slide_ts_to_text(ts_src: str) -> str:
-    """Convert a slide TS file to readable text by extracting all string values."""
+    """Convert a slide TS file to readable text using field-name-aware extraction.
+
+    Only extracts string values from known content fields, avoiding structural
+    TS fields (id, from, to, type, accent, etc.) that pollute the text.
+    """
     lines = []
-    # Extract chapter comment
+
+    # Chapter comments at file top
     for line in ts_src.splitlines():
-        if line.strip().startswith("//"):
-            lines.append(line.strip("/ ").strip())
-    # Extract all string values (titles, bullets, analogies, etc.)
-    strings = _extract_strings_from_ts(ts_src)
-    # Filter out short strings and obvious non-content (identifiers, hex, urls)
-    for s in strings:
-        s = s.strip()
-        if len(s) < 8:
-            continue
-        if re.match(r'^[a-zA-Z][a-zA-Z0-9_-]{0,20}$', s):
-            continue  # looks like an identifier
-        if s.startswith('http') or s.startswith('#'):
-            continue
-        lines.append(s)
+        stripped = line.strip()
+        if stripped.startswith("//"):
+            comment = stripped.lstrip("/ ").strip()
+            if len(comment) > 4:
+                lines.append(comment)
+
+    # Field-name-aware extraction (single and double quoted)
+    for field in _CONTENT_FIELDS:
+        for m in re.finditer(rf"{field}\s*:\s*'((?:[^'\\]|\\.)+)'", ts_src):
+            val = m.group(1).strip()
+            if len(val) >= 8 and not val.startswith('http'):
+                lines.append(val.replace('\\n', '\n').replace("\\'", "'"))
+        for m in re.finditer(rf'{field}\s*:\s*"((?:[^"\\]|\\.)+)"', ts_src):
+            val = m.group(1).strip()
+            if len(val) >= 8 and not val.startswith('http'):
+                lines.append(val.replace('\\n', '\n').replace('\\"', '"'))
+
+    # Extract takeaways array items specifically
+    ta_match = re.search(r'takeaways\s*:\s*\[(.*?)\]', ts_src, re.DOTALL)
+    if ta_match:
+        for m in re.finditer(r"'((?:[^'\\]|\\.){10,})'|\"((?:[^\"\\]|\\.){10,})\"",
+                             ta_match.group(1)):
+            val = (m.group(1) or m.group(2) or '').strip()
+            if val:
+                lines.append(val)
+
     return "\n".join(lines)
 
 

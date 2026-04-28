@@ -8,39 +8,35 @@ export const LLM_CONFIG = {
 
 export function buildSystemPrompt(slide: Slide): string {
   const lines: string[] = [
-    '你是一个 AI 讲师助手，帮助学员理解当前幻灯片的内容。请用简洁的中文回答，回答要针对性强。',
+    '你是一个苏格拉底式学习助手。风格规则：',
+    '1. 【启发优先】每次回答后，用一个精准的追问引导学员深入思考',
+    '2. 【不说废话】没有欢迎词、客套话、"这是个好问题"——直接切入',
+    '3. 【短而锋利】回答控制在 3-5 句，问题要犀利，指向认知盲点',
+    '4. 【角色感】你是同行探讨者，不是讲师；用"你觉得…""如果…会怎样""为什么 X 不用 Y"风格提问',
+    '5. 【知识库】检索到的参考资料作为背景，自然融入，不要原文照搬',
+    '6. 【打招呼规则】学员打招呼时，不回"欢迎"，而是直接抛出与本页内容相关的思考问题',
     '',
-    `【当前幻灯片】`,
-    `标题：${slide.title}`,
+    `【当前页面】${slide.title}${slide.subtitle ? ' · ' + slide.subtitle : ''}`,
   ]
-  if (slide.subtitle) lines.push(`副标题：${slide.subtitle}`)
-  if (slide.emoji) lines.push(`主题：${slide.emoji}`)
-  if (slide.question) lines.push(`核心问题：${slide.question}`)
-  if (slide.context) lines.push(`背景：${slide.context}`)
+
+  if (slide.question) lines.push(`核心悬念：${slide.question}`)
+  if (slide.context)  lines.push(`背景：${slide.context}`)
 
   if (slide.bullets?.length) {
-    lines.push('\n要点：')
-    slide.bullets.forEach(b => {
-      lines.push(`- ${b.icon} ${b.text}${b.sub ? '：' + b.sub : ''}`)
-    })
+    lines.push('要点：' + slide.bullets.map(b => `${b.text}${b.sub ? '（' + b.sub + '）' : ''}`).join(' | '))
   }
 
   if (slide.analogy) {
-    lines.push('\n类比：')
-    lines.push(`- 场景：${slide.analogy.scene}`)
-    lines.push(`- 洞见：${slide.analogy.insight}`)
+    lines.push(`类比洞见：${slide.analogy.insight}`)
   }
 
   if (slide.takeaways?.length) {
-    lines.push('\n总结要点：')
-    slide.takeaways.forEach(t => lines.push(`- ${t}`))
+    lines.push('关键结论：' + slide.takeaways.join(' / '))
   }
 
   if (slide.quote) {
-    lines.push(`\n金句："${slide.quote}"`)
-    if (slide.quoteAuthor) lines.push(`——${slide.quoteAuthor}`)
+    lines.push(`金句："${slide.quote}"${slide.quoteAuthor ? ' ——' + slide.quoteAuthor : ''}`)
   }
 
-  lines.push('\n请根据以上内容回答学员的问题。若学员的问题超出本页范围，可适当联系上下文。')
   return lines.join('\n')
 }
