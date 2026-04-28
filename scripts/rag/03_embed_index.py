@@ -29,18 +29,28 @@ _qdrant_host = "127.0.0.1"
 _qdrant_port = 6333
 
 
-def _qdrant_request(method: str, path: str, body: dict | None = None) -> dict:
-    """Make a single Qdrant REST HTTP request; returns parsed JSON."""
-    conn = http.client.HTTPConnection(_qdrant_host, _qdrant_port, timeout=60)
-    headers = {"Content-Type": "application/json"}
-    payload = json.dumps(body).encode() if body is not None else None
-    conn.request(method, path, body=payload, headers=headers)
-    resp = conn.getresponse()
-    data = json.loads(resp.read().decode())
-    conn.close()
-    if resp.status >= 400:
-        raise RuntimeError(f"Qdrant {method} {path} → {resp.status}: {data}")
-    return data
+def _qdrant_request(method: str, path: str, body: dict | None = None,
+                    retries: int = 4, timeout: int = 120) -> dict:
+    """Make a Qdrant REST HTTP request with retry on connection error."""
+    for attempt in range(retries):
+        try:
+            conn = http.client.HTTPConnection(_qdrant_host, _qdrant_port, timeout=timeout)
+            headers = {"Content-Type": "application/json"}
+            payload = json.dumps(body).encode() if body is not None else None
+            conn.request(method, path, body=payload, headers=headers)
+            resp = conn.getresponse()
+            data = json.loads(resp.read().decode())
+            conn.close()
+            if resp.status >= 400:
+                raise RuntimeError(f"Qdrant {method} {path} → {resp.status}: {data}")
+            return data
+        except (http.client.HTTPException, OSError, RuntimeError) as e:
+            if attempt == retries - 1:
+                raise
+            wait = 2 ** attempt
+            print(f"\n  [retry {attempt+1}/{retries-1}] {e}  (waiting {wait}s)", flush=True)
+            time.sleep(wait)
+    return {}  # unreachable
 
 
 def load_model():
@@ -143,9 +153,10 @@ def embed_and_index(model, existing_count: int = 0):
 
         # Upsert in small sub-batches to protect Qdrant from open-file exhaustion
         for sub in _batches(points, QDRANT_UPSERT_BATCH):
-            _qdrant_request("PUT", f"/collections/{COLLECTION_NAME}/points?wait=true",
+            _qdrant_request("PUT", f"/collections/{COLLECTION_NAME}/points",
                             {"points": sub})
             upserted += len(sub)
+            time.sleep(0.05)  # throttle to reduce server file descriptor churn
 
         elapsed = time.time() - t0
         done = skip + upserted
