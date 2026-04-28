@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useEffect, useRef, useState, useCallback } from 'react'
+import { motion } from 'framer-motion'
 import type { Slide } from '../../data/types'
 import { buildSystemPrompt } from '../../config/llm'
 import { useChat } from './useChat'
@@ -11,14 +11,22 @@ interface Props {
   onClose: () => void
 }
 
+const MIN_W = 280, MAX_W = 700
+const MIN_H = 180, MAX_H = 760
 
 export default function AiAssistant({ slide, accent, onClose }: Props) {
   const systemPrompt = buildSystemPrompt(slide)
   const { messages, loading, send, stop, clear } = useChat(systemPrompt)
   const [input, setInput] = useState('')
+  const [size, setSize] = useState({ w: 360, h: 480 })
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const prevSlideId = useRef(slide.id)
+  const resizeRef = useRef<{
+    type: 'w' | 'h' | 'both'
+    startX: number; startY: number
+    startW: number; startH: number
+  } | null>(null)
 
   useEffect(() => {
     if (slide.id !== prevSlideId.current) {
@@ -30,6 +38,42 @@ export default function AiAssistant({ slide, accent, onClose }: Props) {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
+
+  // ── Resize logic ───────────────────────────────────────────────────────────
+  const startResize = useCallback((e: React.MouseEvent, type: 'w' | 'h' | 'both') => {
+    e.preventDefault()
+    e.stopPropagation()
+    resizeRef.current = {
+      type, startX: e.clientX, startY: e.clientY,
+      startW: size.w, startH: size.h,
+    }
+
+    const onMove = (ev: MouseEvent) => {
+      const r = resizeRef.current
+      if (!r) return
+      const dx = ev.clientX - r.startX  // left edge: drag left = positive grow
+      const dy = ev.clientY - r.startY  // top edge: drag up = negative dy = grow
+      setSize(prev => {
+        let w = prev.w, h = prev.h
+        if (r.type === 'w' || r.type === 'both') {
+          w = Math.max(MIN_W, Math.min(MAX_W, r.startW - dx))
+        }
+        if (r.type === 'h' || r.type === 'both') {
+          h = Math.max(MIN_H, Math.min(MAX_H, r.startH - dy))
+        }
+        return { w, h }
+      })
+    }
+
+    const onUp = () => {
+      resizeRef.current = null
+      document.removeEventListener('mousemove', onMove)
+      document.removeEventListener('mouseup', onUp)
+    }
+
+    document.addEventListener('mousemove', onMove)
+    document.addEventListener('mouseup', onUp)
+  }, [size])
 
   const handleSend = () => {
     const text = input.trim()
@@ -55,17 +99,53 @@ export default function AiAssistant({ slide, accent, onClose }: Props) {
         position: 'absolute',
         right: '16px',
         bottom: '88px',
-        width: '360px',
-        maxHeight: '520px',
+        width: size.w,
+        height: size.h,
         zIndex: 18,
         display: 'flex',
         flexDirection: 'column',
         gap: '6px',
-        // fully transparent — no background, no border
-        pointerEvents: 'none', // let clicks through except on children
+        pointerEvents: 'none',
       }}
     >
-      {/* Messages — float transparently */}
+      {/* ── Top resize edge ─────────────────────────────── */}
+      <div
+        onMouseDown={e => startResize(e, 'h')}
+        style={{
+          position: 'absolute', top: 0, left: 12, right: 12, height: '8px',
+          cursor: 'n-resize', zIndex: 10, pointerEvents: 'auto',
+        }}
+      />
+
+      {/* ── Left resize edge ────────────────────────────── */}
+      <div
+        onMouseDown={e => startResize(e, 'w')}
+        style={{
+          position: 'absolute', left: 0, top: 12, bottom: 12, width: '8px',
+          cursor: 'w-resize', zIndex: 10, pointerEvents: 'auto',
+        }}
+      />
+
+      {/* ── Top-left corner handle ───────────────────────── */}
+      <div
+        onMouseDown={e => startResize(e, 'both')}
+        title="拖动调整大小"
+        style={{
+          position: 'absolute', top: 0, left: 0, width: '16px', height: '16px',
+          cursor: 'nw-resize', zIndex: 11, pointerEvents: 'auto',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}
+      >
+        {/* Visual indicator — subtle dots */}
+        <svg width="10" height="10" viewBox="0 0 10 10" style={{ opacity: 0.35 }}>
+          <circle cx="2" cy="2" r="1.2" fill="#fff"/>
+          <circle cx="6" cy="2" r="1.2" fill="#fff"/>
+          <circle cx="2" cy="6" r="1.2" fill="#fff"/>
+          <circle cx="6" cy="6" r="1.2" fill="#fff"/>
+        </svg>
+      </div>
+
+      {/* ── Messages ──────────────────────────────────────── */}
       <div style={{
         flex: 1,
         overflowY: 'auto',
@@ -73,27 +153,26 @@ export default function AiAssistant({ slide, accent, onClose }: Props) {
         flexDirection: 'column',
         justifyContent: 'flex-end',
         paddingBottom: '4px',
+        paddingTop: '8px',
         scrollbarWidth: 'none',
         pointerEvents: 'auto',
       }}>
-        {messages.length === 0 ? null : (
+        {messages.length > 0 && (
           <>
             <MessageList messages={messages} accent={accent} />
-            {messages.length > 0 && (
-              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '4px' }}>
-                <button onClick={clear} style={{
-                  background: 'none', border: 'none',
-                  fontSize: '11px', color: 'rgba(255,255,255,0.3)',
-                  cursor: 'pointer', padding: '2px 6px',
-                }}>清空</button>
-              </div>
-            )}
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '4px' }}>
+              <button onClick={clear} style={{
+                background: 'none', border: 'none',
+                fontSize: '11px', color: 'rgba(255,255,255,0.3)',
+                cursor: 'pointer', padding: '2px 6px',
+              }}>清空</button>
+            </div>
           </>
         )}
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input bar — only visible element */}
+      {/* ── Input bar ─────────────────────────────────────── */}
       <div style={{
         display: 'flex',
         gap: '6px',
@@ -101,7 +180,7 @@ export default function AiAssistant({ slide, accent, onClose }: Props) {
         background: 'rgba(8,8,16,0.6)',
         backdropFilter: 'blur(24px)',
         borderRadius: '14px',
-        border: `1px solid rgba(255,255,255,0.1)`,
+        border: '1px solid rgba(255,255,255,0.1)',
         padding: '6px 8px',
         pointerEvents: 'auto',
       }}>
