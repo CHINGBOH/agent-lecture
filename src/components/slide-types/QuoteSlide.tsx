@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import type { Slide } from '../../data/types'
 import type { ChapterTheme } from '../../data/themes'
+import { FONT } from '../../config/layout'
 
 export default function QuoteSlide({ slide, theme }: { slide: Slide; theme: ChapterTheme }) {
   const lines = (slide.quote ?? '').split('\n')
@@ -15,7 +16,7 @@ export default function QuoteSlide({ slide, theme }: { slide: Slide; theme: Chap
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: 'spring', duration: 0.6 }}
-          style={{ fontSize: '64px', marginBottom: '40px' }}
+          style={{ fontSize: FONT.quoteEmoji, marginBottom: '40px' }}
         >
           {slide.emoji}
         </motion.div>
@@ -26,7 +27,7 @@ export default function QuoteSlide({ slide, theme }: { slide: Slide; theme: Chap
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
         style={{
-          fontSize: 'clamp(32px, 4.5vw, 60px)', color: `${theme.accent}60`,
+          fontSize: FONT.quoteMark, color: `${theme.accent}60`,
           lineHeight: 1, marginBottom: '16px',
           fontFamily: 'Georgia, serif',
         }}
@@ -41,7 +42,7 @@ export default function QuoteSlide({ slide, theme }: { slide: Slide; theme: Chap
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 + i * 0.2 }}
           style={{
-            fontSize: 'clamp(24px, 3.5vw, 44px)',
+            fontSize: FONT.quoteText,
             color: theme.textPrimary,
             fontWeight: 700,
             lineHeight: 1.5,
@@ -61,7 +62,7 @@ export default function QuoteSlide({ slide, theme }: { slide: Slide; theme: Chap
           transition={{ delay: 1.0 }}
           style={{
             marginTop: '32px',
-            fontSize: '16px',
+            fontSize: FONT.quoteAuthor,
             color: theme.textSecondary,
             letterSpacing: '0.05em',
           }}

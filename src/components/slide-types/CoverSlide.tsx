@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import type { Slide } from '../../data/types'
 import type { ChapterTheme } from '../../data/themes'
+import { FONT } from '../../config/layout'
 
 // 简单 CSS 星空粒子
 function Starfield({ accent }: { accent: string }) {
@@ -57,7 +58,7 @@ export default function CoverSlide({ slide, theme }: { slide: Slide; theme: Chap
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.7, ease: 'easeOut' }}
         style={{
-          fontSize: '96px', marginBottom: '32px',
+          fontSize: FONT.coverEmoji, marginBottom: '32px',
           filter: `drop-shadow(0 0 30px ${theme.accent}60)`,
           position: 'relative', zIndex: 1,
         }}
@@ -69,7 +70,7 @@ export default function CoverSlide({ slide, theme }: { slide: Slide; theme: Chap
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.3, duration: 0.6 }}
         style={{
-          fontSize: 'clamp(36px, 6vw, 72px)',
+          fontSize: FONT.coverTitle,
           color: theme.textPrimary,
           margin: '0 0 16px',
           fontWeight: 900,
@@ -86,7 +87,7 @@ export default function CoverSlide({ slide, theme }: { slide: Slide; theme: Chap
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.6 }}
           style={{
-            fontSize: 'clamp(16px, 2.5vw, 24px)',
+            fontSize: FONT.coverSubtitle,
             color: theme.textSecondary,
             margin: 0,
             letterSpacing: '0.08em',
@@ -101,7 +102,7 @@ export default function CoverSlide({ slide, theme }: { slide: Slide; theme: Chap
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
         style={{
-          marginTop: '60px', fontSize: '13px',
+          marginTop: '60px', fontSize: FONT.coverHint,
           color: `${theme.textSecondary}60`,
           letterSpacing: '0.15em',
           position: 'relative', zIndex: 1,

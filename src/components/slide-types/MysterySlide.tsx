@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import type { Slide } from '../../data/types'
 import type { ChapterTheme } from '../../data/themes'
 import TypeWriter from '../animations/TypeWriter'
+import { FONT } from '../../config/layout'
 
 // 打字机完成后触发 onDone 回调
 function TypeWriterWithDone({
@@ -94,12 +95,12 @@ export default function MysterySlide({ slide, theme }: { slide: Slide; theme: Ch
             <motion.div
               animate={{ y: [0, -12, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
-              style={{ fontSize: '80px' }}
+              style={{ fontSize: FONT.mysteryEmoji }}
             >
               {slide.emoji ?? '❓'}
             </motion.div>
             <div style={{
-              fontSize: 'clamp(14px, 2vw, 22px)',
+              fontSize: FONT.mysteryTitle,
               color: theme.textSecondary,
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
@@ -110,7 +111,7 @@ export default function MysterySlide({ slide, theme }: { slide: Slide; theme: Ch
               animate={{ opacity: [0.4, 1, 0.4] }}
               transition={{ duration: 1.2, repeat: Infinity }}
               style={{
-                fontSize: '13px', color: theme.accent,
+                fontSize: FONT.badge, color: theme.accent,
                 letterSpacing: '0.25em', marginTop: '8px',
               }}
             >
@@ -138,7 +139,7 @@ export default function MysterySlide({ slide, theme }: { slide: Slide; theme: Ch
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               style={{
-                fontSize: '13px', color: theme.accent,
+                fontSize: FONT.badge, color: theme.accent,
                 letterSpacing: '0.2em', marginBottom: '28px',
                 textTransform: 'uppercase', fontWeight: 700,
               }}
@@ -148,7 +149,7 @@ export default function MysterySlide({ slide, theme }: { slide: Slide; theme: Ch
 
             {/* 大问题 */}
             <div style={{
-              fontSize: 'clamp(32px, 5vw, 64px)',
+              fontSize: FONT.mysteryQuestion,
               fontWeight: 900,
               color: theme.textPrimary,
               lineHeight: 1.35,
@@ -181,7 +182,7 @@ export default function MysterySlide({ slide, theme }: { slide: Slide; theme: Ch
                   borderRadius: '40px',
                   padding: '12px 32px',
                   color: theme.accent,
-                  fontSize: '15px',
+                  fontSize: FONT.mysteryButton,
                   fontWeight: 700,
                   cursor: 'pointer',
                   letterSpacing: '0.1em',
@@ -201,7 +202,7 @@ export default function MysterySlide({ slide, theme }: { slide: Slide; theme: Ch
                   animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                   transition={{ duration: 0.6, ease: 'easeOut' }}
                   style={{
-                    fontSize: 'clamp(16px, 2.2vw, 22px)',
+                    fontSize: FONT.mysteryContext,
                     color: theme.textSecondary,
                     lineHeight: 1.9,
                     maxWidth: '780px',
@@ -223,7 +224,7 @@ export default function MysterySlide({ slide, theme }: { slide: Slide; theme: Ch
                   />
                   {slide.context}
                   <div style={{
-                    marginTop: '20px', fontSize: '13px',
+                    marginTop: '20px', fontSize: FONT.badge,
                     color: `${theme.accent}80`, letterSpacing: '0.1em',
                   }}>
                     按 → 继续

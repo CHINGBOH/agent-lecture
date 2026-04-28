@@ -7,8 +7,7 @@
  * No interactivity, no external viewport library.
  */
 import { useEffect, useRef, useState } from 'react'
-import { graphlib } from 'dagre-d3-es'
-import { layout } from 'dagre-d3-es/src/dagre/index.js'
+import { graphlib, layout } from '@dagrejs/dagre'
 import type { FlowGraph, FlowNode, FlowEdge, FlowGroup } from '../data/types'
 import type { ChapterTheme } from '../data/themes'
 

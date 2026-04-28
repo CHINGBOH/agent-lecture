@@ -76,4 +76,36 @@ export const FONT = {
   iconCompact: '20px',
   /** Emoji 图标（完整模式/标题行） */
   iconFull: '28px',
+
+  // ── 封面页（CoverSlide） ───────────────────────────────────────────────────
+  /** 封面大 Emoji */
+  coverEmoji: '96px',
+  /** 封面主标题 */
+  coverTitle: 'clamp(36px, 6vw, 72px)',
+  /** 封面副标题 */
+  coverSubtitle: 'clamp(16px, 2.5vw, 24px)',
+  /** 封面操作提示（"按 → 继续"） */
+  coverHint: '13px',
+
+  // ── 引言页（QuoteSlide） ───────────────────────────────────────────────────
+  /** 引言页装饰 Emoji */
+  quoteEmoji: '64px',
+  /** 引言页装饰引号 "❝" */
+  quoteMark: 'clamp(32px, 4.5vw, 60px)',
+  /** 引言正文 */
+  quoteText: 'clamp(24px, 3.5vw, 44px)',
+  /** 引言出处 */
+  quoteAuthor: '16px',
+
+  // ── 悬念页（MysterySlide） ────────────────────────────────────────────────
+  /** 悬念钩子阶段 Emoji */
+  mysteryEmoji: '80px',
+  /** 悬念钩子阶段标题（小字提示） */
+  mysteryTitle: 'clamp(14px, 2vw, 22px)',
+  /** 悬念大问题文字 */
+  mysteryQuestion: 'clamp(32px, 5vw, 64px)',
+  /** 悬念"点击揭晓"按钮文字 */
+  mysteryButton: '15px',
+  /** 揭晓后背景说明文字 */
+  mysteryContext: 'clamp(16px, 2.2vw, 22px)',
 } as const
