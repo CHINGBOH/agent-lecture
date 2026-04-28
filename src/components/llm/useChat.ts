@@ -16,6 +16,7 @@ export interface Message {
 interface ApiMessage {
   role: 'system' | 'user' | 'assistant' | 'tool'
   content?: string | null
+  reasoning_content?: string   // DeepSeek thinking mode — must be echoed back
   tool_calls?: {
     id: string
     type: 'function'
@@ -58,7 +59,7 @@ export function useChat(systemPrompt: string, slide: Slide) {
     const signal = abortRef.current.signal
 
     // ── Inner: stream one LLM call ─────────────────────────────────────────────
-    const streamAndCollect = async (): Promise<{ content: string; toolCalls: ToolCallAccum[] }> => {
+    const streamAndCollect = async (): Promise<{ content: string; reasoningContent: string; toolCalls: ToolCallAccum[] }> => {
       const res = await fetch(`${LLM_CONFIG.baseUrl}/v1/chat/completions`, {
         method: 'POST',
         headers: {
@@ -84,6 +85,7 @@ export function useChat(systemPrompt: string, slide: Slide) {
       const decoder = new TextDecoder()
       let lineBuffer = ''
       let content = ''
+      let reasoningContent = ''
       const toolMap = new Map<number, ToolCallAccum>()
       let hasContent = false
 
@@ -112,6 +114,7 @@ export function useChat(systemPrompt: string, slide: Slide) {
               })
             }
           } else if (reasoningDelta && !hasContent) {
+            reasoningContent += reasoningDelta
             if (requestIdRef.current === reqId) {
               setMessages(prev => {
                 const updated = [...prev]
@@ -154,7 +157,7 @@ export function useChat(systemPrompt: string, slide: Slide) {
       }
       if (lineBuffer.trim()) processLine(lineBuffer.trim())
 
-      return { content, toolCalls: Array.from(toolMap.values()) }
+      return { content, reasoningContent, toolCalls: Array.from(toolMap.values()) }
     }
 
     try {
@@ -162,19 +165,23 @@ export function useChat(systemPrompt: string, slide: Slide) {
 
       // ── Agent loop: up to 3 tool rounds ─────────────────────────────────────
       for (let round = 0; round < 3; round++) {
-        const { content, toolCalls } = await streamAndCollect()
+        const { content, reasoningContent, toolCalls } = await streamAndCollect()
 
         if (signal.aborted || requestIdRef.current !== reqId) break
 
         if (toolCalls.length === 0) {
           // No tool calls — this is the final answer
           finalContent = content
+          // Push to protocol history, including reasoning_content if present
+          const finalMsg: ApiMessage = { role: 'assistant', content: finalContent }
+          if (reasoningContent) finalMsg.reasoning_content = reasoningContent
+          apiHistoryRef.current.push(finalMsg)
           break
         }
 
         // ── Execute tools ──────────────────────────────────────────────────────
         // Push assistant "tool_calls" message into protocol history
-        apiHistoryRef.current.push({
+        const toolCallMsg: ApiMessage = {
           role: 'assistant',
           content: content || null,
           tool_calls: toolCalls.map(tc => ({
@@ -182,7 +189,9 @@ export function useChat(systemPrompt: string, slide: Slide) {
             type: 'function' as const,
             function: { name: tc.name, arguments: tc.argumentsBuffer },
           })),
-        })
+        }
+        if (reasoningContent) toolCallMsg.reasoning_content = reasoningContent
+        apiHistoryRef.current.push(toolCallMsg)
 
         // Show tool status in the UI bubble
         const statusParts = toolCalls.map(tc => {
@@ -234,11 +243,6 @@ export function useChat(systemPrompt: string, slide: Slide) {
           updated[updated.length - 1] = { role: 'assistant', content: finalContent }
           return updated
         })
-        // Add final answer to protocol history (only if not already added as tool_calls round)
-        const last = apiHistoryRef.current[apiHistoryRef.current.length - 1]
-        if (last?.role !== 'assistant' || last.tool_calls) {
-          apiHistoryRef.current.push({ role: 'assistant', content: finalContent })
-        }
       }
     } catch (err) {
       const isAbort = (err as Error).name === 'AbortError'
