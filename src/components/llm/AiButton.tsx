@@ -2,45 +2,39 @@ import { motion } from 'framer-motion'
 
 interface Props {
   onClick: () => void
-  accent: string
-  isOpen: boolean
 }
 
-export default function AiButton({ onClick, accent, isOpen }: Props) {
+export default function AiButton({ onClick }: Props) {
   return (
     <motion.button
       onClick={onClick}
-      title="AI 解说助手"
-      whileHover={{ scale: 1.08 }}
-      whileTap={{ scale: 0.93 }}
+      title="打开 AI 助手"
+      whileHover={{ scale: 1.04 }}
+      whileTap={{ scale: 0.96 }}
       style={{
         position: 'absolute',
-        right: '16px',
-        bottom: isOpen ? '582px' : '92px',
-        transition: 'bottom 0.3s cubic-bezier(0.32,0.72,0,1), background 0.2s',
+        right: '18px',
+        bottom: '18px',
+        transition: 'background 0.2s, border-color 0.2s',
         zIndex: 20,
-        width: '44px',
-        height: '44px',
-        borderRadius: '50%',
-        border: `2px solid ${accent}`,
-        background: isOpen ? accent : 'rgba(0,0,0,0.55)',
-        backdropFilter: 'blur(16px)',
+        minWidth: '34px',
+        height: '34px',
+        padding: '0 10px',
+        borderRadius: '999px',
+        border: '1px solid rgba(255,255,255,0.08)',
+        background: 'rgba(8,8,16,0.32)',
+        backdropFilter: 'blur(18px)',
         cursor: 'pointer',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: '18px',
-        animation: isOpen ? 'none' : 'aiGlow 2.5s ease-in-out infinite',
+        fontSize: '11px',
+        fontWeight: 600,
+        letterSpacing: '0.06em',
+        color: 'rgba(255,255,255,0.68)',
       }}
     >
-      <style>{`
-        @keyframes aiGlow {
-          0%   { box-shadow: 0 0 0 0 ${accent}55; }
-          50%  { box-shadow: 0 0 0 8px ${accent}00; }
-          100% { box-shadow: 0 0 0 0 ${accent}00; }
-        }
-      `}</style>
-      {isOpen ? '✕' : '🤖'}
+      AI
     </motion.button>
   )
 }

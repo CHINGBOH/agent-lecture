@@ -12,6 +12,7 @@ import TimelineSlide from './slide-types/TimelineSlide'
 import ComparisonSlide from './slide-types/ComparisonSlide'
 import QuoteSlide from './slide-types/QuoteSlide'
 import SummarySlide from './slide-types/SummarySlide'
+import AiButton from './llm/AiButton'
 import AiAssistant from './llm/AiAssistant'
 
 interface Props {
@@ -82,7 +83,6 @@ export default function SlideShow({ slides, chapters }: Props) {
   }, [go])
 
   // Chapter info for current slide
-  const currentChapter = chapters.find(c => c.id === slide.chapter)
   const slideInChapter = slides.filter(s => s.chapter === slide.chapter)
   const posInChapter = slideInChapter.findIndex(s => s.id === slide.id) + 1
 
@@ -193,16 +193,6 @@ export default function SlideShow({ slides, chapters }: Props) {
           <button onClick={() => go(-1)} disabled={current === 0} style={navBtnStyle}>←</button>
           <button onClick={() => go(1)} disabled={current === slides.length - 1} style={navBtnStyle}>→</button>
           <button onClick={() => setMenuOpen(v => !v)} title="章节菜单 (M)" style={navBtnStyle}>☰</button>
-          <button
-            onClick={() => setAiOpen(v => !v)}
-            title="AI 助手"
-            style={{
-              ...navBtnStyle,
-              background: aiOpen ? theme.accent : 'rgba(255,255,255,0.08)',
-              color: aiOpen ? '#000' : 'rgba(255,255,255,0.7)',
-              fontWeight: aiOpen ? 700 : 400,
-            }}
-          >🤖</button>
         </div>
       </div>
 
@@ -268,12 +258,19 @@ export default function SlideShow({ slides, chapters }: Props) {
           </motion.div>
         )}
       </AnimatePresence>
-      {/* AI assistant drawer */}
+      {!aiOpen && (
+        <AiButton
+          onClick={() => setAiOpen(true)}
+        />
+      )}
+
+      {/* AI assistant */}
       <AnimatePresence>
         {aiOpen && (
           <AiAssistant
             slide={slide}
             accent={theme.accent}
+            onClose={() => setAiOpen(false)}
           />
         )}
       </AnimatePresence>
