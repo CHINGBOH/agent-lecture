@@ -64,20 +64,18 @@ export default function AiAssistant({ slide, accent, onClose }: Props) {
         top: 0,
         right: 0,
         bottom: '75px',
-        width: '380px',
+        width: '400px',
         zIndex: 18,
         display: 'flex',
         flexDirection: 'column',
-        background: 'rgba(10,10,16,0.92)',
-        backdropFilter: 'blur(24px)',
-        borderLeft: '1px solid rgba(255,255,255,0.08)',
-        boxShadow: '-8px 0 40px rgba(0,0,0,0.5)',
+        background: 'linear-gradient(to right, transparent 0%, rgba(8,8,14,0.82) 14%, rgba(8,8,14,0.95) 100%)',
+        backdropFilter: 'blur(28px)',
       }}
     >
       {/* Header */}
       <div style={{
         padding: '14px 16px',
-        borderBottom: '1px solid rgba(255,255,255,0.07)',
+        borderBottom: '1px solid rgba(255,255,255,0.04)',
         display: 'flex',
         alignItems: 'center',
         gap: '10px',
@@ -173,7 +171,7 @@ export default function AiAssistant({ slide, accent, onClose }: Props) {
       {/* Input area */}
       <div style={{
         padding: '10px 12px',
-        borderTop: '1px solid rgba(255,255,255,0.07)',
+        borderTop: '1px solid rgba(255,255,255,0.04)',
         display: 'flex',
         gap: '8px',
         alignItems: 'flex-end',

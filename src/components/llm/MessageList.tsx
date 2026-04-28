@@ -31,7 +31,7 @@ export default function MessageList({ messages, accent }: Props) {
               color: msg.role === 'user' ? '#000' : 'rgba(255,255,255,0.9)',
               fontSize: '14px',
               lineHeight: '1.65',
-              border: msg.role === 'assistant' ? '1px solid rgba(255,255,255,0.08)' : 'none',
+              border: msg.role === 'assistant' ? '1px solid rgba(255,255,255,0.05)' : 'none',
             }}
           >
             {msg.role === 'assistant' ? (
