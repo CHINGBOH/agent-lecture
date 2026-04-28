@@ -11,12 +11,6 @@ interface Props {
   onClose: () => void
 }
 
-const QUICK_QUESTIONS = [
-  '解释这页内容',
-  '举个具体例子',
-  '和上一技术有什么区别？',
-  '为什么这很重要？',
-]
 
 export default function AiAssistant({ slide, accent, onClose }: Props) {
   const systemPrompt = buildSystemPrompt(slide)
@@ -26,7 +20,6 @@ export default function AiAssistant({ slide, accent, onClose }: Props) {
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const prevSlideId = useRef(slide.id)
 
-  // Clear conversation when slide changes
   useEffect(() => {
     if (slide.id !== prevSlideId.current) {
       prevSlideId.current = slide.id
@@ -34,7 +27,6 @@ export default function AiAssistant({ slide, accent, onClose }: Props) {
     }
   }, [slide.id, clear])
 
-  // Auto-scroll to bottom on new messages
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
@@ -55,265 +47,116 @@ export default function AiAssistant({ slide, accent, onClose }: Props) {
 
   return (
     <motion.div
-      initial={{ y: 20, opacity: 0, scale: 0.97 }}
-      animate={{ y: 0, opacity: 1, scale: 1 }}
-      exit={{ y: 20, opacity: 0, scale: 0.97 }}
-      transition={{ type: 'spring', stiffness: 360, damping: 30 }}
+      initial={{ y: 16, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: 16, opacity: 0 }}
+      transition={{ type: 'spring', stiffness: 360, damping: 32 }}
       style={{
         position: 'absolute',
         right: '16px',
         bottom: '88px',
         width: '360px',
-        maxHeight: '480px',
+        maxHeight: '520px',
         zIndex: 18,
         display: 'flex',
         flexDirection: 'column',
-        background: 'rgba(6,6,12,0.55)',
-        backdropFilter: 'blur(32px)',
-        borderRadius: '18px',
-        border: '1px solid rgba(255,255,255,0.07)',
-        overflow: 'hidden',
+        gap: '6px',
+        // fully transparent — no background, no border
+        pointerEvents: 'none', // let clicks through except on children
       }}
     >
-      {/* Header */}
-      <div style={{
-        padding: '10px 14px',
-        borderBottom: '1px solid rgba(255,255,255,0.05)',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
-        flexShrink: 0,
-      }}>
-        <span style={{ fontSize: '18px' }}>🤖</span>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontSize: '14px', fontWeight: 700, color: '#fff' }}>AI 解说助手</div>
-          <div style={{
-            fontSize: '11px',
-            color: 'rgba(255,255,255,0.4)',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-            maxWidth: '240px',
-          }}>
-            {slide.emoji} {slide.title}
-          </div>
-        </div>
-        {messages.length > 0 && (
-          <button
-            onClick={clear}
-            title="清空对话"
-            style={iconBtnStyle}
-          >
-            🗑
-          </button>
-        )}
-        <button onClick={onClose} title="关闭" style={iconBtnStyle}>✕</button>
-      </div>
-
-      {/* Messages area */}
+      {/* Messages — float transparently */}
       <div style={{
         flex: 1,
         overflowY: 'auto',
-        padding: '10px 12px',
-        scrollbarWidth: 'thin',
-        scrollbarColor: 'rgba(255,255,255,0.1) transparent',
-        minHeight: '80px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        paddingBottom: '4px',
+        scrollbarWidth: 'none',
+        pointerEvents: 'auto',
       }}>
-        {messages.length === 0 ? (
-          <WelcomeView accent={accent} onQuick={q => send(q)} />
-        ) : (
-          <MessageList messages={messages} accent={accent} />
+        {messages.length === 0 ? null : (
+          <>
+            <MessageList messages={messages} accent={accent} />
+            {messages.length > 0 && (
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '4px' }}>
+                <button onClick={clear} style={{
+                  background: 'none', border: 'none',
+                  fontSize: '11px', color: 'rgba(255,255,255,0.3)',
+                  cursor: 'pointer', padding: '2px 6px',
+                }}>清空</button>
+              </div>
+            )}
+          </>
         )}
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Quick questions (when no messages) */}
-      <AnimatePresence>
-        {messages.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 8 }}
-            style={{
-              padding: '0 12px 10px',
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '6px',
-              flexShrink: 0,
-            }}
-          >
-            {QUICK_QUESTIONS.map(q => (
-              <button
-                key={q}
-                onClick={() => send(q)}
-                style={{
-                  background: 'rgba(255,255,255,0.06)',
-                  border: `1px solid rgba(255,255,255,0.1)`,
-                  borderRadius: '20px',
-                  padding: '5px 12px',
-                  fontSize: '12px',
-                  color: 'rgba(255,255,255,0.7)',
-                  cursor: 'pointer',
-                  transition: 'all 0.15s',
-                }}
-                onMouseEnter={e => {
-                  ;(e.target as HTMLButtonElement).style.borderColor = accent
-                  ;(e.target as HTMLButtonElement).style.color = '#fff'
-                }}
-                onMouseLeave={e => {
-                  ;(e.target as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.1)'
-                  ;(e.target as HTMLButtonElement).style.color = 'rgba(255,255,255,0.7)'
-                }}
-              >
-                {q}
-              </button>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Input area */}
+      {/* Input bar — only visible element */}
       <div style={{
-        padding: '8px 10px',
-        borderTop: '1px solid rgba(255,255,255,0.05)',
         display: 'flex',
         gap: '6px',
         alignItems: 'flex-end',
-        flexShrink: 0,
+        background: 'rgba(8,8,16,0.6)',
+        backdropFilter: 'blur(24px)',
+        borderRadius: '14px',
+        border: `1px solid rgba(255,255,255,0.1)`,
+        padding: '6px 8px',
+        pointerEvents: 'auto',
       }}>
         <textarea
           ref={inputRef}
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="有什么问题？（Enter 发送，Shift+Enter 换行）"
+          placeholder="问 AI 助手…"
           rows={1}
           style={{
             flex: 1,
-            background: 'rgba(255,255,255,0.06)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            borderRadius: '10px',
-            padding: '9px 12px',
+            background: 'transparent',
+            border: 'none',
+            padding: '5px 8px',
             fontSize: '13px',
             color: '#fff',
             outline: 'none',
             resize: 'none',
             fontFamily: 'inherit',
             lineHeight: '1.5',
-            maxHeight: '100px',
+            maxHeight: '80px',
             overflowY: 'auto',
             scrollbarWidth: 'none',
           }}
           onInput={e => {
             const el = e.target as HTMLTextAreaElement
             el.style.height = 'auto'
-            el.style.height = `${Math.min(el.scrollHeight, 100)}px`
+            el.style.height = `${Math.min(el.scrollHeight, 80)}px`
           }}
-          onFocus={e => { e.target.style.borderColor = accent }}
-          onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)' }}
         />
         {loading ? (
-          <button
-            onClick={stop}
-            title="停止生成"
-            style={{
-              ...sendBtnBase,
-              background: 'rgba(255,60,60,0.2)',
-              border: '1px solid rgba(255,60,60,0.4)',
-              color: '#ff6060',
-            }}
-          >
-            ⏹
-          </button>
+          <button onClick={stop} title="停止" style={{ ...sendBtn, background: 'rgba(255,60,60,0.25)', color: '#ff7070' }}>⏹</button>
         ) : (
           <button
             onClick={handleSend}
             disabled={!input.trim()}
-            title="发送 (Enter)"
+            title="发送"
             style={{
-              ...sendBtnBase,
-              background: input.trim() ? accent : 'rgba(255,255,255,0.08)',
-              color: input.trim() ? '#000' : 'rgba(255,255,255,0.3)',
+              ...sendBtn,
+              background: input.trim() ? accent : 'rgba(255,255,255,0.1)',
+              color: input.trim() ? '#000' : 'rgba(255,255,255,0.25)',
               cursor: input.trim() ? 'pointer' : 'default',
-              border: 'none',
             }}
-          >
-            ↑
-          </button>
+          >↑</button>
         )}
       </div>
     </motion.div>
   )
 }
 
-function WelcomeView({ accent, onQuick }: {
-  accent: string
-  onQuick: (q: string) => void
-}) {
-  return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: '100%',
-      gap: '12px',
-      textAlign: 'center',
-      padding: '0 16px',
-    }}>
-      <div style={{ fontSize: '36px' }}>🤖</div>
-      <div style={{ fontSize: '14px', fontWeight: 600, color: '#fff' }}>
-        我来帮你理解这页内容
-      </div>
-      <div style={{
-        fontSize: '12px',
-        color: 'rgba(255,255,255,0.4)',
-        lineHeight: '1.6',
-        maxWidth: '280px',
-      }}>
-        点击下方快速提问，或者直接输入你的问题
-      </div>
-      <button
-        onClick={() => onQuick('解释这页内容')}
-        style={{
-          marginTop: '8px',
-          background: accent,
-          border: 'none',
-          borderRadius: '20px',
-          padding: '8px 20px',
-          fontSize: '13px',
-          fontWeight: 600,
-          color: '#000',
-          cursor: 'pointer',
-        }}
-      >
-        ✨ 解释这页内容
-      </button>
-    </div>
-  )
-}
-
-const iconBtnStyle: React.CSSProperties = {
-  background: 'transparent',
-  border: 'none',
-  cursor: 'pointer',
-  fontSize: '14px',
-  color: 'rgba(255,255,255,0.5)',
-  padding: '4px 6px',
-  borderRadius: '6px',
-  lineHeight: 1,
-}
-
-const sendBtnBase: React.CSSProperties = {
-  width: '36px',
-  height: '36px',
-  borderRadius: '10px',
-  fontSize: '16px',
-  fontWeight: 700,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  flexShrink: 0,
-  transition: 'all 0.15s',
-  cursor: 'pointer',
+const sendBtn: React.CSSProperties = {
+  width: '32px', height: '32px', flexShrink: 0,
+  border: 'none', borderRadius: '8px',
+  fontSize: '15px', fontWeight: 700,
+  display: 'flex', alignItems: 'center', justifyContent: 'center',
+  cursor: 'pointer', transition: 'background 0.15s',
 }
