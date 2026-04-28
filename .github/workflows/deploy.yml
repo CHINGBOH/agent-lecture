@@ -23,7 +23,7 @@ jobs:
           VITE_LLM_API_KEY: ${{ secrets.VITE_LLM_API_KEY }}
           VITE_LLM_BASE_URL: /deepseek-api
           VITE_LLM_MODEL: deepseek-v4-flash
-        run: npm run build
+        run: npx vite build
 
       - name: Upload to server
         uses: appleboy/scp-action@v0.1.7
