@@ -12,13 +12,13 @@ interface Props {
 }
 
 const MIN_W = 280, MAX_W = 700
-const MIN_H = 180, MAX_H = 760
+const MIN_H = 180, MAX_H = 900
 
 export default function AiAssistant({ slide, accent, onClose }: Props) {
   const systemPrompt = buildSystemPrompt(slide)
   const { messages, loading, send, stop, clear } = useChat(systemPrompt, slide)
   const [input, setInput] = useState('')
-  const [size, setSize] = useState({ w: 360, h: 480 })
+  const [size, setSize] = useState({ w: 360, h: 560 })
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const prevSlideId = useRef(slide.id)
@@ -52,14 +52,14 @@ export default function AiAssistant({ slide, accent, onClose }: Props) {
       const r = resizeRef.current
       if (!r) return
       const dx = ev.clientX - r.startX  // left edge: drag left = positive grow
-      const dy = ev.clientY - r.startY  // top edge: drag up = negative dy = grow
+      const dy = ev.clientY - r.startY  // bottom edge: drag down = positive grow
       setSize(prev => {
         let w = prev.w, h = prev.h
         if (r.type === 'w' || r.type === 'both') {
           w = Math.max(MIN_W, Math.min(MAX_W, r.startW - dx))
         }
         if (r.type === 'h' || r.type === 'both') {
-          h = Math.max(MIN_H, Math.min(MAX_H, r.startH - dy))
+          h = Math.max(MIN_H, Math.min(MAX_H, r.startH + dy))
         }
         return { w, h }
       })
@@ -98,7 +98,7 @@ export default function AiAssistant({ slide, accent, onClose }: Props) {
       style={{
         position: 'absolute',
         right: '16px',
-        bottom: '88px',
+        top: '16px',
         width: size.w,
         height: size.h,
         zIndex: 18,
@@ -108,12 +108,12 @@ export default function AiAssistant({ slide, accent, onClose }: Props) {
         pointerEvents: 'none',
       }}
     >
-      {/* ── Top resize edge ─────────────────────────────── */}
+      {/* ── Bottom resize edge ──────────────────────────── */}
       <div
         onMouseDown={e => startResize(e, 'h')}
         style={{
-          position: 'absolute', top: 0, left: 12, right: 12, height: '8px',
-          cursor: 'n-resize', zIndex: 10, pointerEvents: 'auto',
+          position: 'absolute', bottom: 0, left: 12, right: 12, height: '8px',
+          cursor: 's-resize', zIndex: 10, pointerEvents: 'auto',
         }}
       />
 
@@ -126,17 +126,16 @@ export default function AiAssistant({ slide, accent, onClose }: Props) {
         }}
       />
 
-      {/* ── Top-left corner handle ───────────────────────── */}
+      {/* ── Bottom-left corner handle ────────────────────── */}
       <div
         onMouseDown={e => startResize(e, 'both')}
         title="拖动调整大小"
         style={{
-          position: 'absolute', top: 0, left: 0, width: '16px', height: '16px',
-          cursor: 'nw-resize', zIndex: 11, pointerEvents: 'auto',
+          position: 'absolute', bottom: 0, left: 0, width: '16px', height: '16px',
+          cursor: 'sw-resize', zIndex: 11, pointerEvents: 'auto',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}
       >
-        {/* Visual indicator — subtle dots */}
         <svg width="10" height="10" viewBox="0 0 10 10" style={{ opacity: 0.35 }}>
           <circle cx="2" cy="2" r="1.2" fill="#fff"/>
           <circle cx="6" cy="2" r="1.2" fill="#fff"/>
@@ -151,11 +150,12 @@ export default function AiAssistant({ slide, accent, onClose }: Props) {
         overflowY: 'auto',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'flex-end',
         paddingBottom: '4px',
         paddingTop: '8px',
-        scrollbarWidth: 'none',
+        scrollbarWidth: 'thin',
+        scrollbarColor: 'rgba(255,255,255,0.15) transparent',
         pointerEvents: 'auto',
+        minHeight: 0,
       }}>
         {messages.length > 0 && (
           <>

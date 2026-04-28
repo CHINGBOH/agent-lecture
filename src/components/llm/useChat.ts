@@ -60,26 +60,39 @@ export function useChat(systemPrompt: string, slide: Slide) {
 
     // ── Inner: stream one LLM call ─────────────────────────────────────────────
     const streamAndCollect = async (): Promise<{ content: string; reasoningContent: string; toolCalls: ToolCallAccum[] }> => {
+      const requestBody = {
+        model: LLM_CONFIG.model,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          ...apiHistoryRef.current,
+        ],
+        tools: TOOL_DEFINITIONS,
+        tool_choice: 'auto',
+        stream: true,
+      }
+      // Debug: log messages being sent (check reasoning_content is present)
+      console.log('[useChat] API request messages:', JSON.stringify(requestBody.messages.map(m => ({
+        role: m.role,
+        has_reasoning: !!('reasoning_content' in m),
+        has_tool_calls: !!('tool_calls' in m),
+        content_len: typeof m.content === 'string' ? m.content.length : 0,
+      })), null, 2))
+
       const res = await fetch(`${LLM_CONFIG.baseUrl}/v1/chat/completions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${LLM_CONFIG.apiKey}`,
         },
-        body: JSON.stringify({
-          model: LLM_CONFIG.model,
-          messages: [
-            { role: 'system', content: systemPrompt },
-            ...apiHistoryRef.current,
-          ],
-          tools: TOOL_DEFINITIONS,
-          tool_choice: 'auto',
-          stream: true,
-        }),
+        body: JSON.stringify(requestBody),
         signal,
       })
 
-      if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`)
+      if (!res.ok) {
+        const errText = await res.text()
+        console.error('[useChat] API 400 error. Messages were:', JSON.stringify(requestBody.messages, null, 2))
+        throw new Error(`HTTP ${res.status}: ${errText}`)
+      }
 
       const reader = res.body!.getReader()
       const decoder = new TextDecoder()
