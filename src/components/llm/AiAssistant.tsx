@@ -19,6 +19,8 @@ export default function AiAssistant({ slide, accent, onClose }: Props) {
   const { messages, loading, send, stop, clear } = useChat(systemPrompt, slide)
   const [input, setInput] = useState('')
   const [size, setSize] = useState({ w: 360, h: 560 })
+  // pos=null → use default CSS right:16/top:16; once dragged, use absolute left/top
+  const [pos, setPos] = useState<{ x: number; y: number } | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const prevSlideId = useRef(slide.id)
@@ -27,6 +29,7 @@ export default function AiAssistant({ slide, accent, onClose }: Props) {
     startX: number; startY: number
     startW: number; startH: number
   } | null>(null)
+  const dragRef = useRef<{ startX: number; startY: number; startPX: number; startPY: number } | null>(null)
 
   useEffect(() => {
     if (slide.id !== prevSlideId.current) {
@@ -75,6 +78,31 @@ export default function AiAssistant({ slide, accent, onClose }: Props) {
     document.addEventListener('mouseup', onUp)
   }, [size])
 
+  // ── Drag to reposition ─────────────────────────────────────────────────────
+  const startDrag = useCallback((e: React.MouseEvent) => {
+    // get current rendered position of the panel
+    const el = (e.currentTarget as HTMLElement).closest<HTMLElement>('[data-panel]')
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    e.preventDefault()
+    dragRef.current = { startX: e.clientX, startY: e.clientY, startPX: rect.left, startPY: rect.top }
+
+    const onMove = (ev: MouseEvent) => {
+      const d = dragRef.current
+      if (!d) return
+      const x = Math.max(0, d.startPX + ev.clientX - d.startX)
+      const y = Math.max(0, d.startPY + ev.clientY - d.startY)
+      setPos({ x, y })
+    }
+    const onUp = () => {
+      dragRef.current = null
+      document.removeEventListener('mousemove', onMove)
+      document.removeEventListener('mouseup', onUp)
+    }
+    document.addEventListener('mousemove', onMove)
+    document.addEventListener('mouseup', onUp)
+  }, [])
+
   const handleSend = () => {
     const text = input.trim()
     if (!text || loading) return
@@ -91,14 +119,14 @@ export default function AiAssistant({ slide, accent, onClose }: Props) {
 
   return (
     <motion.div
+      data-panel
       initial={{ y: 16, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: 16, opacity: 0 }}
       transition={{ type: 'spring', stiffness: 360, damping: 32 }}
       style={{
         position: 'absolute',
-        right: '16px',
-        top: '16px',
+        ...(pos ? { left: pos.x, top: pos.y } : { right: '16px', top: '16px' }),
         width: size.w,
         height: size.h,
         zIndex: 18,
@@ -108,6 +136,28 @@ export default function AiAssistant({ slide, accent, onClose }: Props) {
         pointerEvents: 'none',
       }}
     >
+      {/* ── Drag handle (title bar) ──────────────────────── */}
+      <div
+        onMouseDown={startDrag}
+        style={{
+          height: '28px', flexShrink: 0,
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '0 10px',
+          background: 'rgba(8,8,16,0.55)',
+          backdropFilter: 'blur(20px)',
+          borderRadius: '12px',
+          border: '1px solid rgba(255,255,255,0.1)',
+          cursor: 'grab',
+          pointerEvents: 'auto',
+          userSelect: 'none',
+        }}
+      >
+        <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.04em' }}>AI 助手</span>
+        <button onClick={onClose} style={{
+          background: 'none', border: 'none', color: 'rgba(255,255,255,0.35)',
+          cursor: 'pointer', fontSize: '14px', lineHeight: 1, padding: '0 2px',
+        }}>✕</button>
+      </div>
       {/* ── Bottom resize edge ──────────────────────────── */}
       <div
         onMouseDown={e => startResize(e, 'h')}
