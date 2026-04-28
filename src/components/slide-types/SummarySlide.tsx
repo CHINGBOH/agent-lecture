@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import type { Slide } from '../../data/types'
 import type { ChapterTheme } from '../../data/themes'
+import { FONT } from '../../config/layout'
 
 export default function SummarySlide({ slide, theme }: { slide: Slide; theme: ChapterTheme }) {
   const items = slide.takeaways ?? []
@@ -23,7 +24,7 @@ export default function SummarySlide({ slide, theme }: { slide: Slide; theme: Ch
       <motion.h2
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        style={{ color: theme.accent, fontSize: 'clamp(22px,3.5vw,36px)', fontWeight: 800, margin: '0 0 6px', textAlign: 'center' }}
+        style={{ color: theme.accent, fontSize: FONT.summaryTitle, fontWeight: 800, margin: '0 0 6px', textAlign: 'center' }}
       >
         {slide.title}
       </motion.h2>
@@ -32,7 +33,7 @@ export default function SummarySlide({ slide, theme }: { slide: Slide; theme: Ch
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          style={{ color: theme.textSecondary, marginBottom: '32px', fontSize: '17px', textAlign: 'center' }}
+          style={{ color: theme.textSecondary, marginBottom: '32px', fontSize: FONT.summarySubtitle, textAlign: 'center' }}
         >
           {slide.subtitle}
         </motion.p>
@@ -61,7 +62,7 @@ export default function SummarySlide({ slide, theme }: { slide: Slide; theme: Ch
                 width: '24px', height: '24px', borderRadius: '50%',
                 background: isFinal ? theme.accent : `${theme.accent}40`,
                 color: isFinal ? '#000' : theme.accent,
-                fontWeight: 900, fontSize: '11px',
+                fontWeight: 900, fontSize: FONT.badge,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 flexShrink: 0, marginTop: '2px',
               }}>
@@ -69,7 +70,7 @@ export default function SummarySlide({ slide, theme }: { slide: Slide; theme: Ch
               </span>
               <span style={{
                 color: isFinal ? theme.accent : theme.textPrimary,
-                fontSize: '17px', lineHeight: 1.65,
+                fontSize: FONT.summaryItem, lineHeight: 1.65,
                 fontWeight: isFinal ? 700 : 400,
               }}>
                 {item}

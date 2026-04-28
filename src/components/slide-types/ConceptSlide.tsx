@@ -34,14 +34,14 @@ function BulletList({ bullets, theme, compact = true }: {
           }}
         >
           {b.icon && (
-            <span style={{ fontSize: compact ? '17px' : '22px', flexShrink: 0, lineHeight: 1.35 }}>
+            <span style={{ fontSize: compact ? FONT.iconCompact : FONT.iconFull, flexShrink: 0, lineHeight: 1.35 }}>
               {b.icon}
             </span>
           )}
           <div>
             <div style={{
               color: theme.textPrimary, fontWeight: 700,
-              fontSize: compact ? '14px' : '17px',
+              fontSize: compact ? FONT.bulletTitleCompact : FONT.bulletTitleFull,
               lineHeight: 1.3, marginBottom: b.sub ? '3px' : 0,
             }}>
               {b.text}
@@ -49,7 +49,7 @@ function BulletList({ bullets, theme, compact = true }: {
             {b.sub && (
               <div style={{
                 color: `${theme.textSecondary}BB`,
-                fontSize: compact ? '12px' : '14px',
+                fontSize: compact ? FONT.bulletSubCompact : FONT.bulletSubFull,
                 lineHeight: 1.65,
               }}>
                 {b.sub}
@@ -86,14 +86,14 @@ function AnalogyStrip({ analogy, theme, delay = 0.6, bleed = false }: {
         }),
       }}
     >
-      <span style={{ color: theme.accent, fontWeight: 700, fontSize: '12px' }}>
+      <span style={{ color: theme.accent, fontWeight: 700, fontSize: FONT.analogyLabel }}>
         🎭 {analogy.character}：
       </span>
-      <span style={{ color: `${theme.textSecondary}CC`, fontSize: '13px', lineHeight: 1.6 }}>
+      <span style={{ color: `${theme.textSecondary}CC`, fontSize: FONT.analogyText, lineHeight: 1.6 }}>
         {analogy.scene}
       </span>
       {analogy.insight && (
-        <span style={{ color: theme.accent, fontWeight: 600, fontSize: '13px' }}>
+        <span style={{ color: theme.accent, fontWeight: 600, fontSize: FONT.analogyText }}>
           {' '}💡 {analogy.insight}
         </span>
       )}

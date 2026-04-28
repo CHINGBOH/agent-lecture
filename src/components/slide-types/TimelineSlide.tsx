@@ -4,6 +4,7 @@ import type { Slide } from '../../data/types'
 import type { ChapterTheme } from '../../data/themes'
 import { Lightbox } from './ConceptSlide'
 import { CHART_MAP } from '../../charts'
+import { DIAGRAM, FONT } from '../../config/layout'
 
 const PlotlyChart = lazy(() => import('../PlotlyChart'))
 
@@ -36,13 +37,13 @@ export default function TimelineSlide({ slide, theme }: { slide: Slide; theme: C
             style={{ position: 'absolute', top: 0, left: 0, right: 0, padding: '22px 44px 8px', zIndex: 2 }}
           >
             <h2 style={{
-              color: theme.accent, fontSize: 'clamp(20px,2.8vw,32px)',
+              color: theme.accent, fontSize: FONT.slideTitle,
               fontWeight: 800, margin: 0, lineHeight: 1.2,
             }}>
               {slide.title}
             </h2>
             {slide.subtitle && (
-              <p style={{ color: theme.textSecondary, margin: '5px 0 0', fontSize: '14px', opacity: 0.85 }}>
+              <p style={{ color: theme.textSecondary, margin: '5px 0 0', fontSize: FONT.slideSubtitle, opacity: 0.85 }}>
                 {slide.subtitle}
               </p>
             )}
@@ -92,7 +93,7 @@ export default function TimelineSlide({ slide, theme }: { slide: Slide; theme: C
           {/* ── Events column (z:3) ── */}
           <div style={{
             position: 'relative', zIndex: 3,
-            width: '44%', height: '100%',
+            width: DIAGRAM.textColumnWidth, height: '100%',
             display: 'flex', flexDirection: 'column',
             padding: '26px 0 24px 44px',
             overflow: 'hidden',
@@ -104,13 +105,13 @@ export default function TimelineSlide({ slide, theme }: { slide: Slide; theme: C
               style={{ flexShrink: 0, marginBottom: '16px' }}
             >
               <h2 style={{
-                color: theme.accent, fontSize: 'clamp(20px,2.8vw,32px)',
+                color: theme.accent, fontSize: FONT.slideTitle,
                 fontWeight: 800, margin: 0, lineHeight: 1.2,
               }}>
                 {slide.title}
               </h2>
               {slide.subtitle && (
-                <p style={{ color: theme.textSecondary, margin: '5px 0 0', fontSize: '14px', opacity: 0.85 }}>
+                <p style={{ color: theme.textSecondary, margin: '5px 0 0', fontSize: FONT.slideSubtitle, opacity: 0.85 }}>
                   {slide.subtitle}
                 </p>
               )}
@@ -137,19 +138,19 @@ export default function TimelineSlide({ slide, theme }: { slide: Slide; theme: C
                 >
                   <div style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
                     <span style={{
-                      fontSize: '11px', fontWeight: 800, color: theme.accent,
+                      fontSize: FONT.timelineYear, fontWeight: 800, color: theme.accent,
                       minWidth: '40px', flexShrink: 0,
                     }}>
                       {item.year}
                     </span>
                     <span style={{
-                      fontSize: '13px', fontWeight: item.highlight ? 700 : 500,
+                      fontSize: FONT.timelineEvent, fontWeight: item.highlight ? 700 : 500,
                       color: item.highlight ? theme.textPrimary : theme.textSecondary,
                     }}>
                       {item.event}
                       {item.highlight && (
                         <span style={{
-                          marginLeft: '6px', fontSize: '9px',
+                          marginLeft: '6px', fontSize: FONT.caption,
                           background: theme.accent, color: '#000',
                           padding: '1px 5px', borderRadius: '10px', fontWeight: 700,
                         }}>★</span>
@@ -163,7 +164,7 @@ export default function TimelineSlide({ slide, theme }: { slide: Slide; theme: C
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         style={{
-                          fontSize: '12px', color: `${theme.textSecondary}AA`,
+                          fontSize: FONT.timelineDetail, color: `${theme.textSecondary}AA`,
                           lineHeight: 1.6, overflow: 'hidden',
                           marginTop: '4px', paddingRight: '8px',
                         }}
@@ -185,7 +186,7 @@ export default function TimelineSlide({ slide, theme }: { slide: Slide; theme: C
             onClick={() => setLightbox(true)}
             style={{
               position: 'absolute', bottom: '16px', right: '18px', zIndex: 4,
-              fontSize: '11px', color: 'rgba(255,255,255,0.3)',
+              fontSize: FONT.caption, color: 'rgba(255,255,255,0.3)',
               background: 'rgba(0,0,0,0.35)', padding: '3px 10px',
               borderRadius: '20px', cursor: 'zoom-in', userSelect: 'none',
             }}
@@ -204,11 +205,11 @@ export default function TimelineSlide({ slide, theme }: { slide: Slide; theme: C
             animate={{ opacity: 1, y: 0 }}
             style={{ flexShrink: 0, marginBottom: '20px' }}
           >
-            <h2 style={{ color: theme.accent, fontSize: 'clamp(20px,3vw,34px)', fontWeight: 800, margin: 0 }}>
+            <h2 style={{ color: theme.accent, fontSize: FONT.slideTitle, fontWeight: 800, margin: 0 }}>
               {slide.title}
             </h2>
             {slide.subtitle && (
-              <p style={{ color: theme.textSecondary, margin: '6px 0 0', fontSize: '16px', opacity: 0.85 }}>
+              <p style={{ color: theme.textSecondary, margin: '6px 0 0', fontSize: FONT.slideSubtitle, opacity: 0.85 }}>
                 {slide.subtitle}
               </p>
             )}
@@ -230,11 +231,11 @@ export default function TimelineSlide({ slide, theme }: { slide: Slide; theme: C
                 }}
               >
                 <div style={{ display: 'flex', gap: '10px', alignItems: 'baseline' }}>
-                  <span style={{ fontSize: '13px', fontWeight: 800, color: theme.accent, minWidth: '44px', flexShrink: 0 }}>
+                  <span style={{ fontSize: FONT.timelineYear, fontWeight: 800, color: theme.accent, minWidth: '44px', flexShrink: 0 }}>
                     {item.year}
                   </span>
                   <span style={{
-                    fontSize: '16px', fontWeight: item.highlight ? 700 : 500,
+                    fontSize: FONT.timelineEvent, fontWeight: item.highlight ? 700 : 500,
                     color: item.highlight ? theme.textPrimary : theme.textSecondary,
                   }}>
                     {item.event}
@@ -247,7 +248,7 @@ export default function TimelineSlide({ slide, theme }: { slide: Slide; theme: C
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       style={{
-                        fontSize: '14px', color: `${theme.textSecondary}AA`,
+                        fontSize: FONT.timelineDetail, color: `${theme.textSecondary}AA`,
                         lineHeight: 1.7, overflow: 'hidden',
                         marginTop: '6px',
                       }}

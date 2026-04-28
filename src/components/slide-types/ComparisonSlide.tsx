@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import type { Slide } from '../../data/types'
 import type { ChapterTheme } from '../../data/themes'
+import { FONT } from '../../config/layout'
 
 export default function ComparisonSlide({ slide, theme }: { slide: Slide; theme: ChapterTheme }) {
   const before = slide.before ?? []
@@ -9,8 +10,8 @@ export default function ComparisonSlide({ slide, theme }: { slide: Slide; theme:
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', padding: '28px 44px 24px' }}>
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ marginBottom: '20px' }}>
-        {slide.emoji && <div style={{ fontSize: '36px', marginBottom: '8px' }}>{slide.emoji}</div>}
-        <h2 style={{ color: theme.accent, fontSize: 'clamp(20px,3vw,32px)', fontWeight: 800, margin: 0 }}>
+        {slide.emoji && <div style={{ fontSize: FONT.iconFull, marginBottom: '8px' }}>{slide.emoji}</div>}
+        <h2 style={{ color: theme.accent, fontSize: FONT.slideTitle, fontWeight: 800, margin: 0 }}>
           {slide.title}
         </h2>
       </motion.div>
@@ -24,7 +25,7 @@ export default function ComparisonSlide({ slide, theme }: { slide: Slide; theme:
           style={{ display: 'flex', flexDirection: 'column', gap: '2px', overflowY: 'auto' }}
         >
           <div style={{
-            fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em',
+            fontSize: FONT.comparisonHeader, fontWeight: 700, letterSpacing: '0.12em',
             color: '#ff6b6b', marginBottom: '10px',
             display: 'flex', alignItems: 'center', gap: '6px',
             borderBottom: '1px solid rgba(255,107,107,0.2)', paddingBottom: '8px',
@@ -43,12 +44,12 @@ export default function ComparisonSlide({ slide, theme }: { slide: Slide; theme:
               }}
             >
               <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
-                {item.icon && <span style={{ fontSize: '18px', flexShrink: 0, lineHeight: 1.3 }}>{item.icon}</span>}
+                {item.icon && <span style={{ fontSize: FONT.iconCompact, flexShrink: 0, lineHeight: 1.3 }}>{item.icon}</span>}
                 <div>
-                  <div style={{ fontWeight: 700, fontSize: '15px', color: '#ff9e9e', marginBottom: '2px' }}>
+                  <div style={{ fontWeight: 700, fontSize: FONT.comparisonLabel, color: '#ff9e9e', marginBottom: '2px' }}>
                     {item.label}
                   </div>
-                  <div style={{ fontSize: '14px', color: `${theme.textSecondary}BB`, lineHeight: 1.6 }}>
+                  <div style={{ fontSize: FONT.comparisonValue, color: `${theme.textSecondary}BB`, lineHeight: 1.6 }}>
                     {item.value}
                   </div>
                 </div>
@@ -65,7 +66,7 @@ export default function ComparisonSlide({ slide, theme }: { slide: Slide; theme:
           style={{ display: 'flex', flexDirection: 'column', gap: '2px', overflowY: 'auto' }}
         >
           <div style={{
-            fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em',
+            fontSize: FONT.comparisonHeader, fontWeight: 700, letterSpacing: '0.12em',
             color: theme.accent, marginBottom: '10px',
             display: 'flex', alignItems: 'center', gap: '6px',
             borderBottom: `1px solid ${theme.accent}30`, paddingBottom: '8px',
@@ -84,12 +85,12 @@ export default function ComparisonSlide({ slide, theme }: { slide: Slide; theme:
               }}
             >
               <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
-                {item.icon && <span style={{ fontSize: '18px', flexShrink: 0, lineHeight: 1.3 }}>{item.icon}</span>}
+                {item.icon && <span style={{ fontSize: FONT.iconCompact, flexShrink: 0, lineHeight: 1.3 }}>{item.icon}</span>}
                 <div>
-                  <div style={{ fontWeight: 700, fontSize: '15px', color: theme.accent, marginBottom: '2px' }}>
+                  <div style={{ fontWeight: 700, fontSize: FONT.comparisonLabel, color: theme.accent, marginBottom: '2px' }}>
                     {item.label}
                   </div>
-                  <div style={{ fontSize: '14px', color: `${theme.textSecondary}BB`, lineHeight: 1.6 }}>
+                  <div style={{ fontSize: FONT.comparisonValue, color: `${theme.textSecondary}BB`, lineHeight: 1.6 }}>
                     {item.value}
                   </div>
                 </div>
@@ -113,14 +114,14 @@ export default function ComparisonSlide({ slide, theme }: { slide: Slide; theme:
             borderRadius: '0 8px 8px 0',
           }}
         >
-          <span style={{ color: theme.accent, fontWeight: 700, fontSize: '12px' }}>
+          <span style={{ color: theme.accent, fontWeight: 700, fontSize: FONT.analogyLabel }}>
             🎭 {slide.analogy.character}：
           </span>
-          <span style={{ color: `${theme.textSecondary}CC`, fontSize: '13px', lineHeight: 1.6 }}>
+          <span style={{ color: `${theme.textSecondary}CC`, fontSize: FONT.analogyText, lineHeight: 1.6 }}>
             {slide.analogy.scene}
           </span>
           {slide.analogy.insight && (
-            <span style={{ color: theme.accent, fontWeight: 600, fontSize: '13px' }}>
+            <span style={{ color: theme.accent, fontWeight: 600, fontSize: FONT.analogyText }}>
               {' '}💡 {slide.analogy.insight}
             </span>
           )}
