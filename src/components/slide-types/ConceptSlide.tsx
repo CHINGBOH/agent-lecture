@@ -3,10 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import type { Slide } from '../../data/types'
 import type { ChapterTheme } from '../../data/themes'
 import MermaidChart from '../MermaidChart'
-import FlowDiagram from '../FlowDiagram'
 import { CHART_MAP } from '../../charts'
+import { DIAGRAM, FONT } from '../../config/layout'
 
 const PlotlyChart = lazy(() => import('../PlotlyChart'))
+const FlowDiagram = lazy(() => import('../FlowDiagram'))
 
 // ─── shared bullet list ───────────────────────────────────────────────────────
 function BulletList({ bullets, theme, compact = true }: {
@@ -164,7 +165,7 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
               transition={{ delay: 0.18, duration: 0.6, ease: 'easeOut' }}
               style={{
                 position: 'absolute',
-                left: '44%', right: '0', top: '4%', height: '88%',
+                left: DIAGRAM.imageOffsetLeft, right: '0', top: '4%', height: '88%',
                 zIndex: 1,
               }}
             >
@@ -182,8 +183,8 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
               onClick={() => setLightbox(true)}
               style={{
                 position: 'absolute',
-                right: '-2%', top: '4%',
-                width: '66%', height: '90%',
+                right: '-2%', top: DIAGRAM.imageOffsetTop,
+                width: DIAGRAM.imageWidth, height: DIAGRAM.imageHeight,
                 objectFit: 'contain',
                 zIndex: 1,
                 cursor: 'zoom-in',
@@ -197,7 +198,7 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
           {/* ── Text column (z:3) — left 43%, scrollable ── */}
           <div style={{
             position: 'relative', zIndex: 3,
-            width: '43%', height: '100%',
+            width: DIAGRAM.textColumnWidth, height: '100%',
             display: 'flex', flexDirection: 'column',
             padding: '26px 0 96px 44px',
             overflow: 'hidden',
@@ -209,18 +210,18 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
               style={{ flexShrink: 0, marginBottom: '18px' }}
             >
               {slide.emoji && (
-                <span style={{ fontSize: '28px', marginRight: '10px', verticalAlign: 'middle' }}>
+                <span style={{ fontSize: FONT.iconFull, marginRight: '10px', verticalAlign: 'middle' }}>
                   {slide.emoji}
                 </span>
               )}
               <h2 style={{
-                color: theme.accent, fontSize: 'clamp(20px,2.8vw,32px)',
+                color: theme.accent, fontSize: FONT.slideTitle,
                 fontWeight: 800, margin: 0, lineHeight: 1.2, display: 'inline',
               }}>
                 {slide.title}
               </h2>
               {slide.subtitle && (
-                <p style={{ color: theme.textSecondary, margin: '6px 0 0', fontSize: '14px', opacity: 0.85 }}>
+                <p style={{ color: theme.textSecondary, margin: '6px 0 0', fontSize: FONT.slideSubtitle, opacity: 0.85 }}>
                   {slide.subtitle}
                 </p>
               )}
@@ -236,7 +237,7 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
           {slide.analogy && (
             <div style={{
               position: 'absolute', bottom: '20px', left: '44px',
-              width: hasChart ? '50%' : '62%', zIndex: 3,
+              width: hasChart ? DIAGRAM.chartTextColumnWidth : DIAGRAM.graphTextColumnWidth, zIndex: 3,
             }}>
               <AnalogyStrip
                 analogy={slide.analogy}
@@ -256,7 +257,7 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
             onClick={() => setLightbox(true)}
             style={{
               position: 'absolute', bottom: '16px', right: '18px', zIndex: 4,
-              fontSize: '11px', color: 'rgba(255,255,255,0.3)',
+              fontSize: FONT.caption, color: 'rgba(255,255,255,0.3)',
               background: 'rgba(0,0,0,0.35)', padding: '3px 10px',
               borderRadius: '20px', cursor: 'zoom-in', userSelect: 'none',
             }}
@@ -277,13 +278,13 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
             style={{ padding: '22px 44px 0', flexShrink: 0 }}
           >
             <h2 style={{
-              color: theme.accent, fontSize: 'clamp(20px,3vw,34px)',
+              color: theme.accent, fontSize: FONT.slideTitle,
               fontWeight: 800, margin: '0 0 4px',
             }}>
               {slide.title}
             </h2>
             {slide.subtitle && (
-              <p style={{ color: theme.textSecondary, margin: 0, fontSize: '15px', opacity: 0.85 }}>
+              <p style={{ color: theme.textSecondary, margin: 0, fontSize: FONT.slideSubtitle, opacity: 0.85 }}>
                 {slide.subtitle}
               </p>
             )}
@@ -309,7 +310,9 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
               transition={{ delay: 0.3 }}
               style={{ overflow: 'hidden', height: '100%', minWidth: 0, minHeight: 0 }}
             >
-              <FlowDiagram graph={slide.graph!} theme={theme} />
+              <Suspense fallback={<div style={{ color: theme.accent, padding: 20 }}>Loading diagram…</div>}>
+                <FlowDiagram graph={slide.graph!} theme={theme} />
+              </Suspense>
             </motion.div>
           </div>
           {slide.analogy && (
@@ -330,13 +333,13 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
             style={{ padding: '22px 44px 0', flexShrink: 0 }}
           >
             <h2 style={{
-              color: theme.accent, fontSize: 'clamp(20px,3vw,34px)',
+              color: theme.accent, fontSize: FONT.slideTitle,
               fontWeight: 800, margin: '0 0 4px',
             }}>
               {slide.title}
             </h2>
             {slide.subtitle && (
-              <p style={{ color: theme.textSecondary, margin: 0, fontSize: '15px', opacity: 0.85 }}>
+              <p style={{ color: theme.textSecondary, margin: 0, fontSize: FONT.slideSubtitle, opacity: 0.85 }}>
                 {slide.subtitle}
               </p>
             )}
@@ -389,11 +392,11 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
             animate={{ opacity: 1, y: 0 }}
             style={{ flexShrink: 0, marginBottom: '20px' }}
           >
-            <h2 style={{ color: theme.accent, fontSize: 'clamp(20px,3vw,34px)', fontWeight: 800, margin: 0 }}>
+            <h2 style={{ color: theme.accent, fontSize: FONT.slideTitle, fontWeight: 800, margin: 0 }}>
               {slide.title}
             </h2>
             {slide.subtitle && (
-              <p style={{ color: theme.textSecondary, margin: '6px 0 0', fontSize: '16px', opacity: 0.85 }}>
+              <p style={{ color: theme.textSecondary, margin: '6px 0 0', fontSize: FONT.slideSubtitle, opacity: 0.85 }}>
                 {slide.subtitle}
               </p>
             )}
