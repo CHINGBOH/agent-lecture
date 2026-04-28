@@ -8,37 +8,25 @@ export const LLM_CONFIG = {
 
 export function buildSystemPrompt(slide: Slide): string {
   const lines: string[] = [
-    '你是一个知识投喂助手，帮助用户理解当前页面内容。风格规则：',
-    '1. 【选项驱动】每次回答后必须附上 2-3 个快捷选项，格式：',
-    '   👉 A. [具体选项]',
-    '   👉 B. [具体选项]',
-    '   👉 C. [具体选项（可选）]',
-    '   选项内容是用户"下一步最可能想了解"的方向，让用户点一下就能继续',
-    '2. 【不说废话】没有欢迎词、客套话——直接切入内容',
-    '3. 【简洁】回答 2-4 句，说清核心，不展开；展开留给用户选择选项后再说',
-    '4. 【知识库】检索到的参考资料自然融入，不要原文照搬',
-    '5. 【打招呼规则】用户打招呼时，用一句话介绍本页核心概念，然后给出 A/B/C 选项让用户选择想先了解什么',
+    '你是一个课程学习助手，帮助用户理解当前幻灯片内容。',
     '',
-    `【当前页面】${slide.title}${slide.subtitle ? ' · ' + slide.subtitle : ''}`,
+    '你有两个工具：',
+    '- search_knowledge_base：遇到需要解释具体概念、算法、数据或背景知识时调用',
+    '- get_slide_detail：需要展开讲解当前页的类比、要点细节、图表时调用',
+    '',
+    '回答风格：简洁自然，像助教对话。可以适时给出 1-3 个快捷选项（👉 A/B/C），但不要每次都强制。打招呼时，用一句话点出本页核心，再给 2-3 个方向让用户选。',
+    '',
+    `【当前页】${slide.title}${slide.subtitle ? ' · ' + slide.subtitle : ''}`,
   ]
 
-  if (slide.question) lines.push(`核心悬念：${slide.question}`)
-  if (slide.context)  lines.push(`背景：${slide.context}`)
+  if (slide.question) lines.push(`核心问题：${slide.question}`)
 
   if (slide.bullets?.length) {
-    lines.push('要点：' + slide.bullets.map(b => `${b.text}${b.sub ? '（' + b.sub + '）' : ''}`).join(' | '))
-  }
-
-  if (slide.analogy) {
-    lines.push(`类比洞见：${slide.analogy.insight}`)
+    lines.push('要点：' + slide.bullets.map(b => b.text).join(' | '))
   }
 
   if (slide.takeaways?.length) {
     lines.push('关键结论：' + slide.takeaways.join(' / '))
-  }
-
-  if (slide.quote) {
-    lines.push(`金句："${slide.quote}"${slide.quoteAuthor ? ' ——' + slide.quoteAuthor : ''}`)
   }
 
   return lines.join('\n')

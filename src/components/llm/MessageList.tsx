@@ -36,6 +36,11 @@ export default function MessageList({ messages, accent }: Props) {
           >
             {msg.role === 'assistant' ? (
               <>
+                {msg.toolStatus && (
+                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.45)', marginBottom: '4px', fontStyle: 'italic' }}>
+                    {msg.toolStatus}
+                  </div>
+                )}
                 <MarkdownContent content={msg.content} />
                 {msg.streaming && msg.content === '' && (
                   <span style={{ display: 'inline-flex', gap: '6px', alignItems: 'center', height: '20px', fontSize: '12px', color: 'rgba(255,255,255,0.45)' }}>

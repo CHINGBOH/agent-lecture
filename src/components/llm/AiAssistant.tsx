@@ -16,7 +16,7 @@ const MIN_H = 180, MAX_H = 760
 
 export default function AiAssistant({ slide, accent, onClose }: Props) {
   const systemPrompt = buildSystemPrompt(slide)
-  const { messages, loading, send, stop, clear } = useChat(systemPrompt)
+  const { messages, loading, send, stop, clear } = useChat(systemPrompt, slide)
   const [input, setInput] = useState('')
   const [size, setSize] = useState({ w: 360, h: 480 })
   const messagesEndRef = useRef<HTMLDivElement>(null)
