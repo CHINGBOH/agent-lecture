@@ -8,6 +8,21 @@ export interface Message {
   thinking?: boolean  // reasoning model is still in chain-of-thought phase
 }
 
+const RAG_URL = 'http://127.0.0.1:8765/query'
+
+/** Fetch relevant context from the local RAG retriever (best-effort, silent on failure) */
+async function fetchRagContext(question: string, signal: AbortSignal): Promise<string> {
+  try {
+    const url = `${RAG_URL}?q=${encodeURIComponent(question)}&top_k=3&max_chars=1500`
+    const res = await fetch(url, { signal })
+    if (!res.ok) return ''
+    const data = await res.json()
+    return (data.context as string) || ''
+  } catch {
+    return ''  // RAG is optional; if server is down, proceed without it
+  }
+}
+
 export function useChat(systemPrompt: string) {
   const [messages, setMessages] = useState<Message[]>([])
   const [loading, setLoading] = useState(false)
@@ -18,13 +33,24 @@ export function useChat(systemPrompt: string) {
     if (loading) return
 
     const history: Message[] = [...messages, { role: 'user', content: userMsg }]
-    setMessages([...history, { role: 'assistant', content: '', streaming: true }])
+    setMessages([...history, { role: 'assistant', content: '', streaming: true, thinking: true }])
     setLoading(true)
     bufferRef.current = ''
 
     abortRef.current = new AbortController()
 
     try {
+      // Fetch RAG context in parallel — timeout after 3s so it doesn't delay LLM
+      const ragContext = await Promise.race([
+        fetchRagContext(userMsg, abortRef.current.signal),
+        new Promise<string>(resolve => setTimeout(() => resolve(''), 3000)),
+      ])
+
+      // Augment system prompt with retrieved knowledge if available
+      const augmentedSystem = ragContext
+        ? `${systemPrompt}\n\n${ragContext}`
+        : systemPrompt
+
       const res = await fetch(`${LLM_CONFIG.baseUrl}/v1/chat/completions`, {
         method: 'POST',
         headers: {
@@ -34,7 +60,7 @@ export function useChat(systemPrompt: string) {
         body: JSON.stringify({
           model: LLM_CONFIG.model,
           messages: [
-            { role: 'system', content: systemPrompt },
+            { role: 'system', content: augmentedSystem },
             ...history.map(m => ({ role: m.role, content: m.content })),
           ],
           stream: true,
@@ -93,7 +119,6 @@ export function useChat(systemPrompt: string) {
           processLine(line.trim())
         }
       }
-      // Process any remaining data
       if (lineBuffer.trim()) processLine(lineBuffer.trim())
 
       setMessages(prev => {
