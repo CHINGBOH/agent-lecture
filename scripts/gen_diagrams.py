@@ -128,10 +128,6 @@ def gen_timeline(f, t):
                 fontsize=8, ha='center', va='center',
                 color=t['accent'], alpha=0.8)
 
-    glow_text(ax, 1987, 1.3, 'AI 发展时间线  1950 — 2022',
-              fontsize=22, color=t['text'], fontweight='bold')
-    ax.text(1987, 1.18, '从一个思想实验，到改变世界的引擎',
-            fontsize=13, ha='center', va='center', color=t['accent'], alpha=0.8)
 
 
 
@@ -179,10 +175,6 @@ def gen_neural_network(f, t):
             for y2 in ys2:
                 ax.plot([x1, x2], [y1, y2], color='white', lw=0.6, alpha=0.12, zorder=1)
 
-    glow_text(ax, 2.5, 4.25, '多层感知机 MLP — "模拟大脑的信号传递"',
-              fontsize=20, color=t['text'], fontweight='bold')
-    ax.text(2.5, 4.05, '每一层神经元提取更抽象的特征，就像人类从像素到轮廓到概念的认知过程',
-            fontsize=12, ha='center', va='center', color=t['accent'], alpha=0.8)
 
 
 
@@ -255,9 +247,6 @@ def gen_transformer(f, t):
     ax.text(5.05, 4.65, 'context', fontsize=9, ha='center',
             color=accent, style='italic', alpha=0.8)
 
-    # Title
-    glow_text(ax, 5, 6.85, 'Transformer 架构  "让每个词都能关注所有其他词"',
-              fontsize=20, color=t['text'], fontweight='bold')
 
 
 
@@ -306,10 +295,6 @@ def gen_attention_heatmap(f, t):
     cbar.ax.set_facecolor(t['bg'])
     cbar.ax.figure.patch.set_facecolor(t['bg'])
 
-    f.text(0.5, 0.92, 'Attention 热力图  "猫" 在关注谁？',
-           ha='center', fontsize=20, color=t['text'], fontweight='bold')
-    f.text(0.5, 0.87, '颜色越亮 = 注意力权重越高。"猫" 这个词主要关注主语"它"和修饰词"聪明"',
-           ha='center', fontsize=13, color=t['accent'], alpha=0.85)
 
 
 
@@ -369,10 +354,6 @@ def gen_rl_loop(f, t):
     ys = ry * np.sin(theta) + 4.9
     ax.plot(xs, ys, color=accent, lw=2, alpha=0.5, zorder=2)
 
-    glow_text(ax, 5, 5.65, '强化学习循环  "在试错中学会最优策略"',
-              fontsize=20, color=t['text'], fontweight='bold')
-    ax.text(5, 5.35, 'Agent 观察状态 → 选择动作 → 获得奖励 → 更新策略 → 循环',
-            fontsize=13, ha='center', color=accent, alpha=0.85)
 
 
 
@@ -440,10 +421,6 @@ def gen_agent_loop(f, t):
     ax.text(5, 0.2, '工具集  Tools', fontsize=11,
             ha='center', color='#FFB74D', alpha=0.6)
 
-    glow_text(ax, 5, 5.65, 'AI Agent 执行循环  "思考 → 行动 → 观察"',
-              fontsize=20, color=t['text'], fontweight='bold')
-    ax.text(5, 5.35, '现代 Agent（AutoGPT / Claude / Copilot）都在跑这个循环',
-            fontsize=13, ha='center', color=accent, alpha=0.85)
 
 
 
@@ -525,10 +502,6 @@ def gen_multi_agent(f, t):
                 bbox=dict(boxstyle='round,pad=0.15', facecolor=t['bg'] + 'DD',
                           edgecolor='none'))
 
-    glow_text(ax, 5, 6.6, '多 Agent 协作拓扑  "分工协作，比单一 Agent 更强"',
-              fontsize=20, color=t['text'], fontweight='bold')
-    ax.text(5, 6.3, '就像金庸里的丐帮：帮主统筹，各堂口各司其职',
-            fontsize=13, ha='center', color=accent, alpha=0.85)
 
 
 
@@ -675,9 +648,6 @@ def gen_backprop(f, t):
             '气走小周天：蓝色内力前行（前向），橙色气流回溯（反向），循环万次，内力深厚',
             fontsize=12, ha='center', color=text_col, alpha=0.7)
 
-    # ── 标题 ────────────────────────────────────────────────────
-    glow_text(ax, 5.0, 5.9, '反向传播：内力如何运转', fontsize=22,
-              color=text_col, fontweight='bold')
 
 
 
@@ -752,10 +722,6 @@ def gen_perceptron(f, t):
     ax.text(7.5, 1.8, '阈值判断', fontsize=11, ha='center', color='#FFB74D', alpha=0.8)
     ax.text(9.3, 1.8, '输出', fontsize=11, ha='center', color='#81C784', alpha=0.8)
 
-    glow_text(ax, 5.0, 5.6, '感知机：神经网络的雏形', fontsize=22,
-              color=text_col, fontweight='bold')
-    ax.text(5.0, 5.1, '加权求和 + 激活函数 = 最简单的"神经元"',
-            fontsize=13, ha='center', va='center', color=accent, alpha=0.85)
 
 
 
@@ -816,8 +782,6 @@ def gen_feature_vs_dl(f, t):
             fontweight='bold',
             bbox=dict(boxstyle='round,pad=0.3', facecolor='#4FC3F730', edgecolor='#4FC3F7'))
 
-    glow_text(ax, 5.0, 5.75, '特征工程 vs 深度学习', fontsize=22,
-              color=text_col, fontweight='bold')
 
 
 
@@ -870,8 +834,6 @@ def gen_scaling_law(f, t):
     legend = ax.legend(fontsize=12, facecolor=t['bg'], edgecolor=accent,
                        labelcolor=text_col, loc='upper right')
 
-    glow_text(ax, 22.5, 8.8, '规模定律：越大越强', fontsize=20,
-              color=text_col, fontweight='bold')
 
 
 
@@ -943,8 +905,6 @@ def gen_mcts(f, t):
     ax.text(3.5, 0.75, '随机模拟\n结果评估', fontsize=9, ha='center',
             color='#4FC3F7', alpha=0.85)
 
-    glow_text(ax, 5.0, 0.4, 'AlphaGo: 蒙特卡洛树搜索', fontsize=20,
-              color=text_col, fontweight='bold')
 
 
 
@@ -988,12 +948,6 @@ def gen_rlhf_pipeline(f, t):
         ax.annotate('', xy=(x2, 3.2), xytext=(x1, 3.2),
                     arrowprops=dict(arrowstyle='->', color=color, lw=3), zorder=5)
 
-    # Top description
-    ax.text(5.0, 5.2, 'RLHF: 让 AI 学会人类偏好', fontsize=22,
-            ha='center', va='center', color=text_col, fontweight='bold',
-            path_effects=[pe.withStroke(linewidth=8, foreground=accent + '40'), pe.Normal()])
-    ax.text(5.0, 4.65, '三阶段训练：先模仿，再打分，再用分数优化',
-            fontsize=13, ha='center', va='center', color=accent, alpha=0.85)
 
     # Bottom note
     ax.text(5.0, 1.5, '注：PPO = Proximal Policy Optimization (近端策略优化)',
@@ -1056,8 +1010,6 @@ def gen_dpo_vs_rlhf(f, t):
     ax.text(rx + 1.6, 2.8, '无需\n奖励模型', fontsize=10, ha='center',
             color='#81C784', alpha=0.85, linespacing=1.4)
 
-    glow_text(ax, 5.0, 5.72, 'DPO: 去掉奖励模型，直接优化', fontsize=20,
-              color=text_col, fontweight='bold')
 
 
 
@@ -1113,10 +1065,6 @@ def gen_agent_memory(f, t):
         ax.annotate('', xy=(cx, ay2), xytext=(cx, ay1),
                     arrowprops=dict(arrowstyle='<->', color=color, lw=2), zorder=5)
 
-    glow_text(ax, 5.0, 5.72, 'Agent 记忆三层架构', fontsize=22,
-              color=text_col, fontweight='bold')
-    ax.text(5.0, 5.35, '工作记忆快但易失，语义记忆慢但持久',
-            fontsize=13, ha='center', va='center', color=accent, alpha=0.85)
 
 
 
@@ -1180,10 +1128,6 @@ def gen_function_calling(f, t):
                     arrowprops=dict(arrowstyle='<->', color=tc, lw=1.2,
                                    connectionstyle='arc3,rad=0.2'), zorder=2)
 
-    glow_text(ax, 5.0, 5.4, 'Agent 工具调用：Function Calling', fontsize=21,
-              color=text_col, fontweight='bold')
-    ax.text(5.0, 4.95, 'LLM 决定何时调用哪个工具，整合结果后回答用户',
-            fontsize=13, ha='center', va='center', color=accent, alpha=0.85)
 
 
 
@@ -1246,10 +1190,6 @@ def gen_copilot_workflow(f, t):
             color=accent, fontweight='bold',
             bbox=dict(boxstyle='round,pad=0.4', facecolor=accent + '20', edgecolor=accent))
 
-    glow_text(ax, 5.0, 5.55, 'AI 编程辅助工作流', fontsize=22,
-              color=text_col, fontweight='bold')
-    ax.text(5.0, 5.1, '从编写到建议到测试，AI 参与整个循环',
-            fontsize=13, ha='center', va='center', color=accent, alpha=0.85)
 
 
 
@@ -1309,10 +1249,6 @@ def gen_rag_pipeline(f, t):
             lw=1.5, linestyle=':', alpha=0.9, zorder=3)
     ax.text(7.7, 3.1, '存储', fontsize=9, color='#FFB74D', ha='center')
 
-    glow_text(ax, 5.0, 5.5, 'RAG: 知识检索增强生成', fontsize=22,
-              color=text_col, fontweight='bold')
-    ax.text(5.0, 5.1, '先建索引，再检索相关片段，最后结合上下文生成答案',
-            fontsize=13, ha='center', va='center', color=accent, alpha=0.85)
 
     # Phase labels
     ax.text(5.0, 1.1, '检索阶段：运行时实时查询', fontsize=11, ha='center',
@@ -1370,8 +1306,6 @@ def gen_ai_risks(f, t):
         ax.text(qx, qy, qlbl, fontsize=10, ha='center', va='center',
                 color='#777', alpha=0.6, linespacing=1.4)
 
-    glow_text(ax, 5.0, 10.8, 'AI 风险地图', fontsize=22,
-              color=text_col, fontweight='bold')
 
 
 
@@ -1419,8 +1353,6 @@ def gen_dl_timeline(f, t):
         ax.text(year, -0.15 if ypos > 0 else 0.13, str(year),
                 fontsize=8, ha='center', va='center', color=accent, alpha=0.7)
 
-    glow_text(ax, 2004, 1.55, '深度学习发展时间线  1986 — 2022',
-              fontsize=20, color=text_col, fontweight='bold')
 
 
 
@@ -1467,8 +1399,6 @@ def gen_llm_timeline(f, t):
         ax.text(year, -0.15 if ypos > 0 else 0.13, str(year),
                 fontsize=8, ha='center', va='center', color=accent, alpha=0.7)
 
-    glow_text(ax, 2020.5, 1.55, '大语言模型发展时间线  2017 — 2024',
-              fontsize=20, color=text_col, fontweight='bold')
 
 
 
@@ -1515,8 +1445,6 @@ def gen_agent_timeline(f, t):
         ax.text(year, -0.15 if ypos > 0 else 0.13, yr_str,
                 fontsize=8, ha='center', va='center', color=accent, alpha=0.7)
 
-    glow_text(ax, 2023.2, 1.55, 'Agent 工具链发展时间线  2022 — 2024',
-              fontsize=20, color=text_col, fontweight='bold')
 
 
 
