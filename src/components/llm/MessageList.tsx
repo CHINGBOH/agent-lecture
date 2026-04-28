@@ -38,16 +38,31 @@ export default function MessageList({ messages, accent }: Props) {
               <>
                 <MarkdownContent content={msg.content} />
                 {msg.streaming && msg.content === '' && (
-                  <span style={{ display: 'inline-flex', gap: '3px', alignItems: 'center', height: '18px' }}>
-                    {[0, 1, 2].map(j => (
-                      <span key={j} style={{
-                        width: '5px', height: '5px',
-                        borderRadius: '50%',
-                        background: 'rgba(255,255,255,0.5)',
-                        animation: `aiDot 1.2s ease-in-out ${j * 0.2}s infinite`,
-                        display: 'inline-block',
-                      }} />
-                    ))}
+                  <span style={{ display: 'inline-flex', gap: '6px', alignItems: 'center', height: '20px', fontSize: '12px', color: 'rgba(255,255,255,0.45)' }}>
+                    {msg.thinking ? (
+                      <>
+                        <span style={{ display: 'inline-flex', gap: '3px' }}>
+                          {[0, 1, 2].map(j => (
+                            <span key={j} style={{
+                              width: '4px', height: '4px', borderRadius: '50%',
+                              background: 'rgba(255,255,255,0.4)',
+                              animation: `aiDot 1.2s ease-in-out ${j * 0.2}s infinite`,
+                              display: 'inline-block',
+                            }} />
+                          ))}
+                        </span>
+                        思考中
+                      </>
+                    ) : (
+                      [0, 1, 2].map(j => (
+                        <span key={j} style={{
+                          width: '5px', height: '5px', borderRadius: '50%',
+                          background: 'rgba(255,255,255,0.5)',
+                          animation: `aiDot 1.2s ease-in-out ${j * 0.2}s infinite`,
+                          display: 'inline-block',
+                        }} />
+                      ))
+                    )}
                   </span>
                 )}
                 {msg.streaming && msg.content !== '' && (

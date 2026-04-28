@@ -15,25 +15,22 @@ export default function AiButton({ onClick, accent, isOpen }: Props) {
       whileTap={{ scale: 0.93 }}
       style={{
         position: 'absolute',
-        right: '20px',
-        bottom: '92px',
+        right: '16px',
+        bottom: isOpen ? '582px' : '92px',
+        transition: 'bottom 0.3s cubic-bezier(0.32,0.72,0,1), background 0.2s',
         zIndex: 20,
-        width: '48px',
-        height: '48px',
+        width: '44px',
+        height: '44px',
         borderRadius: '50%',
         border: `2px solid ${accent}`,
-        background: isOpen
-          ? accent
-          : 'rgba(0,0,0,0.7)',
+        background: isOpen ? accent : 'rgba(0,0,0,0.55)',
         backdropFilter: 'blur(16px)',
         cursor: 'pointer',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: '20px',
-        boxShadow: `0 0 0 0 ${accent}`,
+        fontSize: '18px',
         animation: isOpen ? 'none' : 'aiGlow 2.5s ease-in-out infinite',
-        transition: 'background 0.2s, border-color 0.2s',
       }}
     >
       <style>{`

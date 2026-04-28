@@ -55,30 +55,33 @@ export default function AiAssistant({ slide, accent, onClose }: Props) {
 
   return (
     <motion.div
-      initial={{ x: '100%', opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      exit={{ x: '100%', opacity: 0 }}
-      transition={{ type: 'spring', stiffness: 320, damping: 32 }}
+      initial={{ y: 20, opacity: 0, scale: 0.97 }}
+      animate={{ y: 0, opacity: 1, scale: 1 }}
+      exit={{ y: 20, opacity: 0, scale: 0.97 }}
+      transition={{ type: 'spring', stiffness: 360, damping: 30 }}
       style={{
         position: 'absolute',
-        top: 0,
-        right: 0,
-        bottom: '75px',
-        width: '400px',
+        right: '16px',
+        bottom: '88px',
+        width: '360px',
+        maxHeight: '480px',
         zIndex: 18,
         display: 'flex',
         flexDirection: 'column',
-        background: 'linear-gradient(to right, transparent 0%, rgba(8,8,14,0.82) 14%, rgba(8,8,14,0.95) 100%)',
-        backdropFilter: 'blur(28px)',
+        background: 'rgba(6,6,12,0.55)',
+        backdropFilter: 'blur(32px)',
+        borderRadius: '18px',
+        border: '1px solid rgba(255,255,255,0.07)',
+        overflow: 'hidden',
       }}
     >
       {/* Header */}
       <div style={{
-        padding: '14px 16px',
-        borderBottom: '1px solid rgba(255,255,255,0.04)',
+        padding: '10px 14px',
+        borderBottom: '1px solid rgba(255,255,255,0.05)',
         display: 'flex',
         alignItems: 'center',
-        gap: '10px',
+        gap: '8px',
         flexShrink: 0,
       }}>
         <span style={{ fontSize: '18px' }}>🤖</span>
@@ -111,9 +114,10 @@ export default function AiAssistant({ slide, accent, onClose }: Props) {
       <div style={{
         flex: 1,
         overflowY: 'auto',
-        padding: '14px',
+        padding: '10px 12px',
         scrollbarWidth: 'thin',
         scrollbarColor: 'rgba(255,255,255,0.1) transparent',
+        minHeight: '80px',
       }}>
         {messages.length === 0 ? (
           <WelcomeView accent={accent} onQuick={q => send(q)} />
@@ -170,10 +174,10 @@ export default function AiAssistant({ slide, accent, onClose }: Props) {
 
       {/* Input area */}
       <div style={{
-        padding: '10px 12px',
-        borderTop: '1px solid rgba(255,255,255,0.04)',
+        padding: '8px 10px',
+        borderTop: '1px solid rgba(255,255,255,0.05)',
         display: 'flex',
-        gap: '8px',
+        gap: '6px',
         alignItems: 'flex-end',
         flexShrink: 0,
       }}>

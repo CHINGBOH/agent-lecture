@@ -5,6 +5,7 @@ export interface Message {
   role: 'user' | 'assistant'
   content: string
   streaming?: boolean
+  thinking?: boolean  // reasoning model is still in chain-of-thought phase
 }
 
 export function useChat(systemPrompt: string) {
@@ -48,6 +49,7 @@ export function useChat(systemPrompt: string) {
       const reader = res.body!.getReader()
       const decoder = new TextDecoder()
       let lineBuffer = ''
+      let hasContent = false
 
       const processLine = (line: string) => {
         if (!line.startsWith('data: ')) return
@@ -55,13 +57,24 @@ export function useChat(systemPrompt: string) {
         if (data === '[DONE]') return
         try {
           const parsed = JSON.parse(data)
-          const delta = parsed.choices?.[0]?.delta?.content ?? ''
-          if (delta) {
-            bufferRef.current += delta
+          const delta = parsed.choices?.[0]?.delta ?? {}
+          const contentDelta: string = delta.content ?? ''
+          const reasoningDelta: string = delta.reasoning_content ?? ''
+
+          if (contentDelta) {
+            hasContent = true
+            bufferRef.current += contentDelta
             const content = bufferRef.current
             setMessages(prev => {
               const updated = [...prev]
               updated[updated.length - 1] = { role: 'assistant', content, streaming: true }
+              return updated
+            })
+          } else if (reasoningDelta && !hasContent) {
+            // Still in reasoning/thinking phase — show spinner, no content yet
+            setMessages(prev => {
+              const updated = [...prev]
+              updated[updated.length - 1] = { role: 'assistant', content: '', streaming: true, thinking: true }
               return updated
             })
           }
