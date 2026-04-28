@@ -27,8 +27,8 @@ function BulletList({ bullets, theme, compact = true }: {
             display: 'flex', gap: '10px', alignItems: 'flex-start',
             borderLeft: `3px solid ${i === 0 ? theme.accent + 'CC' : theme.accent + '50'}`,
             paddingLeft: '14px',
-            paddingTop: compact ? '7px' : '9px',
-            paddingBottom: compact ? '7px' : '9px',
+            paddingTop: compact ? '5px' : '9px',
+            paddingBottom: compact ? '5px' : '9px',
             // odd items shift right slightly — breaks rigid column feel
             marginLeft: i % 2 === 1 ? '10px' : '0',
           }}
@@ -292,7 +292,7 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
           <div style={{
             flex: 1, minHeight: 0,
             display: 'grid',
-            gridTemplateColumns: bullets.length > 0 ? '24% 76%' : '0 100%',
+            gridTemplateColumns: bullets.length > 0 ? DIAGRAM.graphBulletsRatio : '0 100%',
             gap: 0, overflow: 'hidden', padding: '14px 36px 8px',
           }}>
             {bullets.length > 0 && (
@@ -347,7 +347,7 @@ export default function ConceptSlide({ slide, theme }: { slide: Slide; theme: Ch
           <div style={{
             flex: 1, minHeight: 0,
             display: 'grid',
-            gridTemplateColumns: bullets.length > 0 ? '24% 76%' : '0 100%',
+            gridTemplateColumns: bullets.length > 0 ? DIAGRAM.graphBulletsRatio : '0 100%',
             gap: 0, overflow: 'hidden', padding: '14px 36px 8px',
           }}>
             {bullets.length > 0 && (

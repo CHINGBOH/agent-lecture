@@ -21,6 +21,8 @@ export const DIAGRAM = {
   chartTextColumnWidth: '52%',
   /** 有流程图时底部类比条宽度 */
   graphTextColumnWidth: '62%',
+  /** graph 布局：左侧 bullet 列 vs 右侧图示列的比例 */
+  graphBulletsRatio: '20% 80%',
 } as const
 
 // ── 前端字体分级（幻灯片内容区） ────────────────────────────────────────────────

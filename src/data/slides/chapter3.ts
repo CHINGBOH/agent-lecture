@@ -153,7 +153,6 @@ export const chapter3Slides: Slide[] = [
         { from: 'R3', to: 'R4' },
         { from: 'D1', to: 'D2' },
         { from: 'D2', to: 'D3' },
-        { from: 'R4', to: 'D1', label: 'DPO 简化为', dashed: true },
       ],
       groups: [
         { id: 'RLHF_G', label: '传统 RLHF 4步流程', nodeIds: ['R1', 'R2', 'R3', 'R4'] },

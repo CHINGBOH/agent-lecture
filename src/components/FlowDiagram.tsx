@@ -12,13 +12,13 @@ import type { FlowGraph, FlowNode, FlowEdge, FlowGroup } from '../data/types'
 import type { ChapterTheme } from '../data/themes'
 
 // ─── constants ───────────────────────────────────────────────────────────────
-const NODE_W = 130
-const NODE_H = 54
-const DIAMOND_W = 100
-const DIAMOND_H = 58
-const RANK_SEP_LR = 90
-const RANK_SEP_TD = 80
-const NODE_SEP = 36
+const NODE_W = 110
+const NODE_H = 46
+const DIAMOND_W = 90
+const DIAMOND_H = 52
+const RANK_SEP_LR = 68
+const RANK_SEP_TD = 64
+const NODE_SEP = 28
 
 interface PositionedNode {
   id: string
@@ -189,7 +189,7 @@ export default function FlowDiagram({
       const ch = el.clientHeight || 400
       const sx = cw / lyt.totalW
       const sy = ch / lyt.totalH
-      setScale(Math.min(sx, sy, 1.6))  // cap at 1.6× to avoid blurry text
+      setScale(Math.min(sx, sy, 2.0))
     }
     onResize()
     const ro = new ResizeObserver(onResize)
