@@ -12,6 +12,8 @@ import TimelineSlide from './slide-types/TimelineSlide'
 import ComparisonSlide from './slide-types/ComparisonSlide'
 import QuoteSlide from './slide-types/QuoteSlide'
 import SummarySlide from './slide-types/SummarySlide'
+import AiButton from './llm/AiButton'
+import AiAssistant from './llm/AiAssistant'
 
 interface Props {
   slides: Slide[]
@@ -23,6 +25,7 @@ export default function SlideShow({ slides, chapters }: Props) {
   const [direction, setDirection] = useState<1 | -1>(1)
   const [menuOpen, setMenuOpen] = useState(false)
   const [showHint, setShowHint] = useState(true)
+  const [aiOpen, setAiOpen] = useState(false)
 
   const slide = slides[current]
   const theme = getTheme(slide.chapter)
@@ -254,6 +257,21 @@ export default function SlideShow({ slides, chapters }: Props) {
             ))}
             <span style={{ marginLeft: '8px', opacity: 0.4 }}>点击关闭</span>
           </motion.div>
+        )}
+      </AnimatePresence>
+      {/* AI assistant */}
+      <AiButton
+        accent={theme.accent}
+        isOpen={aiOpen}
+        onClick={() => setAiOpen(v => !v)}
+      />
+      <AnimatePresence>
+        {aiOpen && (
+          <AiAssistant
+            slide={slide}
+            accent={theme.accent}
+            onClose={() => setAiOpen(false)}
+          />
         )}
       </AnimatePresence>
     </div>
