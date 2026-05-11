@@ -2,6 +2,10 @@
 
 This repository exists to make a local coding agent as transparent as possible for study, debugging, and architectural learning.
 
+## Architecture
+
+See [`docs/architecture.md`](docs/architecture.md) for the Mermaid system overview.
+
 The core idea is simple: do not hide the agent loop behind a black box. Every important layer should be inspectable:
 
 - runtime flow

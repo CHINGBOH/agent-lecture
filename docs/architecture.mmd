@@ -1,0 +1,8 @@
+flowchart LR
+  user["Developer"] --> runtime["Agent runtime"]
+  runtime --> tools["Tool registry"]
+  runtime --> model["Model client"]
+  runtime --> trace["Trace recorder"]
+  trace --> viewers["Trace / code-map viewers"]
+  tools --> gates["Quality gates"]
+
