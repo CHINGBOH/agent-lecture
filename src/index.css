@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --ink-black: #1a1a1a;
+  --ink-deep: #2d2d2d;
+  --ink-mid: #4a4a4a;
+  --ink-light: #8a8a8a;
+  --parchment: #f5f0e6;
+  --parchment-warm: #ede5d3;
+  --jade: #2d5a3d;
+  --jade-light: #4a8c5f;
+  --jade-pale: #e8f5e9;
+  --gold: #b8860b;
+  --gold-light: #d4a843;
+  --gold-pale: #fff8e1;
+  --crimson: #8b2500;
+  --crimson-light: #c0392b;
+  --sky: #2c5282;
+  --sky-light: #4a7ab8;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Noto Serif SC', 'Georgia', serif;
+  background: var(--parchment);
+  color: var(--ink-black);
+  line-height: 1.8;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+code, pre, .mono {
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--parchment-warm);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--jade);
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+  .card {
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-size: 24px !important;
+  }
+  h2 {
+    font-size: 18px !important;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(45, 90, 61, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(45, 90, 61, 0.6); }
+}
+
+@keyframes tick-beat {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.7; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out;
+}
+
+.animate-tick {
+  animation: tick-beat 1s ease-in-out infinite;
+}
+
+.card {
+  background: white;
+  border: 1px solid var(--parchment-warm);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: var(--jade);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+
+.btn-primary:hover {
+  background: var(--jade-light);
+  transform: translateY(-1px);
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+
+.btn-gold:hover {
+  background: var(--gold-light);
+}
+
+.tag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.tag-jade {
+  background: var(--jade-pale);
+  color: var(--jade);
+}
+
+.tag-gold {
+  background: var(--gold-pale);
+  color: var(--gold);
+}
+
+.tag-crimson {
+  background: #ffebee;
+  color: var(--crimson);
+}
