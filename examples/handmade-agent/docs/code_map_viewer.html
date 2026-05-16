@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Handmade Agent Code Map Viewer</title>
+  <style>
+    :root {
+      --bg: #f1efe8;
+      --paper: #fffaf1;
+      --paper-strong: #f6ead8;
+      --ink: #171512;
+      --muted: #6f6558;
+      --line: #d8c7b0;
+      --accent: #0a6c68;
+      --accent-soft: #d8f0eb;
+      --accent-strong: #0d4d48;
+      --signal: #8b3f13;
+      --signal-soft: #f7dfc8;
+      --danger: #96301b;
+      --danger-soft: #f4d8d0;
+      --shadow: 0 20px 48px rgba(35, 25, 14, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(10, 108, 104, 0.16), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(139, 63, 19, 0.12), transparent 28%),
+        linear-gradient(180deg, #fbf7ef 0%, var(--bg) 100%);
+    }
+
+    header {
+      padding: 40px 28px 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
+      font-size: clamp(2.3rem, 4.2vw, 4rem);
+      letter-spacing: -0.05em;
+      line-height: 0.94;
+      max-width: 980px;
+    }
+
+    .subtitle {
+      margin-top: 12px;
+      max-width: 980px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 1rem;
+    }
+
+    main {
+      padding: 18px 28px 36px;
+      display: grid;
+      gap: 24px;
+    }
+
+    .panel {
+      background: rgba(255, 250, 241, 0.86);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(216, 199, 176, 0.92);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      animation: rise-in 420ms ease-out both;
+    }
+
+    .panel-head {
+      padding: 18px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 1px solid rgba(216, 199, 176, 0.92);
+      background: rgba(255, 255, 255, 0.48);
+    }
+
+    .panel-head h2,
+    .runtime-box h3 {
+      margin: 0;
+      font-size: 1.02rem;
+      letter-spacing: 0.02em;
+    }
+
+    .panel-body {
+      padding: 22px;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      align-items: end;
+    }
+
+    label {
+      display: grid;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    input[type="file"],
+    select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      padding: 12px 14px;
+      font: inherit;
+      color: var(--ink);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+    }
+
+    .stat-card {
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(246,234,216,0.72));
+    }
+
+    .stat-label {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .stat-value {
+      margin-top: 8px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .status-pill,
+    .route-badge,
+    .event-pill,
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(13, 77, 72, 0.18);
+      background: rgba(255,255,255,0.88);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .status-ok,
+    .route-hit,
+    .chip-hot,
+    .event-ok {
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      border-color: rgba(10, 108, 104, 0.22);
+    }
+
+    .status-warn,
+    .route-cold,
+    .event-warn {
+      background: var(--signal-soft);
+      color: var(--signal);
+      border-color: rgba(139, 63, 19, 0.22);
+    }
+
+    .status-fail,
+    .event-fail {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border-color: rgba(150, 48, 27, 0.22);
+    }
+
+    .runtime-layout {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr;
+      gap: 16px;
+    }
+
+    .runtime-box {
+      border: 1px solid rgba(216, 199, 176, 0.92);
+      border-radius: 18px;
+      padding: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(246,234,216,0.64));
+      display: grid;
+      gap: 12px;
+    }
+
+    .flow-strip,
+    .route-flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .flow-node,
+    .route-node {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 13px;
+      border-radius: 999px;
+      border: 1px solid rgba(13, 77, 72, 0.18);
+      background: rgba(255,255,255,0.88);
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
+    .flow-node.hot,
+    .route-node.is-live {
+      background: linear-gradient(180deg, rgba(216,240,235,1), rgba(255,255,255,0.92));
+      color: var(--accent-strong);
+      border-color: rgba(10, 108, 104, 0.26);
+      box-shadow: 0 0 0 4px rgba(10, 108, 104, 0.08);
+    }
+
+    .flow-arrow,
+    .route-arrow {
+      color: var(--muted);
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .event-stack {
+      display: grid;
+      gap: 10px;
+    }
+
+    .event-row {
+      border: 1px solid rgba(216, 199, 176, 0.85);
+      border-radius: 14px;
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.7);
+      display: grid;
+      gap: 8px;
+    }
+
+    .event-row-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .event-name {
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .event-detail {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .route-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .route-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(216,240,235,0.56));
+      display: grid;
+      gap: 12px;
+      transition: transform 220ms ease, box-shadow 220ms ease, opacity 220ms ease;
+    }
+
+    .route-card.is-hit,
+    .map-card.is-hot {
+      box-shadow: 0 18px 36px rgba(10, 108, 104, 0.12);
+    }
+
+    .route-card.is-cold {
+      opacity: 0.72;
+    }
+
+    .route-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .route-name {
+      font-weight: 700;
+      color: var(--accent-strong);
+      letter-spacing: 0.02em;
+    }
+
+    .map-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 18px;
+    }
+
+    .map-card {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(246,234,216,0.62));
+      display: grid;
+      gap: 14px;
+      transition: transform 220ms ease, box-shadow 220ms ease, opacity 220ms ease;
+    }
+
+    .map-card.is-cold {
+      opacity: 0.82;
+    }
+
+    .map-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .map-title {
+      margin: 0;
+      font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
+      font-size: 1.25rem;
+      letter-spacing: -0.03em;
+    }
+
+    .map-path {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .map-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .mini-map {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .lane {
+      display: grid;
+      gap: 10px;
+    }
+
+    .lane-title {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .center-node {
+      min-width: 110px;
+      padding: 16px 12px;
+      text-align: center;
+      border-radius: 18px;
+      border: 1px solid rgba(10, 108, 104, 0.2);
+      background: linear-gradient(180deg, rgba(216,240,235,0.96), rgba(255,255,255,0.92));
+      color: var(--accent-strong);
+      font-weight: 700;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+    }
+
+    .center-node.is-hot {
+      animation: pulse 1.7s ease-in-out infinite;
+    }
+
+    .symbol-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .symbol-box {
+      border: 1px solid rgba(216, 199, 176, 0.85);
+      border-radius: 16px;
+      padding: 14px;
+      background: rgba(255,255,255,0.64);
+      display: grid;
+      gap: 10px;
+    }
+
+    .symbol-box h3 {
+      margin: 0;
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+    }
+
+    .chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      font-weight: 500;
+    }
+
+    .empty {
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    @keyframes rise-in {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%,
+      100% {
+        transform: translateY(0);
+        box-shadow: 0 0 0 0 rgba(10, 108, 104, 0.18), inset 0 1px 0 rgba(255,255,255,0.8);
+      }
+      50% {
+        transform: translateY(-1px);
+        box-shadow: 0 0 0 10px rgba(10, 108, 104, 0), inset 0 1px 0 rgba(255,255,255,0.8);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .panel,
+      .center-node.is-hot {
+        animation: none;
+      }
+
+      .map-card,
+      .route-card {
+        transition: none;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .runtime-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .mini-map,
+      .symbol-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .center-node {
+        min-width: 0;
+      }
+    }
+
+    @media (max-width: 720px) {
+      header {
+        padding: 28px 18px 12px;
+      }
+
+      main {
+        padding: 12px 18px 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Code Maps and Data Route Viewer</h1>
+    <div class="subtitle">
+      One code file, one mini map. Load architecture JSON for static structure, then add a trace JSONL file to see which modules and routes actually light up during execution.
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Load Map and Trace Data</h2>
+      </div>
+      <div class="panel-body controls">
+        <label>
+          Architecture JSON
+          <input id="map-file" type="file" accept=".json" />
+        </label>
+        <label>
+          Trace JSONL
+          <input id="trace-file" type="file" accept=".jsonl,.log,.txt" />
+        </label>
+        <label>
+          Run
+          <select id="run-select" disabled>
+            <option>Select a trace first</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Repository Snapshot</h2>
+      </div>
+      <div class="panel-body">
+        <div id="stats" class="stats">
+          <div class="empty">Load an architecture JSON file to view repository map metrics.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Runtime Overlay</h2>
+        <span id="runtime-status" class="status-pill status-warn">No trace loaded</span>
+      </div>
+      <div class="panel-body">
+        <div id="runtime-stats" class="stats">
+          <div class="empty">Load a trace file to see runtime activity on top of the static code map.</div>
+        </div>
+        <div class="runtime-layout">
+          <section class="runtime-box">
+            <h3>Executed Module Flow</h3>
+            <div id="runtime-flow" class="flow-strip">
+              <div class="empty">Module flow will appear after loading a trace.</div>
+            </div>
+          </section>
+          <section class="runtime-box">
+            <h3>Recent Events</h3>
+            <div id="runtime-events" class="event-stack">
+              <div class="empty">Recent events will appear after loading a trace.</div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Data Route Progression</h2>
+      </div>
+      <div class="panel-body">
+        <div id="route-list" class="route-list">
+          <div class="empty">Routes will appear after loading map data.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Mini Maps</h2>
+      </div>
+      <div class="panel-body">
+        <div id="map-grid" class="map-grid">
+          <div class="empty">Module mini maps will appear after loading map data.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const state = {
+      mapPayload: null,
+      traceEvents: [],
+      groupedRuns: {},
+      activeRunId: null,
+    };
+
+    const mapFileInput = document.getElementById('map-file');
+    const traceFileInput = document.getElementById('trace-file');
+    const runSelect = document.getElementById('run-select');
+    const stats = document.getElementById('stats');
+    const runtimeStats = document.getElementById('runtime-stats');
+    const runtimeFlow = document.getElementById('runtime-flow');
+    const runtimeEvents = document.getElementById('runtime-events');
+    const runtimeStatus = document.getElementById('runtime-status');
+    const routeList = document.getElementById('route-list');
+    const mapGrid = document.getElementById('map-grid');
+
+    mapFileInput.addEventListener('change', async (event) => {
+      const [file] = event.target.files;
+      if (!file) return;
+
+      const text = await file.text();
+      state.mapPayload = JSON.parse(text);
+      render();
+    });
+
+    traceFileInput.addEventListener('change', async (event) => {
+      const [file] = event.target.files;
+      if (!file) return;
+
+      const text = await file.text();
+      state.traceEvents = parseJsonl(text);
+      state.groupedRuns = groupRuns(state.traceEvents);
+
+      const runIds = Object.keys(state.groupedRuns).sort();
+      renderRunOptions(runIds);
+      state.activeRunId = runIds.length ? runIds[runIds.length - 1] : null;
+      if (state.activeRunId) {
+        runSelect.value = state.activeRunId;
+      }
+      render();
+    });
+
+    runSelect.addEventListener('change', () => {
+      state.activeRunId = runSelect.value || null;
+      render();
+    });
+
+    function render() {
+      const overlay = buildRuntimeOverlay(getActiveRunEvents());
+      renderStats(state.mapPayload);
+      renderRuntime(overlay);
+      renderRoutes(state.mapPayload?.routes || [], overlay);
+      renderMaps(state.mapPayload?.modules || [], overlay);
+    }
+
+    function renderStats(payload) {
+      if (!payload) {
+        stats.innerHTML = '<div class="empty">Load an architecture JSON file to view repository map metrics.</div>';
+        return;
+      }
+
+      const modules = payload.modules || [];
+      const edges = payload.edges || [];
+      const routes = payload.routes || [];
+
+      stats.innerHTML = [
+        statCard('Repo Root', payload.repo_root || '-'),
+        statCard('Mini Maps', modules.length),
+        statCard('Edges', edges.length),
+        statCard('Routes', routes.length),
+      ].join('');
+    }
+
+    function renderRuntime(overlay) {
+      if (!overlay.hasTrace) {
+        runtimeStatus.textContent = 'No trace loaded';
+        runtimeStatus.className = 'status-pill status-warn';
+        runtimeStats.innerHTML = '<div class="empty">Load a trace file to see runtime activity on top of the static code map.</div>';
+        runtimeFlow.innerHTML = '<div class="empty">Module flow will appear after loading a trace.</div>';
+        runtimeEvents.innerHTML = '<div class="empty">Recent events will appear after loading a trace.</div>';
+        return;
+      }
+
+      runtimeStatus.textContent = overlay.status;
+      runtimeStatus.className = `status-pill ${statusClass(overlay.status)}`;
+
+      runtimeStats.innerHTML = [
+        statCard('Run ID', overlay.runId || '-'),
+        statCard('Events', overlay.eventsCount),
+        statCard('Steps', overlay.stepsCount),
+        statCard('Tool Calls', overlay.toolCalls),
+        statCard('Duplicates', overlay.duplicates),
+        statCard('Quality', overlay.qualityText),
+      ].join('');
+
+      if (!overlay.flatSequence.length) {
+        runtimeFlow.innerHTML = '<div class="empty">This run does not map to known modules yet.</div>';
+      } else {
+        runtimeFlow.innerHTML = overlay.flatSequence.map((moduleName, index) => {
+          const parts = [`<span class="flow-node hot">${escapeHtml(moduleName)}</span>`];
+          if (index < overlay.flatSequence.length - 1) {
+            parts.push('<span class="flow-arrow">→</span>');
+          }
+          return parts.join('');
+        }).join('');
+      }
+
+      runtimeEvents.innerHTML = overlay.recentEvents.length
+        ? overlay.recentEvents.map((eventInfo) => `
+            <article class="event-row">
+              <div class="event-row-top">
+                <div class="event-name">${escapeHtml(eventInfo.name)}</div>
+                <span class="event-pill ${eventInfo.statusClass}">${escapeHtml(eventInfo.badge)}</span>
+              </div>
+              <div class="event-detail">${escapeHtml(eventInfo.detail)}</div>
+            </article>
+          `).join('')
+        : '<div class="empty">No recent events available.</div>';
+    }
+
+    function renderRoutes(routes, overlay) {
+      if (!routes.length) {
+        routeList.innerHTML = '<div class="empty">Routes will appear after loading map data.</div>';
+        return;
+      }
+
+      routeList.innerHTML = routes.map((route) => {
+        const hitCount = overlay.hasTrace ? countRouteMatches(route.modules || [], overlay.eventPaths) : 0;
+        const isHit = hitCount > 0;
+        return `
+          <article class="route-card ${overlay.hasTrace ? (isHit ? 'is-hit' : 'is-cold') : ''}">
+            <div class="route-top">
+              <div class="route-name">${escapeHtml(route.name)}</div>
+              ${overlay.hasTrace
+                ? `<span class="route-badge ${isHit ? 'route-hit' : 'route-cold'}">${isHit ? `observed x${hitCount}` : 'static only'}</span>`
+                : ''}
+            </div>
+            <div class="route-flow">
+              ${(route.modules || []).map((moduleName, index) => {
+                const parts = [
+                  `<span class="route-node ${overlay.moduleHits[moduleName] ? 'is-live' : ''}">${escapeHtml(moduleName)}</span>`,
+                ];
+                if (index < route.modules.length - 1) {
+                  parts.push('<span class="route-arrow">→</span>');
+                }
+                return parts.join('');
+              }).join('')}
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function renderMaps(modules, overlay) {
+      if (!modules.length) {
+        mapGrid.innerHTML = '<div class="empty">Module mini maps will appear after loading map data.</div>';
+        return;
+      }
+
+      mapGrid.innerHTML = modules.map((moduleInfo) => {
+        const heat = overlay.moduleHits[moduleInfo.name] || 0;
+        const eventNames = overlay.moduleEventNames[moduleInfo.name] || [];
+        const recentTags = eventNames.slice(0, 5);
+
+        return `
+          <article class="map-card ${overlay.hasTrace ? (heat ? 'is-hot' : 'is-cold') : ''}">
+            <div class="map-head">
+              <div>
+                <h3 class="map-title">${escapeHtml(moduleInfo.name)}</h3>
+                <div class="map-path">${escapeHtml(moduleInfo.path || '-')}</div>
+              </div>
+              <div class="map-meta">
+                <span class="chip">imports ${moduleInfo.imports.length}</span>
+                ${overlay.hasTrace
+                  ? `<span class="chip ${heat ? 'chip-hot' : ''}">${heat ? `runtime x${heat}` : 'not touched'}</span>`
+                  : ''}
+              </div>
+            </div>
+
+            <div class="mini-map">
+              <div class="lane">
+                <div class="lane-title">Imported By</div>
+                ${renderChipGroup(moduleInfo.imported_by, 'No inbound edge')}
+              </div>
+
+              <div class="center-node ${heat ? 'is-hot' : ''}">${escapeHtml(moduleInfo.name)}</div>
+
+              <div class="lane">
+                <div class="lane-title">Imports</div>
+                ${renderChipGroup(moduleInfo.imports, 'No outbound edge')}
+              </div>
+            </div>
+
+            <section class="symbol-box">
+              <h3>Runtime Touches</h3>
+              ${overlay.hasTrace ? renderChipGroup(recentTags, 'No runtime event', heat ? 'chip-hot' : '') : '<div class="empty">Load a trace file to overlay runtime data.</div>'}
+            </section>
+
+            <div class="symbol-grid">
+              <section class="symbol-box">
+                <h3>Classes</h3>
+                ${renderChipGroup(moduleInfo.classes, 'No classes')}
+              </section>
+              <section class="symbol-box">
+                <h3>Functions</h3>
+                ${renderChipGroup(moduleInfo.functions, 'No functions')}
+              </section>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function getActiveRunEvents() {
+      if (!state.activeRunId) {
+        return [];
+      }
+
+      const runEvents = state.groupedRuns[state.activeRunId] || [];
+      const sessionEvents = state.traceEvents.filter((event) => !event.run_id);
+      return [...sessionEvents, ...runEvents].sort((left, right) => (left.ts || 0) - (right.ts || 0));
+    }
+
+    function parseJsonl(text) {
+      return text
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .map((line) => JSON.parse(line));
+    }
+
+    function groupRuns(events) {
+      return events.reduce((acc, event) => {
+        if (!event.run_id) {
+          return acc;
+        }
+        acc[event.run_id] ||= [];
+        acc[event.run_id].push(event);
+        return acc;
+      }, {});
+    }
+
+    function renderRunOptions(runIds) {
+      runSelect.innerHTML = '';
+      if (!runIds.length) {
+        runSelect.disabled = true;
+        runSelect.innerHTML = '<option>No runs found</option>';
+        return;
+      }
+
+      runSelect.disabled = false;
+      for (const runId of runIds) {
+        const option = document.createElement('option');
+        option.value = runId;
+        option.textContent = runId;
+        runSelect.appendChild(option);
+      }
+    }
+
+    function buildRuntimeOverlay(events) {
+      if (!events.length) {
+        return {
+          hasTrace: false,
+          runId: null,
+          status: 'No trace loaded',
+          qualityText: 'n/a',
+          eventsCount: 0,
+          stepsCount: 0,
+          toolCalls: 0,
+          duplicates: 0,
+          flatSequence: [],
+          eventPaths: [],
+          moduleHits: {},
+          moduleEventNames: {},
+          recentEvents: [],
+        };
+      }
+
+      const moduleHits = {};
+      const moduleEventNames = {};
+      const flattened = [];
+      const eventPaths = [];
+
+      for (const event of events) {
+        const modules = mapEventToModules(event);
+        const eventPath = mapEventToRoutePath(event);
+        if (eventPath.length) {
+          eventPaths.push(eventPath);
+        }
+        for (const moduleName of modules) {
+          flattened.push(moduleName);
+          moduleHits[moduleName] = (moduleHits[moduleName] || 0) + 1;
+          moduleEventNames[moduleName] ||= [];
+          if (!moduleEventNames[moduleName].includes(event.event)) {
+            moduleEventNames[moduleName].push(event.event);
+          }
+        }
+      }
+
+      const finish = findLast(events, (event) => event.event === 'run_finished' || event.event === 'run_failed');
+      const quality = findLast(events, (event) => event.event === 'quality_gate');
+      const steps = new Set(events.filter((event) => Number.isInteger(event.step)).map((event) => event.step));
+      const flatSequence = compactSequence(flattened);
+
+      return {
+        hasTrace: true,
+        runId: findLast(events, (event) => Boolean(event.run_id))?.run_id || null,
+        status: finish?.status || (finish?.event === 'run_failed' ? 'failed' : 'running'),
+        qualityText: quality?.summary
+          ? `${quality.summary.passed_checks}/${quality.summary.total_checks} passed`
+          : 'n/a',
+        eventsCount: events.length,
+        stepsCount: steps.size,
+        toolCalls: events.filter((event) => event.event === 'tool_call').length,
+        duplicates: events.filter((event) => event.event === 'tool_call_duplicate').length,
+        flatSequence,
+        eventPaths,
+        moduleHits,
+        moduleEventNames,
+        recentEvents: events.slice(-6).reverse().map((event) => ({
+          name: event.event,
+          badge: event.tool_name || event.status || event.summary?.level || 'event',
+          detail: describeEvent(event),
+          statusClass: event.event === 'run_failed'
+            ? 'event-fail'
+            : event.event === 'quality_gate' || event.event === 'tool_result' || event.event === 'run_finished'
+              ? 'event-ok'
+              : 'event-warn',
+        })),
+      };
+    }
+
+    function mapEventToModules(event) {
+      switch (event.event) {
+        case 'server_starting':
+        case 'server_ready':
+        case 'server_stopped':
+          return ['server'];
+        case 'tool_call':
+        case 'tool_result':
+        case 'tool_call_duplicate':
+          return ['runtime', 'tools'];
+        case 'quality_gate':
+          return ['runtime', 'trace', 'tools'];
+        case 'llm_request':
+        case 'llm_response':
+        case 'run_started':
+        case 'run_finished':
+        case 'run_failed':
+        case 'final_answer':
+          return ['runtime'];
+        default:
+          return [];
+      }
+    }
+
+    function mapEventToRoutePath(event) {
+      switch (event.event) {
+        case 'server_starting':
+        case 'server_ready':
+        case 'server_stopped':
+          return ['__init__', 'server'];
+        case 'tool_call':
+        case 'tool_result':
+        case 'tool_call_duplicate':
+          return ['__init__', 'runtime', 'tools'];
+        case 'quality_gate':
+          return ['__init__', 'runtime', 'trace', 'tools'];
+        case 'llm_request':
+        case 'llm_response':
+        case 'run_started':
+        case 'run_finished':
+        case 'run_failed':
+        case 'final_answer':
+          return ['__init__', 'runtime'];
+        default:
+          return [];
+      }
+    }
+
+    function countRouteMatches(routeModules, eventPaths) {
+      if (!routeModules.length || !eventPaths.length) {
+        return 0;
+      }
+
+      return eventPaths.reduce((count, eventPath) => {
+        return count + (countContiguousMatches(eventPath, routeModules) > 0 ? 1 : 0);
+      }, 0);
+    }
+
+    function countContiguousMatches(sequence, target) {
+      if (!target.length || target.length > sequence.length) {
+        return 0;
+      }
+
+      let matches = 0;
+      for (let index = 0; index <= sequence.length - target.length; index += 1) {
+        let ok = true;
+        for (let targetIndex = 0; targetIndex < target.length; targetIndex += 1) {
+          if (sequence[index + targetIndex] !== target[targetIndex]) {
+            ok = false;
+            break;
+          }
+        }
+        if (ok) {
+          matches += 1;
+        }
+      }
+      return matches;
+    }
+
+    function compactSequence(items) {
+      const compacted = [];
+      for (const item of items) {
+        if (compacted[compacted.length - 1] !== item) {
+          compacted.push(item);
+        }
+      }
+      return compacted;
+    }
+
+    function describeEvent(event) {
+      const modules = mapEventToModules(event);
+      const moduleText = modules.length ? modules.join(' → ') : 'no mapped module';
+
+      if (event.tool_name) {
+        return `${event.tool_name} through ${moduleText}`;
+      }
+      if (event.summary) {
+        return `${moduleText}; ${event.summary.passed_checks}/${event.summary.total_checks} checks passed`;
+      }
+      if (event.status) {
+        return `${moduleText}; status ${event.status}`;
+      }
+      return moduleText;
+    }
+
+    function findLast(items, predicate) {
+      for (let index = items.length - 1; index >= 0; index -= 1) {
+        if (predicate(items[index])) {
+          return items[index];
+        }
+      }
+      return null;
+    }
+
+    function renderChipGroup(items, emptyText, extraClass = '') {
+      if (!items || !items.length) {
+        return `<div class="empty">${escapeHtml(emptyText)}</div>`;
+      }
+      return `<div class="chip-group">${items.map((item) => `<span class="chip ${escapeHtml(extraClass)}">${escapeHtml(item)}</span>`).join('')}</div>`;
+    }
+
+    function statCard(label, value) {
+      return `
+        <div class="stat-card">
+          <div class="stat-label">${escapeHtml(String(label))}</div>
+          <div class="stat-value">${escapeHtml(String(value))}</div>
+        </div>
+      `;
+    }
+
+    function statusClass(status) {
+      if (status === 'completed') {
+        return 'status-ok';
+      }
+      if (status === 'failed') {
+        return 'status-fail';
+      }
+      return 'status-warn';
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+  </script>
+</body>
+</html>

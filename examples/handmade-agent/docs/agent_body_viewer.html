@@ -1,0 +1,3499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Handmade Agent Body Viewer</title>
+  <style>
+    :root {
+      --bg: #f3efe6;
+      --paper: rgba(255, 250, 241, 0.88);
+      --panel-strong: #f7ead8;
+      --ink: #171512;
+      --muted: #6f6558;
+      --line: #d9c8b2;
+      --teal: #0a6c68;
+      --teal-soft: #d7f0eb;
+      --teal-strong: #0d4d48;
+      --copper: #8b4b1f;
+      --copper-soft: #f4ddc9;
+      --danger: #96301b;
+      --danger-soft: #f3d6cf;
+      --shadow: 0 24px 56px rgba(36, 26, 15, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(10, 108, 104, 0.08), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(139, 75, 31, 0.06), transparent 28%),
+        linear-gradient(180deg, #fcfaf4 0%, #f4efe5 100%);
+    }
+
+    header {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 14px 32px 4px;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
+      font-size: clamp(2.15rem, 4vw, 3.4rem);
+      letter-spacing: -0.05em;
+      line-height: 0.94;
+      max-width: none;
+    }
+
+    .subtitle {
+      margin-top: 6px;
+      max-width: 960px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.55;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    body.has-live-scene header {
+      padding-top: 6px;
+      padding-bottom: 0;
+    }
+
+    body.has-live-scene h1 {
+      font-size: clamp(1.55rem, 2.8vw, 2.25rem);
+      letter-spacing: -0.04em;
+    }
+
+    body.has-live-scene .subtitle {
+      display: none;
+    }
+
+    body.has-live-scene main {
+      padding-top: 8px;
+    }
+
+    main {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 18px 32px 40px;
+    }
+
+    .panel {
+      background: var(--paper);
+      border: 1px solid rgba(217, 200, 178, 0.96);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      animation: rise-in 420ms ease-out both;
+    }
+
+    .panel-head {
+      padding: 18px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 1px solid rgba(217, 200, 178, 0.82);
+      background: rgba(255, 255, 255, 0.48);
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      font-size: 1.04rem;
+      letter-spacing: 0.02em;
+    }
+
+    .panel-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .ghost-button {
+      border: 1px solid rgba(13, 77, 72, 0.18);
+      border-radius: 999px;
+      padding: 8px 14px;
+      background: rgba(255, 255, 255, 0.84);
+      color: var(--teal-strong);
+      font: inherit;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+
+    .ghost-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(10, 108, 104, 0.08);
+      background: rgba(255, 255, 255, 0.96);
+    }
+
+    .ghost-button[hidden] {
+      display: none;
+    }
+
+    .panel-body {
+      padding: 22px;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      align-items: end;
+    }
+
+    label {
+      display: grid;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    input[type="file"],
+    select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      padding: 12px 14px;
+      font: inherit;
+      color: var(--ink);
+    }
+
+    .status-pill,
+    .chip,
+    .cap-badge,
+    .event-pill,
+    .organ-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      border: 1px solid rgba(13, 77, 72, 0.18);
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .status-ok,
+    .cap-live,
+    .event-ok,
+    .organ-live,
+    .chip.is-live {
+      background: var(--teal-soft);
+      color: var(--teal-strong);
+      border-color: rgba(10, 108, 104, 0.24);
+    }
+
+    .status-warn,
+    .cap-warm,
+    .event-warn,
+    .organ-warm {
+      background: var(--copper-soft);
+      color: var(--copper);
+      border-color: rgba(139, 75, 31, 0.22);
+    }
+
+    .status-fail,
+    .event-fail,
+    .organ-cold {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border-color: rgba(150, 48, 27, 0.2);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+    }
+
+    .stat-card {
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(247,234,216,0.7));
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .stat-value {
+      margin-top: 8px;
+      font-size: 1.08rem;
+      font-weight: 700;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .body-layout {
+      display: grid;
+      grid-template-columns: minmax(250px, 1fr) minmax(360px, 1.5fr) minmax(250px, 1fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .organ-column {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .organ-card,
+    .cap-card,
+    .event-row,
+    .rack-card {
+      border: 1px solid rgba(217, 200, 178, 0.9);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.94), rgba(247,234,216,0.62));
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+      transition: transform 220ms ease, box-shadow 220ms ease, opacity 220ms ease;
+    }
+
+    .organ-card,
+    .organ-node {
+      cursor: pointer;
+    }
+
+    .organ-card.is-live,
+    .cap-card.is-live,
+    .event-row.is-live,
+    .rack-card.is-live {
+      box-shadow: 0 18px 36px rgba(10, 108, 104, 0.1);
+    }
+
+    .organ-card.is-cold,
+    .cap-card.is-cold {
+      opacity: 0.8;
+    }
+
+    .organ-card.is-selected {
+      border-color: rgba(10, 108, 104, 0.42);
+      box-shadow: 0 0 0 5px rgba(10, 108, 104, 0.08), 0 18px 36px rgba(10, 108, 104, 0.14);
+    }
+
+    .organ-card.is-dimmed,
+    .organ-node.is-dimmed {
+      opacity: 0.42;
+    }
+
+    .organ-top,
+    .cap-top,
+    .event-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .organ-title,
+    .cap-title {
+      margin: 0;
+      font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+    }
+
+    .organ-meta,
+    .cap-meta,
+    .event-meta {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .organ-facts,
+    .chip-row,
+    .cap-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .body-column {
+      display: grid;
+      gap: 16px;
+    }
+
+    .body-stage {
+      position: relative;
+      min-height: 760px;
+      border-radius: 26px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top center, rgba(10, 108, 104, 0.16), transparent 26%),
+        radial-gradient(circle at bottom center, rgba(139, 75, 31, 0.14), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,0.84), rgba(247,234,216,0.74));
+      border: 1px solid rgba(217, 200, 178, 0.92);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.72);
+    }
+
+    .body-stage::before {
+      content: "";
+      position: absolute;
+      inset: 24px;
+      border-radius: 28px;
+      border: 1px dashed rgba(10, 108, 104, 0.16);
+      pointer-events: none;
+    }
+
+    .snapshot-bar {
+      position: relative;
+      z-index: 2;
+      padding: 20px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .speech-cloud {
+      position: absolute;
+      top: 56px;
+      right: 36px;
+      width: min(290px, calc(100% - 48px));
+      padding: 16px 18px;
+      border-radius: 24px 24px 24px 8px;
+      border: 1px solid rgba(13, 77, 72, 0.18);
+      background: rgba(255,255,255,0.9);
+      box-shadow: 0 14px 30px rgba(36, 26, 15, 0.08);
+      z-index: 4;
+      transition: transform 240ms ease, box-shadow 240ms ease;
+    }
+
+    .speech-cloud.is-speaking {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 34px rgba(10, 108, 104, 0.12);
+    }
+
+    .speech-label {
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .speech-text {
+      margin-top: 8px;
+      font-size: 0.94rem;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+
+    .figure {
+      position: absolute;
+      inset: 130px 26px 110px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      z-index: 1;
+    }
+
+    .figure-core {
+      position: relative;
+      width: min(430px, 100%);
+      height: 100%;
+    }
+
+    .aura {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      width: 330px;
+      height: 620px;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(10, 108, 104, 0.14), transparent 24%),
+        radial-gradient(circle at 50% 58%, rgba(139, 75, 31, 0.12), transparent 28%),
+        radial-gradient(circle at 50% 90%, rgba(10, 108, 104, 0.08), transparent 22%);
+      filter: blur(4px);
+      opacity: 0.9;
+    }
+
+    .head-shell,
+    .torso-shell,
+    .pelvis-shell,
+    .arm-shell,
+    .leg-shell,
+    .foot-shell {
+      position: absolute;
+      background: linear-gradient(180deg, rgba(255,255,255,0.64), rgba(247,234,216,0.54));
+      border: 1px solid rgba(217, 200, 178, 0.82);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.64);
+    }
+
+    .head-shell {
+      top: 18px;
+      left: 50%;
+      width: 122px;
+      height: 122px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+    }
+
+    .torso-shell {
+      top: 140px;
+      left: 50%;
+      width: 182px;
+      height: 250px;
+      transform: translateX(-50%);
+      border-radius: 90px 90px 62px 62px;
+    }
+
+    .pelvis-shell {
+      top: 360px;
+      left: 50%;
+      width: 134px;
+      height: 92px;
+      transform: translateX(-50%);
+      border-radius: 40px 40px 34px 34px;
+    }
+
+    .arm-shell {
+      width: 42px;
+      height: 220px;
+      border-radius: 28px;
+      top: 166px;
+    }
+
+    .arm-shell.left {
+      left: 56px;
+      transform: rotate(16deg);
+    }
+
+    .arm-shell.right {
+      right: 56px;
+      transform: rotate(-16deg);
+    }
+
+    .leg-shell {
+      width: 44px;
+      height: 210px;
+      border-radius: 30px;
+      top: 432px;
+    }
+
+    .leg-shell.left {
+      left: 146px;
+      transform: rotate(5deg);
+    }
+
+    .leg-shell.right {
+      right: 146px;
+      transform: rotate(-5deg);
+    }
+
+    .foot-shell {
+      width: 78px;
+      height: 28px;
+      border-radius: 999px;
+      top: 634px;
+    }
+
+    .foot-shell.left {
+      left: 112px;
+    }
+
+    .foot-shell.right {
+      right: 112px;
+    }
+
+    .organ-node {
+      position: absolute;
+      display: grid;
+      justify-items: center;
+      gap: 6px;
+      text-align: center;
+      padding: 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(13, 77, 72, 0.18);
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 10px 24px rgba(36, 26, 15, 0.08);
+      transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
+      z-index: 3;
+    }
+
+    .organ-node.active {
+      background: linear-gradient(180deg, rgba(215,240,235,1), rgba(255,255,255,0.94));
+      box-shadow: 0 0 0 8px rgba(10, 108, 104, 0.08), 0 16px 28px rgba(10, 108, 104, 0.1);
+    }
+
+    .organ-node.warm {
+      background: linear-gradient(180deg, rgba(244,221,201,1), rgba(255,255,255,0.94));
+    }
+
+    .organ-node.is-selected {
+      border-color: rgba(10, 108, 104, 0.42);
+      box-shadow: 0 0 0 10px rgba(10, 108, 104, 0.12), 0 18px 32px rgba(10, 108, 104, 0.14);
+    }
+
+    .node-label {
+      font-size: 0.84rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+    }
+
+    .node-stat {
+      font-size: 0.76rem;
+      color: var(--muted);
+      line-height: 1.3;
+    }
+
+    .organ-brain {
+      top: 44px;
+      left: 50%;
+      width: 138px;
+      transform: translateX(-50%);
+    }
+
+    .organ-breath {
+      top: 158px;
+      left: 50%;
+      width: 134px;
+      transform: translateX(-50%);
+    }
+
+    .organ-heart {
+      top: 232px;
+      left: 50%;
+      width: 120px;
+      transform: translateX(-62%);
+    }
+
+    .organ-spine {
+      top: 248px;
+      left: 50%;
+      width: 122px;
+      transform: translateX(-38%);
+    }
+
+    .organ-left-arm {
+      top: 260px;
+      left: 18px;
+      width: 130px;
+    }
+
+    .organ-right-arm {
+      top: 260px;
+      right: 18px;
+      width: 130px;
+    }
+
+    .organ-mouth {
+      top: 102px;
+      left: 50%;
+      width: 112px;
+      transform: translateX(-50%);
+    }
+
+    .tool-rack {
+      position: absolute;
+      right: 24px;
+      top: 440px;
+      width: min(220px, calc(100% - 48px));
+      z-index: 4;
+    }
+
+    .rack-title {
+      margin: 0;
+      font-size: 0.84rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .ground-strip {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 22px;
+      z-index: 4;
+      display: grid;
+      gap: 10px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(13, 77, 72, 0.18);
+      background: rgba(255,255,255,0.86);
+      box-shadow: 0 12px 28px rgba(36, 26, 15, 0.08);
+    }
+
+    .ground-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .ground-text {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: var(--ink);
+      word-break: break-word;
+    }
+
+    .capability-deck {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .activity-layout {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 16px;
+    }
+
+    .event-stack,
+    .support-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .event-name {
+      font-weight: 800;
+    }
+
+    .empty {
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .organ-card:focus-visible,
+    .organ-node:focus-visible,
+    .ghost-button:focus-visible {
+      outline: 3px solid rgba(10, 108, 104, 0.24);
+      outline-offset: 3px;
+    }
+
+    .scene {
+      position: relative;
+      min-height: calc(100vh - 150px);
+      padding: 26px 28px 30px;
+      border-radius: 32px;
+      overflow: hidden;
+      border: 1px solid rgba(217, 200, 178, 0.7);
+      background:
+        radial-gradient(circle at 18% 16%, rgba(10, 108, 104, 0.08), transparent 24%),
+        radial-gradient(circle at 84% 18%, rgba(139, 75, 31, 0.07), transparent 20%),
+        linear-gradient(180deg, rgba(255, 251, 245, 0.96), rgba(245, 240, 231, 0.9));
+      box-shadow: 0 16px 36px rgba(36, 26, 15, 0.05);
+    }
+
+    .scene::before,
+    .scene::after {
+      display: none;
+    }
+
+    .scene::before {
+      top: 100px;
+      left: -40px;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(10, 108, 104, 0.1), transparent 70%);
+    }
+
+    .scene::after {
+      right: -80px;
+      bottom: 40px;
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle, rgba(139, 75, 31, 0.08), transparent 72%);
+    }
+
+    .scene-top {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(360px, 0.92fr);
+      gap: 18px;
+      align-items: start;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(217, 200, 178, 0.62);
+    }
+
+    .scene.is-loaded .scene-top {
+      grid-template-columns: 1fr;
+      gap: 4px;
+      padding-bottom: 2px;
+      border-bottom: 0;
+    }
+
+    .scene.is-loaded .scene-copy {
+      display: none;
+    }
+
+    .scene-copy {
+      max-width: none;
+      display: grid;
+      gap: 4px;
+    }
+
+    .scene-eyebrow {
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(23, 21, 18, 0.55);
+    }
+
+    .scene-copy p {
+      margin: 0;
+      font-size: 0.84rem;
+      line-height: 1.52;
+      color: var(--muted);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .scene-toolbar {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px 16px;
+      align-items: end;
+      padding: 0;
+      border-radius: 0;
+      background: transparent;
+      backdrop-filter: none;
+      max-width: none;
+    }
+
+    .loaded-dock {
+      display: none;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(180px, 0.84fr);
+      gap: 8px 12px;
+      align-items: end;
+    }
+
+    .scene.is-loaded .scene-toolbar {
+      display: none;
+    }
+
+    .scene.is-loaded .loaded-dock {
+      display: grid;
+      gap: 6px 10px;
+    }
+
+    .dock-button,
+    .dock-select {
+      min-width: 0;
+      display: grid;
+      gap: 4px;
+      padding: 8px 10px 9px;
+      border-radius: 16px;
+      border: 1px solid rgba(217, 200, 178, 0.6);
+      background: rgba(255, 255, 255, 0.56);
+      color: var(--ink);
+    }
+
+    .dock-button {
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .dock-button span,
+    .dock-select span {
+      font-size: 0.56rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .dock-button strong {
+      font-size: 0.8rem;
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dock-select select {
+      border: 0;
+      border-bottom: 1px solid rgba(23, 21, 18, 0.16);
+      border-radius: 0;
+      background: transparent;
+      padding: 0 0 2px;
+      font: inherit;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--ink);
+      box-shadow: none;
+    }
+
+    .scene-toolbar label {
+      gap: 4px;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+    }
+
+    .scene-toolbar input[type="file"],
+    .scene-toolbar select {
+      border: 0;
+      border-bottom: 1px solid rgba(23, 21, 18, 0.16);
+      border-radius: 0;
+      background: transparent;
+      padding: 6px 0 6px;
+      font-size: 0.84rem;
+      box-shadow: none;
+    }
+
+    .scene-hud {
+      position: relative;
+      z-index: 2;
+      margin-top: 8px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .scene.is-loaded .scene-hud {
+      margin-top: 2px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 6px 10px;
+    }
+
+    .scene-status {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .lang-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.42);
+      border: 1px solid rgba(217, 200, 178, 0.68);
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .lang-button {
+      border: 0;
+      border-radius: 999px;
+      padding: 7px 12px;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 180ms ease, color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .lang-button.is-active {
+      background: rgba(255,255,255,0.9);
+      color: var(--teal-strong);
+      box-shadow: none;
+    }
+
+    .metric-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      align-items: center;
+    }
+
+    .metric-chip {
+      flex: 0 1 170px;
+      min-width: 0;
+      max-width: 180px;
+      padding: 0 0 0 10px;
+      border-radius: 0;
+      background: transparent;
+      border-bottom: 0;
+      border-left: 1px solid rgba(217, 200, 178, 0.6);
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .metric-kicker {
+      font-size: 0.64rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .metric-reading {
+      margin-top: 4px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      line-height: 1.45;
+      color: var(--ink);
+      word-break: break-word;
+    }
+
+    .scene.is-loaded .metric-reading {
+      font-size: 0.7rem;
+      margin-top: 2px;
+    }
+
+    .scene.is-loaded .metric-strip {
+      flex: 1 1 320px;
+      gap: 4px 8px;
+    }
+
+    .scene.is-loaded .metric-chip {
+      flex: 0 1 136px;
+      max-width: none;
+      min-width: 94px;
+      padding: 0 8px 4px 0;
+      border-left: 0;
+      border-bottom: 1px solid rgba(217, 200, 178, 0.48);
+    }
+
+    .scene.is-loaded .scene-status {
+      justify-content: flex-start;
+    }
+
+    .scene-body {
+      position: relative;
+      z-index: 2;
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: minmax(170px, 0.86fr) minmax(420px, 1.3fr) minmax(170px, 0.86fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .scene.is-loaded .scene-body {
+      margin-top: 6px;
+    }
+
+    .annotation-rail {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+      padding-top: 92px;
+    }
+
+    .annotation-line {
+      position: relative;
+      display: grid;
+      gap: 6px;
+      padding: 6px 0;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      transition: opacity 220ms ease, transform 220ms ease, color 220ms ease;
+    }
+
+    .annotation-line::before {
+      content: "";
+      position: absolute;
+      top: 16px;
+      width: 28px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(23, 21, 18, 0.18), transparent);
+    }
+
+    .annotation-line.left {
+      padding-right: 34px;
+      text-align: right;
+    }
+
+    .annotation-line.left::before {
+      right: 0;
+    }
+
+    .annotation-line.right {
+      padding-left: 34px;
+      text-align: left;
+    }
+
+    .annotation-line.right::before {
+      left: 0;
+      background: linear-gradient(90deg, transparent, rgba(23, 21, 18, 0.18));
+    }
+
+    .annotation-line.is-live {
+      color: inherit;
+      transform: none;
+    }
+
+    .annotation-line.is-selected {
+      color: var(--teal-strong);
+    }
+
+    .annotation-line.is-selected::before {
+      height: 2px;
+      background: linear-gradient(90deg, rgba(10, 108, 104, 0.68), transparent);
+    }
+
+    .annotation-line.right.is-selected::before {
+      background: linear-gradient(90deg, transparent, rgba(10, 108, 104, 0.88));
+    }
+
+    .annotation-line.is-dimmed {
+      opacity: 0.36;
+    }
+
+    .annotation-kicker {
+      font-size: 0.64rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .annotation-title {
+      margin: 0;
+      font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
+      font-size: 1.06rem;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .annotation-body,
+    .annotation-proof {
+      font-size: 0.86rem;
+      line-height: 1.6;
+    }
+
+    .annotation-body {
+      color: var(--ink);
+    }
+
+    .annotation-proof {
+      color: var(--muted);
+      display: none;
+    }
+
+    .annotation-line.is-selected .annotation-proof {
+      display: block;
+    }
+
+    .body-stage {
+      position: relative;
+      min-height: 860px;
+      border: 0;
+      border-radius: 28px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.02));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.46);
+    }
+
+    .body-stage::before {
+      display: none;
+    }
+
+    .speech-cloud {
+      top: 40px;
+      right: 18px;
+      width: min(320px, calc(100% - 30px));
+      border: 0;
+      background: rgba(255,255,255,0.74);
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .tool-rack {
+      right: 8px;
+      top: 430px;
+      width: min(210px, calc(100% - 24px));
+    }
+
+    #tool-rack-card {
+      border: 0;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.2));
+      box-shadow: none;
+      padding: 0;
+      gap: 12px;
+    }
+
+    #tool-rack-card.is-live {
+      box-shadow: none;
+    }
+
+    .tool-rack .chip-row {
+      align-items: flex-start;
+    }
+
+    .rack-title {
+      font-size: 0.64rem;
+      letter-spacing: 0.18em;
+    }
+
+    .ground-strip {
+      left: 14px;
+      right: 14px;
+      bottom: 14px;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .ground-title {
+      font-size: 0.64rem;
+      letter-spacing: 0.16em;
+    }
+
+    .ground-text {
+      max-width: 92%;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .body-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      overflow: visible;
+    }
+
+    .body-svg .scene-frame {
+      fill: url(#panelWash);
+      stroke: rgba(13, 77, 72, 0.22);
+      stroke-width: 1.4;
+    }
+
+    .body-svg .scene-frame-glow {
+      fill: none;
+      stroke: rgba(10, 108, 104, 0.24);
+      stroke-width: 1.4;
+      stroke-dasharray: 8 12;
+      opacity: 0.88;
+      animation: frame-glide 22s linear infinite;
+    }
+
+    .body-svg .ambient-line {
+      fill: none;
+      stroke: rgba(13, 77, 72, 0.22);
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-dasharray: 4 12;
+      opacity: 0.86;
+      animation: ambient-drift 16s linear infinite;
+    }
+
+    .body-svg .ambient-line.copper {
+      stroke: rgba(139, 75, 31, 0.24);
+      stroke-dasharray: 3 16;
+      animation-duration: 18s;
+    }
+
+    .body-svg .aura-blob {
+      opacity: 0.62;
+      filter: blur(20px);
+    }
+
+    .body-svg .skeleton {
+      fill: none;
+      stroke: rgba(139, 75, 31, 0.2);
+      stroke-width: 13;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .body-svg .body-shell {
+      fill: url(#bodyShellWash);
+      stroke: rgba(13, 77, 72, 0.22);
+      stroke-width: 1.6;
+    }
+
+    .body-svg .body-core {
+      fill: rgba(247, 234, 216, 0.1);
+      stroke: rgba(10, 108, 104, 0.08);
+      stroke-width: 1;
+    }
+
+    .body-svg .body-river {
+      fill: none;
+      stroke: rgba(10, 108, 104, 0.38);
+      stroke-width: 3.2;
+      stroke-linecap: round;
+      stroke-dasharray: 3 12;
+      opacity: 0.9;
+      animation: river-drift 9s linear infinite;
+    }
+
+    .body-svg .body-river.secondary {
+      stroke: rgba(139, 75, 31, 0.26);
+      stroke-width: 2.3;
+      stroke-dasharray: 2 9;
+      animation-duration: 11s;
+    }
+
+    .body-svg .body-river.glow {
+      stroke: rgba(10, 108, 104, 0.34);
+      stroke-width: 7;
+      stroke-dasharray: 1 22;
+      opacity: 0.36;
+      filter: blur(3px);
+      animation-duration: 13s;
+    }
+
+    .body-svg .organ-node {
+      cursor: pointer;
+      transform-box: fill-box;
+      transform-origin: center;
+      transition: opacity 220ms ease, transform 220ms ease;
+    }
+
+    .body-svg .organ-node .node-shell {
+      fill: rgba(255, 255, 255, 0.92);
+      stroke: rgba(13, 77, 72, 0.24);
+      stroke-width: 1.3;
+      filter: drop-shadow(0 6px 12px rgba(36, 26, 15, 0.12));
+      transition: fill 220ms ease, stroke 220ms ease, stroke-width 220ms ease;
+    }
+
+    .body-svg .organ-node .node-icon {
+      fill: none;
+      stroke: rgba(13, 77, 72, 0.5);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+      pointer-events: none;
+      transform-box: fill-box;
+      transform-origin: center;
+      transition: stroke 220ms ease, fill 220ms ease, opacity 220ms ease;
+    }
+
+    .body-svg .organ-node .node-accent {
+      fill: rgba(13, 77, 72, 0.42);
+      pointer-events: none;
+    }
+
+    .body-svg .organ-brain .node-shell {
+      fill: rgba(242, 250, 248, 0.96);
+    }
+
+    .body-svg .organ-mouth .node-shell {
+      fill: rgba(252, 245, 238, 0.96);
+    }
+
+    .body-svg .organ-breath .node-shell {
+      fill: rgba(241, 250, 247, 0.96);
+    }
+
+    .body-svg .organ-heart .node-shell {
+      fill: rgba(251, 244, 239, 0.96);
+    }
+
+    .body-svg .organ-spine .node-shell {
+      fill: rgba(244, 249, 245, 0.96);
+    }
+
+    .body-svg .organ-left-arm .node-shell {
+      fill: rgba(246, 249, 252, 0.96);
+    }
+
+    .body-svg .organ-right-arm .node-shell {
+      fill: rgba(250, 247, 241, 0.96);
+    }
+
+    .body-svg .organ-node .node-halo {
+      fill: rgba(10, 108, 104, 0.22);
+      opacity: 0;
+      transform-origin: center;
+      transition: opacity 220ms ease;
+    }
+
+    .body-svg .organ-node .node-name {
+      fill: var(--ink);
+      font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      text-anchor: middle;
+    }
+
+    .body-svg .organ-node .node-stat {
+      fill: var(--muted);
+      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-anchor: middle;
+    }
+
+    .body-svg .organ-node.active .node-shell {
+      fill: rgba(215, 240, 235, 1);
+      stroke: rgba(10, 108, 104, 0.48);
+    }
+
+    .body-svg .organ-node.active .node-icon,
+    .body-svg .organ-node.active .node-accent {
+      stroke: rgba(10, 108, 104, 0.74);
+      fill: rgba(10, 108, 104, 0.62);
+    }
+
+    .body-svg .organ-node.active .node-halo,
+    .body-svg .organ-node.warm .node-halo {
+      opacity: 0.68;
+      animation: node-orbit 2.4s ease-in-out infinite;
+    }
+
+    .body-svg .organ-node.warm .node-shell {
+      fill: rgba(244, 221, 201, 1);
+      stroke: rgba(139, 75, 31, 0.46);
+    }
+
+    .body-svg .organ-node.warm .node-icon,
+    .body-svg .organ-node.warm .node-accent {
+      stroke: rgba(139, 75, 31, 0.7);
+      fill: rgba(139, 75, 31, 0.58);
+    }
+
+    .body-svg .organ-node.is-selected .node-shell {
+      stroke: rgba(10, 108, 104, 0.56);
+      stroke-width: 2;
+      filter: none;
+    }
+
+    .body-svg .organ-node.is-selected .node-icon,
+    .body-svg .organ-node.is-selected .node-accent {
+      stroke: rgba(10, 108, 104, 0.84);
+      fill: rgba(10, 108, 104, 0.72);
+    }
+
+    .body-svg .organ-node.is-selected .node-halo {
+      opacity: 0.94 !important;
+      fill: rgba(10, 108, 104, 0.2);
+      animation-duration: 1.9s;
+    }
+
+    .body-svg .flow-link {
+      --flow-intensity: 0;
+      fill: none;
+      stroke: rgba(23, 21, 18, 0.2);
+      stroke-width: calc(2.2px + (var(--flow-intensity) * 0.3px));
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 3 9;
+      opacity: 0.5;
+      transition: opacity 220ms ease, stroke 220ms ease, stroke-width 220ms ease;
+    }
+
+    .body-svg .flow-link.is-live {
+      stroke: rgba(10, 108, 104, 0.66);
+      stroke-width: calc(3px + (var(--flow-intensity) * 0.45px));
+      opacity: 0.98;
+      animation: flow-link-drift 4.5s linear infinite;
+    }
+
+    .body-svg .flow-link.is-strong {
+      opacity: 1;
+    }
+
+    .body-svg .flow-link.is-focus {
+      stroke: rgba(139, 75, 31, 0.74);
+      stroke-width: 3.6;
+      opacity: 1;
+    }
+
+    .body-svg .organ-node.is-dimmed {
+      opacity: 0.34;
+    }
+
+    .body-svg .organ-node:focus-visible .node-shell {
+      stroke: rgba(10, 108, 104, 0.72);
+      stroke-width: 2.6;
+    }
+
+    .body-svg .organ-heart.active {
+      animation: body-pulse-svg 1.6s ease-in-out infinite;
+    }
+
+    .body-svg .organ-breath.active {
+      animation: breath-wave-svg 1.9s ease-in-out infinite;
+    }
+
+    .body-svg .organ-brain.active .node-icon {
+      animation: brain-spark 3.4s ease-in-out infinite;
+    }
+
+    .body-svg .organ-mouth.active .node-icon {
+      animation: voice-flicker 1.7s ease-in-out infinite;
+    }
+
+    .body-svg .organ-breath.active .node-icon {
+      animation: breath-glyph 2.2s ease-in-out infinite;
+    }
+
+    .body-svg .organ-heart.active .node-icon {
+      animation: heart-signal 1.5s ease-in-out infinite;
+    }
+
+    .body-svg .organ-left-arm.active .node-icon,
+    .body-svg .organ-left-arm.warm .node-icon,
+    .body-svg .organ-right-arm.active .node-icon,
+    .body-svg .organ-right-arm.warm .node-icon {
+      animation: arm-pivot 2.4s ease-in-out infinite;
+    }
+
+    .body-svg foreignObject {
+      overflow: visible;
+    }
+
+    .speech-card {
+      width: 100%;
+      height: 100%;
+      padding: 14px 16px;
+      border-radius: 26px 26px 26px 10px;
+      background: rgba(255,255,255,0.68);
+      border: 1px solid rgba(217, 200, 178, 0.5);
+      box-shadow: none;
+      backdrop-filter: none;
+      transition: transform 240ms ease, box-shadow 240ms ease;
+    }
+
+    .speech-card.is-speaking {
+      transform: translateY(-1px);
+      box-shadow: none;
+    }
+
+    .tool-rack-panel {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid rgba(217, 200, 178, 0.46);
+      border-radius: 24px;
+      background: rgba(255,255,255,0.56);
+      box-shadow: none;
+    }
+
+    .tool-rack-panel.is-live {
+      box-shadow: 0 18px 30px rgba(10, 108, 104, 0.08);
+    }
+
+    .scene-ledger {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 16px;
+      z-index: 3;
+      display: grid;
+      gap: 12px;
+      padding: 14px 16px 12px;
+      border-radius: 24px;
+      border: 1px solid rgba(217, 200, 178, 0.58);
+      background: linear-gradient(180deg, rgba(255, 251, 245, 0.92), rgba(243, 237, 228, 0.84));
+      box-shadow: 0 12px 28px rgba(36, 26, 15, 0.06);
+      backdrop-filter: blur(10px);
+      pointer-events: none;
+    }
+
+    .scene-ledger-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.04fr) minmax(0, 1.08fr) minmax(0, 0.9fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .ledger-panel {
+      min-width: 0;
+      display: grid;
+      gap: 8px;
+    }
+
+    .scene-ledger .story-strip,
+    .scene-ledger .capability-flow,
+    .scene-ledger .trail-list {
+      gap: 8px;
+    }
+
+    .scene-ledger .story-line,
+    .scene-ledger .verb-marker,
+    .scene-ledger .trail-row {
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(217, 200, 178, 0.42);
+    }
+
+    .scene-ledger .story-label,
+    .scene-ledger .verb-file {
+      font-size: 0.58rem;
+      letter-spacing: 0.16em;
+    }
+
+    .scene-ledger .story-text,
+    .scene-ledger .verb-detail,
+    .scene-ledger .trail-meta {
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+
+    .scene-ledger .verb-name {
+      font-size: 0.9rem;
+    }
+
+    .scene-ledger .capability-flow {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 14px;
+    }
+
+    .scene-ledger .trail-list {
+      padding-left: 14px;
+    }
+
+    .scene-ledger .trail-list::before {
+      left: 3px;
+      top: 6px;
+      bottom: 6px;
+    }
+
+    .scene-ledger .trail-row::before {
+      left: -18px;
+      top: 8px;
+      width: 7px;
+      height: 7px;
+    }
+
+    .scene-ledger-note {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: baseline;
+      padding-top: 2px;
+      border-top: 1px solid rgba(217, 200, 178, 0.36);
+    }
+
+    .scene-ledger-note .ground-title {
+      flex: 0 0 auto;
+    }
+
+    .scene-ledger-note .ground-text {
+      flex: 1 1 420px;
+      max-width: none;
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+
+    @keyframes body-pulse-svg {
+      0%,
+      100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.04);
+      }
+    }
+
+    @keyframes river-drift {
+      0% {
+        stroke-dashoffset: 0;
+      }
+      100% {
+        stroke-dashoffset: -160;
+      }
+    }
+
+    @keyframes ambient-drift {
+      0% {
+        stroke-dashoffset: 0;
+      }
+      100% {
+        stroke-dashoffset: -220;
+      }
+    }
+
+    @keyframes frame-glide {
+      0% {
+        stroke-dashoffset: 0;
+      }
+      100% {
+        stroke-dashoffset: -320;
+      }
+    }
+
+    @keyframes node-orbit {
+      0%,
+      100% {
+        transform: scale(0.92);
+      }
+      50% {
+        transform: scale(1.08);
+      }
+    }
+
+    @keyframes flow-link-drift {
+      0% {
+        stroke-dashoffset: 0;
+      }
+      100% {
+        stroke-dashoffset: -120;
+      }
+    }
+
+    @keyframes brain-spark {
+      0%,
+      100% {
+        opacity: 0.82;
+        transform: translateY(0);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(-1px);
+      }
+    }
+
+    @keyframes voice-flicker {
+      0%,
+      100% {
+        opacity: 0.75;
+      }
+      45% {
+        opacity: 1;
+      }
+      70% {
+        opacity: 0.62;
+      }
+    }
+
+    @keyframes breath-glyph {
+      0%,
+      100% {
+        opacity: 0.76;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+    }
+
+    @keyframes heart-signal {
+      0%,
+      100% {
+        opacity: 0.76;
+      }
+      30% {
+        opacity: 1;
+      }
+      55% {
+        opacity: 0.65;
+      }
+    }
+
+    @keyframes arm-pivot {
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+      50% {
+        transform: translateX(1px);
+      }
+    }
+
+    @keyframes breath-wave-svg {
+      0%,
+      100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    .story-strip {
+      display: grid;
+      gap: 12px;
+    }
+
+    .story-line {
+      position: relative;
+      display: grid;
+      gap: 6px;
+      padding: 0 0 10px 14px;
+      border-bottom: 1px solid rgba(217, 200, 178, 0.48);
+      background: transparent;
+      color: inherit;
+    }
+
+    .story-line::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(139, 75, 31, 0.4);
+    }
+
+    .story-line.is-live::before {
+      background: var(--teal);
+      box-shadow: 0 0 0 6px rgba(10, 108, 104, 0.08);
+    }
+
+    .story-label {
+      font-size: 0.64rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .story-text {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+
+    .capability-flow {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 16px;
+      align-items: start;
+    }
+
+    .verb-marker {
+      min-width: 0;
+      max-width: none;
+      display: grid;
+      gap: 6px;
+      padding: 0 0 10px;
+      border-bottom: 1px solid rgba(217, 200, 178, 0.48);
+      background: transparent;
+      color: inherit;
+    }
+
+    .verb-marker.is-cold {
+      opacity: 0.56;
+    }
+
+    .verb-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .verb-name {
+      font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
+      font-size: 0.98rem;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .verb-file {
+      font-size: 0.64rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .verb-detail {
+      font-size: 0.86rem;
+      line-height: 1.62;
+      color: var(--muted);
+    }
+
+    .trail-list {
+      position: relative;
+      display: grid;
+      gap: 10px;
+      padding-left: 18px;
+    }
+
+    .trail-list::before {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 8px;
+      bottom: 8px;
+      width: 1px;
+      background: linear-gradient(180deg, rgba(10, 108, 104, 0.32), rgba(139, 75, 31, 0.18));
+    }
+
+    .trail-row {
+      position: relative;
+      display: grid;
+      gap: 6px;
+      padding: 0 0 12px;
+      border-bottom: 1px solid rgba(217, 200, 178, 0.48);
+      background: transparent;
+      color: inherit;
+    }
+
+    .trail-row::before {
+      content: "";
+      position: absolute;
+      left: -24px;
+      top: 10px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: rgba(139, 75, 31, 0.48);
+    }
+
+    .trail-row.is-live::before {
+      background: var(--teal);
+      box-shadow: 0 0 0 6px rgba(10, 108, 104, 0.08);
+    }
+
+    .trail-meta {
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.6;
+    }
+
+    .empty {
+      padding: 0;
+      color: var(--muted);
+      font-style: italic;
+      background: transparent;
+      border: 0;
+    }
+
+    @keyframes rise-in {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes body-pulse {
+      0%,
+      100% {
+        transform: translateX(-62%) scale(1);
+      }
+      50% {
+        transform: translateX(-62%) scale(1.04);
+      }
+    }
+
+    @keyframes breath-wave {
+      0%,
+      100% {
+        transform: translateX(-50%) scale(1);
+      }
+      50% {
+        transform: translateX(-50%) scale(1.05);
+      }
+    }
+
+    .organ-heart.active {
+      animation: body-pulse 1.6s ease-in-out infinite;
+    }
+
+    .organ-breath.active {
+      animation: breath-wave 1.9s ease-in-out infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .panel,
+      .organ-heart.active,
+      .organ-breath.active {
+        animation: none;
+      }
+
+      .body-svg .scene-frame-glow,
+      .body-svg .ambient-line,
+      .body-svg .body-river,
+      .body-svg .flow-link,
+      .body-svg .organ-node .node-halo,
+      .body-svg .organ-node .node-icon,
+      .body-svg .organ-heart.active,
+      .body-svg .organ-breath.active {
+        animation: none;
+      }
+
+      .organ-card,
+      .cap-card,
+      .event-row,
+      .rack-card,
+      .organ-node,
+      .speech-cloud,
+      .ghost-button {
+        transition: none;
+      }
+    }
+
+    @media (max-width: 1220px) {
+      .body-layout,
+      .activity-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .scene-body {
+        grid-template-columns: 1fr;
+      }
+
+      .body-stage {
+        display: grid;
+        align-content: start;
+        min-height: 0;
+      }
+
+      .body-svg {
+        height: auto;
+      }
+
+      .scene-status {
+        justify-content: flex-start;
+      }
+
+      .metric-strip,
+      .capability-flow {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .annotation-rail {
+        display: none;
+      }
+
+      .metric-chip {
+        flex: 1 1 180px;
+        max-width: none;
+      }
+
+      .scene-ledger {
+        position: relative;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        margin-top: 10px;
+      }
+
+      .scene-ledger-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .loaded-dock {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .dock-select {
+        grid-column: 1 / -1;
+      }
+
+      .scene-ledger .capability-flow {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .annotation-line.left,
+      .annotation-line.right {
+        padding-left: 0;
+        padding-right: 0;
+        text-align: left;
+      }
+
+      .annotation-line.left::before,
+      .annotation-line.right::before {
+        left: 0;
+        right: auto;
+        background: linear-gradient(90deg, rgba(10, 108, 104, 0.42), transparent);
+      }
+
+      .annotation-line {
+        padding-top: 18px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      header {
+        padding: 28px 18px 12px;
+      }
+
+      main {
+        padding: 12px 18px 28px;
+      }
+
+      .scene {
+        padding: 18px 16px 22px;
+        border-radius: 24px;
+      }
+
+      .scene-toolbar {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .loaded-dock {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .dock-select {
+        grid-column: 1 / -1;
+      }
+
+      .scene-top,
+      .scene-hud {
+        grid-template-columns: 1fr;
+      }
+
+      .capability-flow {
+        grid-template-columns: 1fr;
+      }
+
+      .metric-strip {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .scene.is-loaded .metric-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 10px;
+      }
+
+      .scene.is-loaded .metric-chip {
+        flex: 0 1 124px;
+        min-width: 0;
+        padding: 0 8px 6px 0;
+        border-left: 0;
+        border-bottom: 1px solid rgba(217, 200, 178, 0.48);
+      }
+
+      .metric-chip {
+        flex: initial;
+        max-width: none;
+        padding-left: 0;
+        border-left: 0;
+        border-bottom: 1px solid rgba(217, 200, 178, 0.6);
+      }
+
+      .figure {
+        inset: 160px 10px 126px;
+      }
+
+      .speech-cloud {
+        position: relative;
+        top: auto;
+        right: auto;
+        width: auto;
+        margin: 14px 14px 0;
+      }
+
+      .body-stage {
+        min-height: 920px;
+      }
+
+      .scene-ledger {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        padding: 12px;
+      }
+
+      .scene-ledger .capability-flow {
+        grid-template-columns: 1fr;
+      }
+
+      .scene-ledger-note {
+        gap: 6px;
+      }
+
+      .tool-rack {
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        top: auto;
+        bottom: 120px;
+        width: auto;
+      }
+
+      .organ-left-arm {
+        left: 0;
+      }
+
+      .organ-right-arm {
+        right: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="page-title">Agent Body Viewer</h1>
+    <div id="page-subtitle" class="subtitle">
+      This page treats the handmade agent as a visible virtual person. Load architecture JSON for anatomy, then load a trace JSONL file to see the LLM brain, runtime spine, trace heart, Python arm, external tool arm, breath, and voice light up during a real run.
+    </div>
+  </header>
+
+  <main>
+    <section class="scene">
+      <div class="scene-top">
+        <div class="scene-copy">
+          <div id="scene-eyebrow" class="scene-eyebrow">Single Transparency Surface</div>
+          <p id="scene-copy-text">
+            One canvas, not a dashboard. Load anatomy and trace data, then read the agent as a single living diagram where organs, route, speech, tools, and evidence all stay inside the same scene.
+          </p>
+        </div>
+
+        <div class="scene-toolbar controls">
+          <label>
+            <span id="map-file-label">Architecture JSON</span>
+            <input id="map-file" type="file" accept=".json" />
+          </label>
+          <label>
+            <span id="trace-file-label">Trace JSONL</span>
+            <input id="trace-file" type="file" accept=".jsonl,.log,.txt" />
+          </label>
+          <label>
+            <span id="run-label">Run</span>
+            <select id="run-select" disabled>
+              <option>Select a trace first</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="loaded-dock" class="loaded-dock">
+          <button id="map-dock-button" class="dock-button" type="button">
+            <span id="map-dock-label">Architecture JSON</span>
+            <strong id="map-dock-name">-</strong>
+          </button>
+          <button id="trace-dock-button" class="dock-button" type="button">
+            <span id="trace-dock-label">Trace JSONL</span>
+            <strong id="trace-dock-name">-</strong>
+          </button>
+          <label class="dock-select">
+            <span id="run-dock-label">Run</span>
+            <select id="run-dock-select" disabled>
+              <option>Select a trace first</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div class="scene-hud">
+        <div id="snapshot-stats" class="metric-strip">
+          <div class="empty">Load architecture JSON to establish the body map.</div>
+        </div>
+        <div class="scene-status">
+          <div class="lang-switch" role="group" aria-label="Language switch">
+            <button id="lang-zh" class="lang-button" type="button">中文</button>
+            <button id="lang-en" class="lang-button" type="button">EN</button>
+          </div>
+          <span id="focus-pill" class="status-pill status-warn">Whole body</span>
+          <button id="clear-focus" class="ghost-button" type="button" hidden>Clear focus</button>
+          <span id="status-pill" class="status-pill status-warn">No trace loaded</span>
+        </div>
+      </div>
+
+      <div class="scene-body">
+        <aside id="left-organ-cards" class="annotation-rail">
+          <div class="empty">Load anatomy to map the left side organs.</div>
+        </aside>
+
+        <section class="body-stage">
+          <svg id="body-svg" class="body-svg" viewBox="0 0 760 980" aria-label="Handmade agent body diagram" role="img">
+            <defs>
+              <linearGradient id="panelWash" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="rgba(255,255,255,0.32)" />
+                <stop offset="58%" stop-color="rgba(252,247,238,0.2)" />
+                <stop offset="100%" stop-color="rgba(237,230,217,0.2)" />
+              </linearGradient>
+              <linearGradient id="bodyShellWash" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="rgba(255,255,255,0.36)" />
+                <stop offset="100%" stop-color="rgba(242,228,208,0.16)" />
+              </linearGradient>
+              <radialGradient id="auraTop" cx="50%" cy="20%" r="60%">
+                <stop offset="0%" stop-color="rgba(10,108,104,0.24)" />
+                <stop offset="100%" stop-color="rgba(10,108,104,0)" />
+              </radialGradient>
+              <radialGradient id="auraBottom" cx="50%" cy="80%" r="62%">
+                <stop offset="0%" stop-color="rgba(139,75,31,0.18)" />
+                <stop offset="100%" stop-color="rgba(139,75,31,0)" />
+              </radialGradient>
+            </defs>
+
+            <rect class="scene-frame" x="24" y="24" width="712" height="932" rx="42" />
+            <rect class="scene-frame-glow" x="42" y="42" width="676" height="896" rx="34" />
+            <path class="ambient-line" d="M88 250 C180 190 276 196 382 252 C484 304 578 304 672 242" />
+            <path class="ambient-line copper" d="M96 704 C200 656 286 664 376 716 C476 772 560 772 664 724" />
+            <ellipse class="aura-blob" cx="380" cy="246" rx="170" ry="172" fill="url(#auraTop)" />
+            <ellipse class="aura-blob" cx="380" cy="604" rx="196" ry="244" fill="url(#auraBottom)" />
+
+            <path class="skeleton" d="M380 190 L380 640" />
+            <path class="skeleton" d="M380 272 C320 286 238 322 182 404" />
+            <path class="skeleton" d="M380 272 C440 286 522 322 578 404" />
+            <path class="skeleton" d="M380 640 C350 706 332 768 316 846" />
+            <path class="skeleton" d="M380 640 C410 706 428 768 444 846" />
+
+            <g class="flow-layer" aria-hidden="true">
+              <path id="flow-brain-mouth" class="flow-link" d="M380 192 C380 196 380 198 380 200" />
+              <path id="flow-mouth-breath" class="flow-link" d="M380 258 C380 268 380 274 380 280" />
+              <path id="flow-breath-heart" class="flow-link" d="M368 350 C340 368 322 388 308 402" />
+              <path id="flow-breath-spine" class="flow-link" d="M398 350 C418 390 426 430 429 474" />
+              <path id="flow-heart-spine" class="flow-link" d="M380 446 C398 462 410 472 429 486" />
+              <path id="flow-heart-left-arm" class="flow-link" d="M236 436 C212 438 190 442 164 451" />
+              <path id="flow-heart-right-arm" class="flow-link" d="M380 436 C450 438 526 444 596 451" />
+              <path id="flow-spine-right-arm" class="flow-link" d="M502 510 C546 500 572 482 596 451" />
+              <path id="flow-spine-mouth" class="flow-link" d="M429 474 C418 396 404 322 386 258" />
+            </g>
+
+            <circle class="body-shell" cx="380" cy="164" r="72" />
+            <path class="body-shell" d="M300 248 C312 206 348 186 380 186 C412 186 448 206 460 248 L490 506 C494 566 456 622 380 622 C304 622 266 566 270 506 Z" />
+            <path class="body-shell" d="M268 286 C214 326 180 370 156 448 C150 468 166 482 184 472 C204 462 220 438 236 406 C250 378 266 342 286 316 Z" />
+            <path class="body-shell" d="M492 286 C546 326 580 370 604 448 C610 468 594 482 576 472 C556 462 540 438 524 406 C510 378 494 342 474 316 Z" />
+            <path class="body-shell" d="M336 620 C318 698 304 772 290 852 C286 876 304 890 322 882 C338 876 346 856 352 822 C360 770 370 712 380 664 Z" />
+            <path class="body-shell" d="M424 620 C442 698 456 772 470 852 C474 876 456 890 438 882 C422 876 414 856 408 822 C400 770 390 712 380 664 Z" />
+            <ellipse class="body-core" cx="380" cy="410" rx="78" ry="164" />
+            <path class="body-river glow" d="M380 224 C370 286 368 346 372 414 C376 486 378 560 380 622" />
+            <path class="body-river" d="M380 224 C370 286 368 346 372 414 C376 486 378 560 380 622" />
+            <path class="body-river secondary" d="M362 306 C328 348 314 406 316 468" />
+            <path class="body-river secondary" d="M398 306 C432 348 446 406 444 468" />
+
+            <g id="organ-brain" class="organ-node organ-brain" data-organ="brain" role="button" tabindex="0" aria-pressed="false">
+              <circle class="node-halo" cx="380" cy="154" r="56" />
+              <path class="node-shell" d="M314 166 C314 150 322 138 336 132 C340 120 352 112 366 112 C374 112 382 114 388 118 C394 112 404 109 414 109 C432 109 447 120 451 136 C460 142 466 153 466 166 C466 183 452 197 434 197 H346 C328 197 314 183 314 166 Z" />
+              <path class="node-icon" d="M346 148 C356 140 368 140 378 148" />
+              <path class="node-icon" d="M382 154 C392 146 404 146 414 154" />
+              <text class="node-name" x="380" y="146">LLM Brain</text>
+              <text id="organ-brain-stat" class="node-stat" x="380" y="168">idle</text>
+            </g>
+
+            <g id="organ-mouth" class="organ-node organ-mouth" data-organ="mouth" role="button" tabindex="0" aria-pressed="false">
+              <circle class="node-halo" cx="380" cy="229" r="44" />
+              <path class="node-shell" d="M324 214 C326 201 338 192 352 192 H408 C422 192 434 201 436 214 C438 223 434 232 426 237 L388 259 C383 262 377 262 372 259 L334 237 C326 232 322 223 324 214 Z" />
+              <path class="node-icon" d="M352 226 C360 235 400 235 408 226" />
+              <text class="node-name" x="380" y="224">Voice</text>
+              <text id="organ-mouth-stat" class="node-stat" x="380" y="244">silent</text>
+            </g>
+
+            <g id="organ-breath" class="organ-node organ-breath" data-organ="breath" role="button" tabindex="0" aria-pressed="false">
+              <circle class="node-halo" cx="380" cy="315" r="52" />
+              <path class="node-shell" d="M314 304 C314 288 326 276 342 276 C356 276 368 286 372 300 L372 338 C370 350 360 358 348 358 C328 358 314 342 314 322 Z" />
+              <path class="node-shell" d="M446 304 C446 288 434 276 418 276 C404 276 392 286 388 300 L388 338 C390 350 400 358 412 358 C432 358 446 342 446 322 Z" />
+              <path class="node-icon" d="M380 278 V346" />
+              <path class="node-icon" d="M368 296 C360 304 360 318 368 326" />
+              <path class="node-icon" d="M392 296 C400 304 400 318 392 326" />
+              <text class="node-name" x="380" y="308">Model Breath</text>
+              <text id="organ-breath-stat" class="node-stat" x="380" y="330">offline</text>
+            </g>
+
+            <g id="organ-heart" class="organ-node organ-heart" data-organ="heart" role="button" tabindex="0" aria-pressed="false">
+              <circle class="node-halo" cx="308" cy="436" r="50" />
+              <path class="node-shell" d="M308 470 C276 450 244 430 244 414 C244 396 258 384 276 384 C290 384 301 392 308 404 C315 392 326 384 340 384 C358 384 372 396 372 414 C372 430 340 450 308 470 Z" />
+              <path class="node-icon" d="M280 426 H294 L302 416 L312 436 L320 424 H336" />
+              <text class="node-name" x="308" y="430">Trace Heart</text>
+              <text id="organ-heart-stat" class="node-stat" x="308" y="452">no pulse</text>
+            </g>
+
+            <g id="organ-spine" class="organ-node organ-spine" data-organ="spine" role="button" tabindex="0" aria-pressed="false">
+              <circle class="node-halo" cx="429" cy="510" r="52" />
+              <rect class="node-shell" x="376" y="468" width="106" height="16" rx="8" />
+              <rect class="node-shell" x="368" y="488" width="122" height="16" rx="8" />
+              <rect class="node-shell" x="372" y="508" width="114" height="16" rx="8" />
+              <rect class="node-shell" x="380" y="528" width="98" height="16" rx="8" />
+              <path class="node-icon" d="M429 472 V540" />
+              <text class="node-name" x="429" y="502">Runtime Spine</text>
+              <text id="organ-spine-stat" class="node-stat" x="429" y="524">no steps</text>
+            </g>
+
+            <g id="organ-left-arm" class="organ-node organ-left-arm" data-organ="leftArm" role="button" tabindex="0" aria-pressed="false">
+              <circle class="node-halo" cx="164" cy="451" r="52" />
+              <path class="node-shell" d="M94 430 C94 418 104 408 116 408 H206 C218 408 228 418 228 430 V442 H214 V432 C214 426 210 422 204 422 H126 C120 422 116 426 116 432 V470 C116 476 120 480 126 480 H204 C210 480 214 476 214 470 V460 H228 V472 C228 484 218 494 206 494 H116 C104 494 94 484 94 472 Z" />
+              <path class="node-icon" d="M140 432 L130 442 L140 452" />
+              <path class="node-icon" d="M188 432 L198 442 L188 452" />
+              <text class="node-name" x="164" y="444">Python Arm</text>
+              <text id="organ-left-arm-stat" class="node-stat" x="164" y="466">resting</text>
+            </g>
+
+            <g id="organ-right-arm" class="organ-node organ-right-arm" data-organ="rightArm" role="button" tabindex="0" aria-pressed="false">
+              <circle class="node-halo" cx="596" cy="451" r="52" />
+              <path class="node-shell" d="M526 430 C526 418 536 408 548 408 H638 C650 408 660 418 660 430 V472 C660 484 650 494 638 494 H548 C536 494 526 484 526 472 V460 H540 V470 C540 476 544 480 550 480 H628 C634 480 638 476 638 470 V432 C638 426 634 422 628 422 H550 C544 422 540 426 540 432 V442 H526 Z" />
+              <path class="node-icon" d="M582 432 L592 442 L586 448 L576 438 Z" />
+              <circle class="node-accent" cx="602" cy="452" r="5" />
+              <text class="node-name" x="596" y="444">Tool Arm</text>
+              <text id="organ-right-arm-stat" class="node-stat" x="596" y="466">resting</text>
+            </g>
+
+            <foreignObject x="484" y="66" width="232" height="164">
+              <div xmlns="http://www.w3.org/1999/xhtml" id="speech-cloud" class="speech-card">
+                <div id="speech-label" class="speech-label">Voice</div>
+                <div id="speech-text" class="speech-text">Load a trace to hear what this virtual person says at the end of a run.</div>
+              </div>
+            </foreignObject>
+
+            <foreignObject x="520" y="530" width="190" height="170">
+              <article xmlns="http://www.w3.org/1999/xhtml" id="tool-rack-card" class="rack-card tool-rack-panel">
+                <h3 id="tool-rack-title" class="rack-title">Hands and Tool Rack</h3>
+                <div id="tool-rack-row" class="chip-row">
+                  <div class="empty">Load a trace to see what the hands held.</div>
+                </div>
+              </article>
+            </foreignObject>
+
+          </svg>
+
+          <div class="scene-ledger">
+            <div class="scene-ledger-grid">
+              <section class="ledger-panel">
+                <div id="support-stack" class="story-strip">
+                  <div class="empty">Support panels will appear after loading data.</div>
+                </div>
+              </section>
+
+              <section class="ledger-panel">
+                <div id="capability-deck" class="capability-flow">
+                  <div class="empty">Capabilities will appear after loading anatomy or pulse data.</div>
+                </div>
+              </section>
+
+              <section class="ledger-panel">
+                <div id="event-feed" class="trail-list">
+                  <div class="empty">Load a trace to see the recent body activity feed.</div>
+                </div>
+              </section>
+            </div>
+
+            <div class="scene-ledger-note">
+              <span id="ground-title" class="ground-title">Workspace Ground</span>
+              <span id="ground-text" class="ground-text">Load architecture JSON to place this virtual person inside the repository.</span>
+            </div>
+          </div>
+        </section>
+
+        <aside id="right-organ-cards" class="annotation-rail">
+          <div class="empty">Load anatomy to map the right side organs.</div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const state = {
+      mapPayload: null,
+      mapFileName: '',
+      traceEvents: [],
+      traceFileName: '',
+      groupedRuns: {},
+      activeRunId: null,
+      selectedOrgan: null,
+      locale: getInitialLocale(),
+    };
+
+    const pageBody = document.body;
+    const sceneShell = document.querySelector('.scene');
+
+    const ALL_ORGANS = ['brain', 'mouth', 'breath', 'heart', 'spine', 'leftArm', 'rightArm'];
+
+    const ORGAN_LAYOUT = {
+      left: ['brain', 'heart', 'leftArm'],
+      right: ['breath', 'spine', 'rightArm'],
+    };
+
+    const ORGAN_DEFINITIONS = {
+      brain: {
+        title: { en: 'LLM Brain', zh: 'LLM 大脑' },
+        file: 'runtime.py',
+        module: 'runtime',
+        role: {
+          en: 'Forms intent, planning, and tool choice before any action reaches the body.',
+          zh: '在动作发生之前形成意图、规划步骤，并决定是否调用工具。',
+        },
+      },
+      mouth: {
+        title: { en: 'Voice', zh: '发声口' },
+        file: 'runtime.py',
+        module: 'runtime',
+        role: {
+          en: 'Turns internal run state into the outward answer that the user hears.',
+          zh: '把内部运行结果转成用户真正看到的回答。',
+        },
+      },
+      heart: {
+        title: { en: 'Trace Heart', zh: '追踪心脏' },
+        file: 'trace.py',
+        module: 'trace',
+        role: {
+          en: 'Turns every thought and movement into JSONL pulse, so the agent stays inspectable.',
+          zh: '把每一次思考和动作都写成 JSONL 脉冲，让整个 agent 可回放、可检查。',
+        },
+      },
+      leftArm: {
+        title: { en: 'Python Arm', zh: 'Python 手臂' },
+        file: 'tools.py',
+        module: 'tools',
+        role: {
+          en: 'Reaches into the workspace for local file and command actions.',
+          zh: '伸进工作区执行本地文件操作和命令动作。',
+        },
+      },
+      breath: {
+        title: { en: 'Model Breath', zh: '模型呼吸' },
+        file: 'server.py',
+        module: 'server',
+        role: {
+          en: 'Keeps the local llama.cpp body alive, responsive, and ready to reason.',
+          zh: '维持本地 llama.cpp 身体处于存活、响应和可推理状态。',
+        },
+      },
+      spine: {
+        title: { en: 'Runtime Spine', zh: '运行脊柱' },
+        file: 'runtime.py',
+        module: 'runtime',
+        role: {
+          en: 'Coordinates the whole run: receive, think, call, validate, answer.',
+          zh: '协调整次运行：接收、思考、调用、校验、回答。',
+        },
+      },
+      rightArm: {
+        title: { en: 'External Tool Arm', zh: '外部工具臂' },
+        file: 'tools.py',
+        module: 'tools',
+        role: {
+          en: 'Holds validators and external instruments such as ruff, pytest, bandit, radon, and trivy.',
+          zh: '握着 ruff、pytest、bandit、radon、trivy 这类校验器和外部工具。',
+        },
+      },
+    };
+
+    const pageTitle = document.getElementById('page-title');
+    const pageSubtitle = document.getElementById('page-subtitle');
+    const sceneEyebrow = document.getElementById('scene-eyebrow');
+    const sceneCopyText = document.getElementById('scene-copy-text');
+    const mapFileLabel = document.getElementById('map-file-label');
+    const traceFileLabel = document.getElementById('trace-file-label');
+    const runLabel = document.getElementById('run-label');
+    const mapFileInput = document.getElementById('map-file');
+    const traceFileInput = document.getElementById('trace-file');
+    const runSelect = document.getElementById('run-select');
+    const loadedDock = document.getElementById('loaded-dock');
+    const mapDockButton = document.getElementById('map-dock-button');
+    const traceDockButton = document.getElementById('trace-dock-button');
+    const mapDockLabel = document.getElementById('map-dock-label');
+    const traceDockLabel = document.getElementById('trace-dock-label');
+    const runDockLabel = document.getElementById('run-dock-label');
+    const mapDockName = document.getElementById('map-dock-name');
+    const traceDockName = document.getElementById('trace-dock-name');
+    const runDockSelect = document.getElementById('run-dock-select');
+    const langZhButton = document.getElementById('lang-zh');
+    const langEnButton = document.getElementById('lang-en');
+    const focusPill = document.getElementById('focus-pill');
+    const clearFocusButton = document.getElementById('clear-focus');
+    const statusPill = document.getElementById('status-pill');
+    const snapshotStats = document.getElementById('snapshot-stats');
+    const leftOrganCards = document.getElementById('left-organ-cards');
+    const rightOrganCards = document.getElementById('right-organ-cards');
+    const capabilityDeck = document.getElementById('capability-deck');
+    const eventFeed = document.getElementById('event-feed');
+    const supportStack = document.getElementById('support-stack');
+    const speechCloud = document.getElementById('speech-cloud');
+    const speechLabel = document.getElementById('speech-label');
+    const speechText = document.getElementById('speech-text');
+    const toolRackCard = document.getElementById('tool-rack-card');
+    const toolRackTitle = document.getElementById('tool-rack-title');
+    const toolRackRow = document.getElementById('tool-rack-row');
+    const groundTitle = document.getElementById('ground-title');
+    const groundText = document.getElementById('ground-text');
+    const bodySvg = document.getElementById('body-svg');
+
+    leftOrganCards.addEventListener('click', handleOrganActivation);
+    rightOrganCards.addEventListener('click', handleOrganActivation);
+    bodySvg.addEventListener('click', handleOrganActivation);
+
+    leftOrganCards.addEventListener('keydown', handleOrganKeydown);
+    rightOrganCards.addEventListener('keydown', handleOrganKeydown);
+    bodySvg.addEventListener('keydown', handleOrganKeydown);
+
+    langZhButton.addEventListener('click', () => setLocale('zh'));
+    langEnButton.addEventListener('click', () => setLocale('en'));
+    mapDockButton.addEventListener('click', () => mapFileInput.click());
+    traceDockButton.addEventListener('click', () => traceFileInput.click());
+
+    clearFocusButton.addEventListener('click', () => {
+      state.selectedOrgan = null;
+      render();
+    });
+
+    runDockSelect.addEventListener('change', () => {
+      runSelect.value = runDockSelect.value;
+      state.activeRunId = runDockSelect.value || null;
+      render();
+    });
+
+    mapFileInput.addEventListener('change', async (event) => {
+      const [file] = event.target.files;
+      if (!file) return;
+
+      state.mapFileName = file.name;
+      state.mapPayload = JSON.parse(await file.text());
+      render();
+    });
+
+    traceFileInput.addEventListener('change', async (event) => {
+      const [file] = event.target.files;
+      if (!file) return;
+
+      state.traceFileName = file.name;
+      state.traceEvents = parseJsonl(await file.text());
+      state.groupedRuns = groupRuns(state.traceEvents);
+      const runIds = Object.keys(state.groupedRuns).sort();
+      renderRunOptions(runIds);
+      state.activeRunId = runIds.length ? runIds[runIds.length - 1] : null;
+      if (state.activeRunId) {
+        runSelect.value = state.activeRunId;
+      }
+      render();
+    });
+
+    runSelect.addEventListener('change', () => {
+      state.activeRunId = runSelect.value || null;
+      runDockSelect.value = runSelect.value || '';
+      render();
+    });
+
+    function render() {
+      applyStaticCopy();
+      const overlay = buildRuntimeOverlay(getActiveRunEvents());
+      const hasLoadedData = Boolean(state.mapPayload || state.traceEvents.length);
+      pageBody.classList.toggle('has-live-scene', hasLoadedData);
+      sceneShell.classList.toggle('is-loaded', hasLoadedData);
+      loadedDock.hidden = !hasLoadedData;
+      renderLoadedDock();
+      renderSnapshot(overlay);
+      renderFocusState(overlay);
+      renderOrganCards(overlay);
+      renderBody(overlay);
+      renderCapabilities(overlay);
+      renderEvents(overlay);
+      renderSupportPanels(overlay);
+    }
+
+    function renderSnapshot(overlay) {
+      if (!state.mapPayload && !overlay.hasTrace) {
+        snapshotStats.innerHTML = `<div class="empty">${escapeHtml(pick('Load architecture JSON to establish the body map.', '加载架构 JSON 后，这里会建立身体地图。'))}</div>`;
+        return;
+      }
+
+      const modules = state.mapPayload?.modules || [];
+      const routes = state.mapPayload?.routes || [];
+
+      snapshotStats.innerHTML = [
+        metricChip(pick('Run', '运行'), overlay.runId || pick('none', '无')),
+        metricChip(pick('Mapped Modules', '模块数量'), modules.length || 4),
+        metricChip(pick('Routes', '路线数量'), routes.length || '-'),
+        metricChip(pick('Trace Beats', 'Trace 脉冲'), overlay.eventsCount || 0),
+      ].join('');
+    }
+
+    function renderLoadedDock() {
+      mapDockName.textContent = state.mapFileName || pick('Load architecture JSON', '加载架构 JSON');
+      traceDockName.textContent = state.traceFileName || pick('Load trace JSONL', '加载 trace JSONL');
+      runDockSelect.value = state.activeRunId || '';
+    }
+
+    function renderOrganCards(overlay) {
+      leftOrganCards.innerHTML = renderOrganColumn(ORGAN_LAYOUT.left, overlay, 'left');
+      rightOrganCards.innerHTML = renderOrganColumn(ORGAN_LAYOUT.right, overlay, 'right');
+    }
+
+    function renderOrganColumn(ids, overlay, side) {
+      return ids.map((id) => {
+        const organ = getOrganDefinition(id);
+        const moduleInfo = getModuleInfo(organ.module);
+        const count = overlay.organCounts[id] || 0;
+        const liveClass = count ? 'is-live' : 'is-cold';
+        const selectedClass = state.selectedOrgan === id ? 'is-selected' : '';
+        const dimmedClass = state.selectedOrgan && state.selectedOrgan !== id ? 'is-dimmed' : '';
+        return `
+          <article class="annotation-line ${side} ${liveClass} ${selectedClass} ${dimmedClass}" data-organ="${id}" role="button" tabindex="0" aria-pressed="${state.selectedOrgan === id ? 'true' : 'false'}">
+            <div class="annotation-kicker">${escapeHtml(organ.file)} · ${escapeHtml(moduleInfo.summary)}</div>
+            <h3 class="annotation-title">${escapeHtml(organ.title)} ${count ? `<span class="organ-badge ${count ? 'organ-live' : 'organ-cold'}">${count ? `x${count}` : 'idle'}</span>` : ''}</h3>
+            <div class="annotation-body">${escapeHtml(organ.role)}</div>
+            <div class="annotation-proof">${escapeHtml(renderOrganEvidence(id, overlay))}</div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function renderBody(overlay) {
+      statusPill.textContent = overlay.hasTrace ? localizeStatus(overlay.status) : pick('No trace loaded', '未加载 trace');
+      statusPill.className = `status-pill ${overlay.hasTrace ? statusClass(overlay.status) : 'status-warn'}`;
+
+      speechText.textContent = overlay.finalAnswer || pick('Load a trace to hear what this virtual person says at the end of a run.', '加载 trace 后可看到这次运行最后说出的内容。');
+      speechCloud.classList.toggle('is-speaking', Boolean(overlay.finalAnswer));
+
+      updateOrganNode('brain', 'brain', overlay.organCounts.brain, overlay.organLabels.brain);
+      updateOrganNode('mouth', 'mouth', overlay.organCounts.mouth, overlay.organLabels.mouth);
+      updateOrganNode('breath', 'breath', overlay.organCounts.breath, overlay.organLabels.breath, 'warm');
+      updateOrganNode('heart', 'heart', overlay.organCounts.heart, overlay.organLabels.heart);
+      updateOrganNode('spine', 'spine', overlay.organCounts.spine, overlay.organLabels.spine);
+      updateOrganNode('left-arm', 'leftArm', overlay.organCounts.leftArm, overlay.organLabels.leftArm, 'warm');
+      updateOrganNode('right-arm', 'rightArm', overlay.organCounts.rightArm, overlay.organLabels.rightArm, 'warm');
+      updateFlowLinks(overlay);
+
+      const toolRackItems = getFocusedToolRack(overlay);
+      toolRackTitle.textContent = getToolRackTitle();
+      toolRackCard.classList.toggle('is-live', toolRackItems.length > 0);
+
+      if (!toolRackItems.length) {
+        toolRackRow.innerHTML = `<div class="empty">${escapeHtml(getToolRackEmptyText())}</div>`;
+      } else {
+        toolRackRow.innerHTML = toolRackItems.map((item) => `<span class="chip is-live">${escapeHtml(item)}</span>`).join('');
+      }
+
+      groundText.textContent = truncateText(buildGroundText(overlay), 180);
+    }
+
+    function updateFlowLinks(overlay) {
+      const links = Array.from(bodySvg.querySelectorAll('.flow-link'));
+      for (const link of links) {
+        link.classList.remove('is-live', 'is-focus', 'is-strong');
+        link.style.removeProperty('--flow-intensity');
+      }
+
+      const route = state.selectedOrgan ? getFocusedRoute(overlay) : overlay.flatSequence;
+      if (!route.length) {
+        return;
+      }
+
+      const routeMap = {
+        'brain->mouth': 'flow-brain-mouth',
+        'mouth->brain': 'flow-brain-mouth',
+        'mouth->breath': 'flow-mouth-breath',
+        'breath->mouth': 'flow-mouth-breath',
+        'breath->heart': 'flow-breath-heart',
+        'heart->breath': 'flow-breath-heart',
+        'breath->spine': 'flow-breath-spine',
+        'spine->breath': 'flow-breath-spine',
+        'heart->spine': 'flow-heart-spine',
+        'spine->heart': 'flow-heart-spine',
+        'heart->leftArm': 'flow-heart-left-arm',
+        'leftArm->heart': 'flow-heart-left-arm',
+        'heart->rightArm': 'flow-heart-right-arm',
+        'rightArm->heart': 'flow-heart-right-arm',
+        'spine->rightArm': 'flow-spine-right-arm',
+        'rightArm->spine': 'flow-spine-right-arm',
+        'spine->mouth': 'flow-spine-mouth',
+        'mouth->spine': 'flow-spine-mouth',
+      };
+
+      const routeHitCounts = new Map();
+
+      for (let i = 0; i < route.length - 1; i += 1) {
+        const key = `${route[i]}->${route[i + 1]}`;
+        const id = routeMap[key];
+        if (!id) {
+          continue;
+        }
+        const node = document.getElementById(id);
+        if (!node) {
+          continue;
+        }
+        node.classList.add('is-live');
+        routeHitCounts.set(id, (routeHitCounts.get(id) || 0) + 1);
+        if (state.selectedOrgan && (route[i] === state.selectedOrgan || route[i + 1] === state.selectedOrgan)) {
+          node.classList.add('is-focus');
+        }
+      }
+
+      for (const [id, count] of routeHitCounts.entries()) {
+        const node = document.getElementById(id);
+        if (!node) {
+          continue;
+        }
+        node.style.setProperty('--flow-intensity', String(Math.min(count, 4)));
+        if (count > 1) {
+          node.classList.add('is-strong');
+        }
+      }
+    }
+
+    function updateOrganNode(id, organKey, count, label, flavor = 'active') {
+      const node = document.getElementById(`organ-${id}`);
+      const stat = document.getElementById(`organ-${id}-stat`);
+      const organ = getOrganDefinition(organKey);
+      const isSelected = state.selectedOrgan === organKey;
+      const isDimmed = Boolean(state.selectedOrgan) && !isSelected;
+      node.classList.remove('active', 'warm', 'is-selected', 'is-dimmed');
+      if (count > 0) {
+        node.classList.add(flavor === 'warm' ? 'warm' : 'active');
+      }
+      if (isSelected) {
+        node.classList.add('is-selected');
+      }
+      if (isDimmed) {
+        node.classList.add('is-dimmed');
+      }
+      node.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+      node.setAttribute('aria-label', `${organ.title}: ${label}`);
+      stat.textContent = label;
+    }
+
+    function renderCapabilities(overlay) {
+      const cards = [
+        {
+          title: pick('Think', '思考'),
+          file: 'runtime.py',
+          badge: overlay.organCounts.brain ? pick(`live x${overlay.organCounts.brain}`, `活跃 x${overlay.organCounts.brain}`) : pick('idle', '空闲'),
+          badgeClass: overlay.organCounts.brain ? 'cap-live' : 'cap-warm',
+          detail: overlay.hasTrace ? pick(`${overlay.llmExchangeCount} model exchange events`, `${overlay.llmExchangeCount} 次模型交互`) : pick('LLM intent and tool choice happen here.', 'LLM 的意图形成与工具选择发生在这里。'),
+          organs: ['brain'],
+        },
+        {
+          title: pick('Coordinate', '协调'),
+          file: 'runtime.py',
+          badge: overlay.stepsCount ? pick(`${overlay.stepsCount} steps`, `${overlay.stepsCount} 步`) : pick('no run', '无运行'),
+          badgeClass: overlay.stepsCount ? 'cap-live' : 'cap-warm',
+          detail: overlay.hasTrace ? pick(`${overlay.runLifecycleCount} run lifecycle beats kept the body upright`, `${overlay.runLifecycleCount} 个运行生命周期脉冲维持了身体节律`) : pick('The runtime spine sequences the whole body.', '运行脊柱负责串起整张身体图。'),
+          organs: ['spine'],
+        },
+        {
+          title: pick('Remember', '记忆'),
+          file: 'trace.py',
+          badge: overlay.eventsCount ? pick(`${overlay.eventsCount} beats`, `${overlay.eventsCount} 脉冲`) : pick('quiet', '静默'),
+          badgeClass: overlay.eventsCount ? 'cap-live' : 'cap-warm',
+          detail: overlay.hasTrace ? pick(`${overlay.eventsCount} JSONL beats were recorded for replay and inspection`, `${overlay.eventsCount} 条 JSONL 脉冲已记录，可回放、可检查`) : pick('The trace heart keeps the body inspectable.', '追踪心脏让这具身体可以被回放和检查。'),
+          organs: ['heart'],
+        },
+        {
+          title: pick('Reach', '伸手'),
+          file: 'tools.py',
+          badge: overlay.nativeActionCount ? `x${overlay.nativeActionCount}` : pick('resting', '静止'),
+          badgeClass: overlay.nativeActionCount ? 'cap-live' : 'cap-warm',
+          detail: overlay.hasTrace ? pick(`${overlay.nativeToolNames.length || 0} local tools used`, `使用了 ${overlay.nativeToolNames.length || 0} 个本地工具`) : pick('Local Python actions reach into files and commands.', '本地 Python 动作用来操作文件和命令。'),
+          organs: ['leftArm'],
+        },
+        {
+          title: pick('Check', '检查'),
+          file: 'tools.py + trace.py',
+          badge: overlay.validatorNames.length ? pick(`${overlay.validatorNames.length} validators`, `${overlay.validatorNames.length} 个校验器`) : pick('no checks', '无检查'),
+          badgeClass: overlay.validatorNames.length ? 'cap-live' : 'cap-warm',
+          detail: overlay.hasTrace ? overlay.qualityText : pick('Validators and quality gates make the body trustworthy.', '校验器和质量门让这具身体更可信。'),
+          organs: ['rightArm'],
+        },
+        {
+          title: pick('Breathe', '呼吸'),
+          file: 'server.py',
+          badge: overlay.organCounts.breath ? pick(`live x${overlay.organCounts.breath}`, `活跃 x${overlay.organCounts.breath}`) : pick('offline', '离线'),
+          badgeClass: overlay.organCounts.breath ? 'cap-live' : 'cap-warm',
+          detail: overlay.hasTrace ? pick(`${overlay.organCounts.breath} server lifecycle beats kept llama.cpp alive`, `${overlay.organCounts.breath} 个服务生命周期脉冲让 llama.cpp 保持活着`) : pick('The local server gives the body breath.', '本地服务提供这具身体的呼吸。'),
+          organs: ['breath'],
+        },
+        {
+          title: pick('Speak', '发声'),
+          file: 'runtime.py',
+          badge: overlay.finalAnswer ? pick('speaking', '正在发声') : pick('silent', '静默'),
+          badgeClass: overlay.finalAnswer ? 'cap-live' : 'cap-warm',
+          detail: overlay.finalAnswer || pick('The mouth turns internal state into a user-facing answer.', '发声口把内部状态变成用户看到的回答。'),
+          organs: ['mouth'],
+        },
+      ];
+
+      const defaultCapabilityOrgans = ['brain', 'spine', 'rightArm', 'mouth'];
+      const defaultCards = [];
+      for (const organId of defaultCapabilityOrgans) {
+        const card = cards.find((entry) => entry.organs.includes(organId));
+        if (card && !defaultCards.includes(card)) {
+          defaultCards.push(card);
+        }
+      }
+
+      const candidateCards = state.selectedOrgan
+        ? filterBySelectedOrgan(cards, (card) => card.organs)
+        : defaultCards;
+      const visibleCards = candidateCards.slice(0, state.selectedOrgan ? 3 : 4);
+
+      capabilityDeck.innerHTML = visibleCards.length ? visibleCards.map((card) => `
+        <article class="verb-marker ${card.badgeClass === 'cap-live' ? 'is-live' : 'is-cold'}">
+          <div class="verb-header">
+            <div class="verb-name">${escapeHtml(card.title)}</div>
+            <span class="cap-badge ${card.badgeClass}">${escapeHtml(card.badge)}</span>
+          </div>
+          <div class="verb-file">${escapeHtml(card.file)}</div>
+          <div class="verb-detail">${escapeHtml(truncateText(card.detail, 92))}</div>
+        </article>
+      `).join('') : `<div class="empty">${escapeHtml(pick(`No capability cards are mapped to ${getSelectedOrganDefinition()?.title || 'this focus'}.`, `当前没有能力卡映射到 ${getSelectedOrganDefinition()?.title || '该聚焦对象'}。`))}</div>`;
+    }
+
+    function renderEvents(overlay) {
+      if (!overlay.hasTrace) {
+        eventFeed.innerHTML = `<div class="empty">${escapeHtml(pick('Load a trace to see the recent body activity feed.', '加载 trace 后可看到最近的身体活动流。'))}</div>`;
+        return;
+      }
+
+      const visibleEvents = filterBySelectedOrgan(overlay.recentEvents, (eventInfo) => eventInfo.organs).slice(0, 3);
+
+      eventFeed.innerHTML = visibleEvents.length
+        ? visibleEvents.map((eventInfo) => `
+            <article class="trail-row ${eventInfo.live ? 'is-live' : ''}">
+              <div class="event-top">
+                <div class="event-name">${escapeHtml(eventInfo.name)}</div>
+                <span class="event-pill ${eventInfo.statusClass}">${escapeHtml(eventInfo.badge)}</span>
+              </div>
+              <div class="trail-meta">${escapeHtml(truncateText(eventInfo.detail, 88))}</div>
+            </article>
+          `).join('')
+        : `<div class="empty">${escapeHtml(state.selectedOrgan ? pick(`No recent events touched ${getSelectedOrganDefinition().title}.`, `最近没有事件触达 ${getSelectedOrganDefinition().title}。`) : pick('No recent events available.', '当前没有可显示的最近事件。'))}</div>`;
+    }
+
+    function renderSupportPanels(overlay) {
+      const focusDefinition = getSelectedOrganDefinition();
+      const focusRoute = getFocusedRoute(overlay);
+      const panels = [
+        {
+          title: pick('Focus', '聚焦'),
+          live: Boolean(focusDefinition),
+          content: focusDefinition
+            ? `${focusDefinition.role} ${renderOrganEvidence(state.selectedOrgan, overlay)}`
+            : pick('Click any organ card or body node to focus the feed, capability deck, and tool rack.', '点击任意器官注释或身体节点，可聚焦活动流、能力流和工具架。'),
+        },
+        {
+          title: pick('Route', '路线'),
+          live: focusRoute.length > 0,
+          content: focusRoute.length
+            ? focusRoute.map((organId) => getOrganTitle(organId)).join(' -> ')
+            : state.selectedOrgan
+              ? pick(`${focusDefinition.title} was not part of the observed route in the current run.`, `${focusDefinition.title} 不在这次观测到的路线中。`)
+              : pick('No body route yet. Load a trace to see the sequence of active organs.', '当前还没有身体路线，加载 trace 后会看到器官激活顺序。'),
+        },
+        {
+          title: pick('Anchor', '锚点'),
+          live: Boolean(state.mapPayload),
+          content: buildArchitectureAnchorText(),
+        },
+      ];
+
+      supportStack.innerHTML = panels.map((panel) => `
+        <article class="story-line ${panel.live ? 'is-live' : ''}">
+          <div class="story-label">${escapeHtml(panel.title)} · ${panel.live ? pick('live', '生效中') : pick('pending', '待加载')}</div>
+          <div class="story-text">${escapeHtml(truncateText(panel.content, 118))}</div>
+        </article>
+      `).join('');
+    }
+
+    function getActiveRunEvents() {
+      if (!state.activeRunId) {
+        return [];
+      }
+
+      const runEvents = state.groupedRuns[state.activeRunId] || [];
+      const sessionEvents = state.traceEvents.filter((event) => !event.run_id);
+      return [...sessionEvents, ...runEvents].sort((left, right) => (left.ts || 0) - (right.ts || 0));
+    }
+
+    function buildRuntimeOverlay(events) {
+      if (!events.length) {
+        return emptyOverlay();
+      }
+
+      const finalAnswerEvent = findLast(events, (event) => event.event === 'final_answer');
+      const finishEvent = findLast(events, (event) => event.event === 'run_finished' || event.event === 'run_failed');
+      const qualityEvent = findLast(events, (event) => event.event === 'quality_gate');
+      const qualityToolEvent = findLast(events, (event) => event.event === 'tool_result' && event.tool_name === 'run_quality_gate');
+      const steps = new Set(events.filter((event) => Number.isInteger(event.step)).map((event) => event.step));
+      const toolEvents = events.filter((event) => ['tool_call', 'tool_result', 'tool_call_duplicate'].includes(event.event));
+      const eventFlows = events.map((event) => ({
+        event,
+        organs: mapEventToBodyFlow(event),
+      }));
+      const nativeToolNames = uniqueOrdered(toolEvents.map((event) => event.tool_name).filter((name) => name && name !== 'run_quality_gate'));
+      const validatorNames = extractValidatorNames(qualityToolEvent);
+      const toolRack = uniqueOrdered([
+        ...nativeToolNames,
+        ...toolEvents.map((event) => event.tool_name).filter(Boolean),
+        ...validatorNames,
+      ]);
+      const toolRackByOrgan = {
+        leftArm: nativeToolNames,
+        rightArm: uniqueOrdered([
+          ...toolEvents.map((event) => event.tool_name).filter((name) => name === 'run_quality_gate'),
+          ...validatorNames,
+        ]),
+      };
+      const organRoutes = Object.fromEntries(ALL_ORGANS.map((organId) => [
+        organId,
+        compactSequence(eventFlows.filter((item) => item.organs.includes(organId)).flatMap((item) => item.organs)),
+      ]));
+
+      const organCounts = {
+        brain: events.filter((event) => event.event === 'llm_request' || event.event === 'llm_response').length,
+        spine: events.filter((event) => ['run_started', 'run_finished', 'run_failed', 'llm_request', 'llm_response', 'tool_call', 'tool_result', 'tool_call_duplicate', 'quality_gate', 'final_answer'].includes(event.event)).length,
+        heart: events.length,
+        leftArm: toolEvents.filter((event) => event.tool_name && event.tool_name !== 'run_quality_gate').length,
+        rightArm: toolEvents.filter((event) => event.tool_name === 'run_quality_gate').length + (qualityEvent ? 1 : 0),
+        breath: events.filter((event) => ['server_starting', 'server_ready', 'server_stopped'].includes(event.event)).length,
+        mouth: finalAnswerEvent ? 1 : 0,
+      };
+
+      return {
+        hasTrace: true,
+        runId: findLast(events, (event) => Boolean(event.run_id))?.run_id || null,
+        status: finishEvent?.status || 'running',
+        eventsCount: events.length,
+        stepsCount: steps.size,
+        llmExchangeCount: organCounts.brain,
+        runLifecycleCount: events.filter((event) => ['run_started', 'run_finished', 'run_failed'].includes(event.event)).length,
+        toolCalls: events.filter((event) => event.event === 'tool_call').length,
+        duplicates: events.filter((event) => event.event === 'tool_call_duplicate').length,
+        nativeActionCount: organCounts.leftArm,
+        nativeToolNames,
+        validatorNames,
+        toolRack,
+        toolRackByOrgan,
+        organCounts,
+        organRoutes,
+        organLabels: {
+          brain: organCounts.brain ? pick(`${organCounts.brain} reasoning beats`, `${organCounts.brain} 次推理脉冲`) : pick('idle', '空闲'),
+          mouth: finalAnswerEvent ? pick('voice captured', '已发声') : pick('silent', '静默'),
+          breath: organCounts.breath ? pick(`${organCounts.breath} breath events`, `${organCounts.breath} 次呼吸事件`) : pick('offline', '离线'),
+          heart: pick(`${events.length} trace beats`, `${events.length} 条追踪脉冲`),
+          spine: steps.size ? pick(`${steps.size} steps`, `${steps.size} 步`) : pick('no steps', '无步骤'),
+          leftArm: organCounts.leftArm ? pick(`${organCounts.leftArm} local motions`, `${organCounts.leftArm} 次本地动作`) : pick('resting', '静止'),
+          rightArm: organCounts.rightArm ? pick(`${organCounts.rightArm} external motions`, `${organCounts.rightArm} 次外部动作`) : pick('resting', '静止'),
+        },
+        qualityText: qualityEvent?.summary
+          ? pick(`${qualityEvent.summary.passed_checks}/${qualityEvent.summary.total_checks} checks passed`, `${qualityEvent.summary.passed_checks}/${qualityEvent.summary.total_checks} 项检查通过`)
+          : pick('no quality gate summary', '没有质量门摘要'),
+        finalAnswer: truncateText(finalAnswerEvent?.answer || '', 220),
+        flatSequence: compactSequence(eventFlows.flatMap((item) => item.organs)),
+        recentEvents: eventFlows.slice(-8).reverse().map(({ event, organs }) => ({
+          name: event.event,
+          badge: event.tool_name || event.status || event.summary?.level || 'event',
+          detail: describeEvent(event, organs),
+          organs,
+          statusClass: event.event === 'run_failed'
+            ? 'event-fail'
+            : event.event === 'run_finished' || event.event === 'quality_gate' || event.event === 'tool_result'
+              ? 'event-ok'
+              : 'event-warn',
+          live: true,
+        })),
+      };
+    }
+
+    function emptyOverlay() {
+      return {
+        hasTrace: false,
+        runId: null,
+        status: 'No trace loaded',
+        eventsCount: 0,
+        stepsCount: 0,
+        llmExchangeCount: 0,
+        runLifecycleCount: 0,
+        toolCalls: 0,
+        duplicates: 0,
+        nativeActionCount: 0,
+        nativeToolNames: [],
+        validatorNames: [],
+        toolRack: [],
+        toolRackByOrgan: {
+          leftArm: [],
+          rightArm: [],
+        },
+        organCounts: {
+          brain: 0,
+          spine: 0,
+          heart: 0,
+          leftArm: 0,
+          rightArm: 0,
+          breath: 0,
+          mouth: 0,
+        },
+        organLabels: {
+          brain: pick('idle', '空闲'),
+          mouth: pick('silent', '静默'),
+          breath: pick('offline', '离线'),
+          heart: pick('no pulse', '无脉冲'),
+          spine: pick('no steps', '无步骤'),
+          leftArm: pick('resting', '静止'),
+          rightArm: pick('resting', '静止'),
+        },
+        organRoutes: Object.fromEntries(ALL_ORGANS.map((organId) => [organId, []])),
+        qualityText: pick('no quality gate summary', '没有质量门摘要'),
+        finalAnswer: '',
+        flatSequence: [],
+        recentEvents: [],
+      };
+    }
+
+    function mapEventToBodyFlow(event) {
+      switch (event.event) {
+        case 'server_starting':
+        case 'server_ready':
+        case 'server_stopped':
+          return ['breath'];
+        case 'llm_request':
+        case 'llm_response':
+          return ['brain', 'spine'];
+        case 'tool_call':
+        case 'tool_result':
+        case 'tool_call_duplicate':
+          return event.tool_name === 'run_quality_gate'
+            ? ['spine', 'rightArm']
+            : ['spine', 'leftArm'];
+        case 'quality_gate':
+          return ['heart', 'rightArm'];
+        case 'final_answer':
+          return ['spine', 'mouth'];
+        case 'run_started':
+        case 'run_finished':
+        case 'run_failed':
+          return ['spine'];
+        default:
+          return ['heart'];
+      }
+    }
+
+    function extractValidatorNames(event) {
+      const results = event?.result?.result?.results;
+      if (!Array.isArray(results)) {
+        return [];
+      }
+
+      return uniqueOrdered(results.map((item) => {
+        if (!Array.isArray(item.argv) || !item.argv.length) {
+          return null;
+        }
+        return basename(item.argv[0]);
+      }).filter(Boolean));
+    }
+
+    function renderOrganEvidence(id, overlay) {
+      switch (id) {
+        case 'brain':
+          return overlay.hasTrace ? pick(`${overlay.llmExchangeCount} llm_request/llm_response events observed.`, `观测到 ${overlay.llmExchangeCount} 个 llm_request/llm_response 事件。`) : pick('Will light up when the model is asked to think.', '当模型开始思考时，这里会亮起。');
+        case 'heart':
+          return overlay.hasTrace ? pick(`${overlay.eventsCount} total trace beats recorded in JSONL.`, `JSONL 中记录了 ${overlay.eventsCount} 条追踪脉冲。`) : pick('Will light up once trace beats are loaded.', '加载 trace 脉冲后这里会亮起。');
+        case 'leftArm':
+          return overlay.hasTrace ? pick(`${overlay.nativeActionCount} local Python action events in the current run.`, `当前运行里有 ${overlay.nativeActionCount} 个本地 Python 动作事件。`) : pick('Will light up for file edits and local command actions.', '文件编辑或本地命令动作发生时会亮起。');
+        case 'breath':
+          return overlay.hasTrace ? pick(`${overlay.organCounts.breath} server lifecycle events observed.`, `观测到 ${overlay.organCounts.breath} 个服务生命周期事件。`) : pick('Will light up for server_starting/server_ready/server_stopped.', 'server_starting/server_ready/server_stopped 会点亮这里。');
+        case 'spine':
+          return overlay.hasTrace ? pick(`${overlay.stepsCount} run steps coordinated by the spine.`, `脊柱协调了 ${overlay.stepsCount} 个运行步骤。`) : pick('Will light up when the runtime loop starts moving.', '运行循环开始推进时，这里会亮起。');
+        case 'rightArm':
+          return overlay.hasTrace ? pick(`${overlay.validatorNames.length} validator instruments seen in this run.`, `这次运行里看到了 ${overlay.validatorNames.length} 个校验器。`) : pick('Will light up for run_quality_gate and external validators.', 'run_quality_gate 和外部校验器会点亮这里。');
+        case 'mouth':
+          return overlay.finalAnswer ? pick('A final answer was emitted through the voice bubble.', '最终回答已经通过语音泡发出。') : pick('Will light up when the runtime speaks back to the user.', '运行时向用户回话时，这里会亮起。');
+        default:
+          return '';
+      }
+    }
+
+    function renderFocusState(overlay) {
+      const focusDefinition = getSelectedOrganDefinition();
+      clearFocusButton.textContent = pick('Clear focus', '清除聚焦');
+      if (!focusDefinition) {
+        focusPill.textContent = pick('Whole body', '全身视图');
+        focusPill.className = 'status-pill status-warn';
+        clearFocusButton.hidden = true;
+        return;
+      }
+
+      const focusCount = overlay.organCounts[state.selectedOrgan] || 0;
+      focusPill.textContent = focusCount ? pick(`Focus · ${focusDefinition.title} x${focusCount}`, `聚焦 · ${focusDefinition.title} x${focusCount}`) : pick(`Focus · ${focusDefinition.title}`, `聚焦 · ${focusDefinition.title}`);
+      focusPill.className = `status-pill ${focusCount ? 'status-ok' : 'status-warn'}`;
+      clearFocusButton.hidden = false;
+    }
+
+    function handleOrganActivation(event) {
+      const target = event.target.closest('[data-organ]');
+      if (!target) {
+        return;
+      }
+
+      const organId = target.dataset.organ;
+      state.selectedOrgan = state.selectedOrgan === organId ? null : organId;
+      render();
+    }
+
+    function handleOrganKeydown(event) {
+      if (event.key !== 'Enter' && event.key !== ' ') {
+        return;
+      }
+
+      const target = event.target.closest('[data-organ]');
+      if (!target) {
+        return;
+      }
+
+      event.preventDefault();
+      const organId = target.dataset.organ;
+      state.selectedOrgan = state.selectedOrgan === organId ? null : organId;
+      render();
+    }
+
+    function filterBySelectedOrgan(items, getOrgans) {
+      if (!state.selectedOrgan) {
+        return items;
+      }
+      return items.filter((item) => (getOrgans(item) || []).includes(state.selectedOrgan));
+    }
+
+    function getSelectedOrganDefinition() {
+      return state.selectedOrgan ? getOrganDefinition(state.selectedOrgan) : null;
+    }
+
+    function getOrganTitle(organId) {
+      return getOrganDefinition(organId)?.title || organId;
+    }
+
+    function getFocusedToolRack(overlay) {
+      if (!state.selectedOrgan) {
+        return overlay.toolRack;
+      }
+      if (state.selectedOrgan === 'leftArm' || state.selectedOrgan === 'rightArm') {
+        return overlay.toolRackByOrgan[state.selectedOrgan] || [];
+      }
+      return [];
+    }
+
+    function getFocusedRoute(overlay) {
+      if (!state.selectedOrgan) {
+        return overlay.flatSequence;
+      }
+      return overlay.organRoutes[state.selectedOrgan] || [];
+    }
+
+    function getToolRackTitle() {
+      if (state.selectedOrgan === 'leftArm') {
+        return pick('Python Arm Loadout', 'Python 手臂载荷');
+      }
+      if (state.selectedOrgan === 'rightArm') {
+        return pick('Validator Rack', '校验器工具架');
+      }
+      if (state.selectedOrgan) {
+        return pick(`${getSelectedOrganDefinition().title} Tool Context`, `${getSelectedOrganDefinition().title} 工具上下文`);
+      }
+      return pick('Hands and Tool Rack', '手中工具架');
+    }
+
+    function getToolRackEmptyText() {
+      if (!state.selectedOrgan) {
+        return pick('Load a trace to see what the hands held.', '加载 trace 后可看到手里拿过哪些工具。');
+      }
+      if (state.selectedOrgan === 'leftArm') {
+        return pick('No local Python tools moved through the current run.', '当前运行没有本地 Python 工具经过这只手臂。');
+      }
+      if (state.selectedOrgan === 'rightArm') {
+        return pick('No validator or quality-gate tools moved through the current run.', '当前运行没有校验器或质量门工具经过这只手臂。');
+      }
+      return pick(`${getSelectedOrganDefinition().title} does not directly hold tools. Focus an arm to inspect the rack.`, `${getSelectedOrganDefinition().title} 本身不直接握持工具，请聚焦手臂来查看工具架。`);
+    }
+
+    function buildGroundText(overlay) {
+      if (!state.mapPayload) {
+        return pick('Load architecture JSON to place this virtual person inside the repository.', '加载架构 JSON 后，这个虚拟人会被放回仓库地面。');
+      }
+
+      const focusDefinition = getSelectedOrganDefinition();
+      if (!focusDefinition) {
+        return pick(`${state.mapPayload.repo_root} anchors the body. ${state.mapPayload.modules.length} modules define the anatomy, while ${overlay.eventsCount || 0} trace beats show how this person moved in the current run.`, `${state.mapPayload.repo_root} 锚定了这具身体。${state.mapPayload.modules.length} 个模块定义了解剖结构，而 ${overlay.eventsCount || 0} 条 trace 脉冲展示了这次运行里它如何行动。`);
+      }
+
+      const moduleInfo = getModuleInfo(focusDefinition.module);
+      return pick(`${focusDefinition.title} anchors into ${focusDefinition.file}. ${moduleInfo.summary}. ${renderOrganEvidence(state.selectedOrgan, overlay)}`, `${focusDefinition.title} 锚定在 ${focusDefinition.file}。${moduleInfo.summary}。${renderOrganEvidence(state.selectedOrgan, overlay)}`);
+    }
+
+    function buildArchitectureAnchorText() {
+      if (!state.mapPayload) {
+        return pick('No architecture JSON loaded yet.', '尚未加载架构 JSON。');
+      }
+
+      const focusDefinition = getSelectedOrganDefinition();
+      if (!focusDefinition) {
+        return pick(`${state.mapPayload.modules.length} modules, ${(state.mapPayload.routes || []).length} routes, repo root ${state.mapPayload.repo_root}`, `${state.mapPayload.modules.length} 个模块、${(state.mapPayload.routes || []).length} 条路线，仓库根目录 ${state.mapPayload.repo_root}`);
+      }
+
+      const moduleInfo = getModuleInfo(focusDefinition.module);
+      return pick(`${focusDefinition.title} maps to ${focusDefinition.file} in module ${focusDefinition.module}. ${moduleInfo.summary}.`, `${focusDefinition.title} 对应模块 ${focusDefinition.module} 中的 ${focusDefinition.file}。${moduleInfo.summary}。`);
+    }
+
+    function getModuleInfo(name) {
+      const info = (state.mapPayload?.modules || []).find((moduleInfo) => moduleInfo.name === name);
+      if (!info) {
+        return {
+          summary: pick('anatomy pending', '解剖信息待加载'),
+        };
+      }
+      return {
+        summary: pick(`${info.classes.length} classes, ${info.functions.length} functions`, `${info.classes.length} 个类，${info.functions.length} 个函数`),
+      };
+    }
+
+    function parseJsonl(text) {
+      return text
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .map((line) => JSON.parse(line));
+    }
+
+    function groupRuns(events) {
+      return events.reduce((acc, event) => {
+        if (!event.run_id) {
+          return acc;
+        }
+        acc[event.run_id] ||= [];
+        acc[event.run_id].push(event);
+        return acc;
+      }, {});
+    }
+
+    function renderRunOptions(runIds) {
+      runSelect.innerHTML = '';
+      runDockSelect.innerHTML = '';
+      if (!runIds.length) {
+        runSelect.disabled = true;
+        runSelect.innerHTML = `<option>${escapeHtml(pick('No runs found', '未找到运行记录'))}</option>`;
+        runDockSelect.disabled = true;
+        runDockSelect.innerHTML = `<option>${escapeHtml(pick('No runs found', '未找到运行记录'))}</option>`;
+        return;
+      }
+
+      runSelect.disabled = false;
+      runDockSelect.disabled = false;
+      for (const runId of runIds) {
+        const option = document.createElement('option');
+        option.value = runId;
+        option.textContent = runId;
+        runSelect.appendChild(option);
+
+        const dockOption = document.createElement('option');
+        dockOption.value = runId;
+        dockOption.textContent = runId;
+        runDockSelect.appendChild(dockOption);
+      }
+    }
+
+    function uniqueOrdered(items) {
+      const seen = new Set();
+      const output = [];
+      for (const item of items) {
+        if (!item || seen.has(item)) {
+          continue;
+        }
+        seen.add(item);
+        output.push(item);
+      }
+      return output;
+    }
+
+    function basename(pathText) {
+      return String(pathText).split('/').pop();
+    }
+
+    function truncateText(text, maxChars) {
+      const value = String(text || '').trim();
+      if (!value) {
+        return '';
+      }
+      return value.length > maxChars ? `${value.slice(0, maxChars - 1)}...` : value;
+    }
+
+    function compactSequence(items) {
+      const compacted = [];
+      for (const item of items) {
+        if (compacted[compacted.length - 1] !== item) {
+          compacted.push(item);
+        }
+      }
+      return compacted;
+    }
+
+    function describeEvent(event, organs = null) {
+      const bodyFlow = (organs || mapEventToBodyFlow(event)).map(getOrganTitle).join(' -> ');
+      if (event.tool_name) {
+        return pick(`${event.tool_name} moved through ${bodyFlow}`, `${event.tool_name} 经过 ${bodyFlow}`);
+      }
+      if (event.summary) {
+        return pick(`${bodyFlow}; ${event.summary.passed_checks}/${event.summary.total_checks} checks passed`, `${bodyFlow}；${event.summary.passed_checks}/${event.summary.total_checks} 项检查通过`);
+      }
+      if (event.answer) {
+        return truncateText(event.answer, 180);
+      }
+      if (event.status) {
+        return pick(`${bodyFlow}; status ${localizeStatus(event.status)}`, `${bodyFlow}；状态 ${localizeStatus(event.status)}`);
+      }
+      return bodyFlow;
+    }
+
+    function getInitialLocale() {
+      try {
+        const stored = localStorage.getItem('handmade-agent-body-viewer-locale');
+        if (stored === 'zh' || stored === 'en') {
+          return stored;
+        }
+      } catch {
+      }
+
+      return navigator.language.toLowerCase().startsWith('zh') ? 'zh' : 'en';
+    }
+
+    function setLocale(locale) {
+      if (!['zh', 'en'].includes(locale) || state.locale === locale) {
+        return;
+      }
+
+      state.locale = locale;
+      try {
+        localStorage.setItem('handmade-agent-body-viewer-locale', locale);
+      } catch {
+      }
+      render();
+    }
+
+    function pick(englishText, chineseText) {
+      return state.locale === 'zh' ? chineseText : englishText;
+    }
+
+    function localizeStatus(status) {
+      if (status === 'completed') {
+        return pick('completed', '已完成');
+      }
+      if (status === 'failed') {
+        return pick('failed', '失败');
+      }
+      if (status === 'running') {
+        return pick('running', '运行中');
+      }
+      return status;
+    }
+
+    function getOrganDefinition(organId) {
+      const organ = ORGAN_DEFINITIONS[organId];
+      if (!organ) {
+        return null;
+      }
+
+      return {
+        ...organ,
+        title: pick(organ.title.en, organ.title.zh),
+        role: pick(organ.role.en, organ.role.zh),
+      };
+    }
+
+    function setOrganNodeName(id, label) {
+      const nodeLabel = document.querySelector(`#organ-${id} .node-name`);
+      if (nodeLabel) {
+        nodeLabel.textContent = label;
+      }
+    }
+
+    function applyStaticCopy() {
+      document.documentElement.lang = state.locale;
+      document.title = pick('Handmade Agent Body Viewer', '手搓 Agent 身体视图');
+      pageTitle.textContent = pick('Agent Body Viewer', 'Agent 身体视图');
+      pageSubtitle.textContent = pick(
+        'This page treats the handmade agent as a visible virtual person. Load architecture JSON for anatomy, then load a trace JSONL file to see the LLM brain, runtime spine, trace heart, Python arm, external tool arm, breath, and voice light up during a real run.',
+        '这个页面把手搓 agent 当成一个可见的虚拟人。加载架构 JSON 和 trace JSONL 后，你可以看到 LLM 大脑、运行脊柱、追踪心脏、Python 手臂、外部工具臂、模型呼吸和发声口在真实运行中依次亮起。'
+      );
+      sceneEyebrow.textContent = pick('Single Transparency Surface', '单张透明图');
+      sceneCopyText.textContent = pick(
+        'One canvas, not a dashboard. Load anatomy and trace data, then read the agent as a single living diagram where organs, route, speech, tools, and evidence all stay inside the same scene.',
+        '不是仪表盘，而是一张整图。加载解剖数据和 trace 之后，你会在同一张画面里同时看到器官、路线、发声、工具和证据。'
+      );
+      mapFileLabel.textContent = pick('Architecture JSON', '架构 JSON');
+      traceFileLabel.textContent = pick('Trace JSONL', 'Trace JSONL');
+      runLabel.textContent = pick('Run', '运行');
+      mapDockLabel.textContent = pick('Architecture JSON', '架构 JSON');
+      traceDockLabel.textContent = pick('Trace JSONL', 'Trace JSONL');
+      runDockLabel.textContent = pick('Run', '运行');
+      clearFocusButton.textContent = pick('Clear focus', '清除聚焦');
+      speechLabel.textContent = getOrganTitle('mouth');
+      groundTitle.textContent = pick('Workspace Ground', '工作区地面');
+      bodySvg.setAttribute('aria-label', pick('Handmade agent body diagram', '手搓 Agent 身体图'));
+      langZhButton.classList.toggle('is-active', state.locale === 'zh');
+      langEnButton.classList.toggle('is-active', state.locale === 'en');
+      langZhButton.setAttribute('aria-pressed', state.locale === 'zh' ? 'true' : 'false');
+      langEnButton.setAttribute('aria-pressed', state.locale === 'en' ? 'true' : 'false');
+
+      setOrganNodeName('brain', getOrganTitle('brain'));
+      setOrganNodeName('mouth', getOrganTitle('mouth'));
+      setOrganNodeName('breath', getOrganTitle('breath'));
+      setOrganNodeName('heart', getOrganTitle('heart'));
+      setOrganNodeName('spine', getOrganTitle('spine'));
+      setOrganNodeName('left-arm', getOrganTitle('leftArm'));
+      setOrganNodeName('right-arm', getOrganTitle('rightArm'));
+
+      if (runSelect.disabled && !state.traceEvents.length) {
+        runSelect.innerHTML = `<option>${escapeHtml(pick('Select a trace first', '请先加载 trace'))}</option>`;
+        runDockSelect.innerHTML = `<option>${escapeHtml(pick('Select a trace first', '请先加载 trace'))}</option>`;
+      }
+    }
+
+    function findLast(items, predicate) {
+      for (let index = items.length - 1; index >= 0; index -= 1) {
+        if (predicate(items[index])) {
+          return items[index];
+        }
+      }
+      return null;
+    }
+
+    function statCard(label, value) {
+      return `
+        <div class="stat-card">
+          <div class="stat-label">${escapeHtml(label)}</div>
+          <div class="stat-value">${escapeHtml(String(value))}</div>
+        </div>
+      `;
+    }
+
+    function metricChip(label, value) {
+      return `
+        <div class="metric-chip">
+          <div class="metric-kicker">${escapeHtml(label)}</div>
+          <div class="metric-reading">${escapeHtml(String(value))}</div>
+        </div>
+      `;
+    }
+
+    render();
+
+    function statusClass(status) {
+      if (status === 'completed') {
+        return 'status-ok';
+      }
+      if (status === 'failed') {
+        return 'status-fail';
+      }
+      return 'status-warn';
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+  </script>
+</body>
+</html>
