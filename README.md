@@ -51,3 +51,10 @@ npm run dev       # 开发服务器
 npm run build     # 构建产物
 npm run preview   # 预览构建结果
 ```
+
+## 实战案例
+
+### handmade-agent
+手工打造的轻量级 LLM Agent 框架 — 从零实现 Agent 核心机制
+
+📁 [examples/handmade-agent/](examples/handmade-agent/)
